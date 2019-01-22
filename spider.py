@@ -4,6 +4,11 @@ from bs4 import BeautifulSoup
 import re
 from urllib.parse import urljoin
 import os
+import glob
+import hashlib
+from pathlib import Path
+import shutil
+import stat
 
 base_url = "https://www.nps.gov"
 
@@ -69,9 +74,34 @@ def get_res_from_page(page_url):
         print(page_url)
 
 
-
 def build_full_url(href):
     return urljoin(base_url, href)
 
 
-get_link_list()
+def remove_duplicated_files():
+    source_set = set()
+    files_need_remove = list()
+    for file_name in glob.iglob("*/*.mp3", recursive=True):
+        md5_str = md5(file_name)
+        if md5_str not in source_set:
+            source_set.add(md5_str)
+        else:
+            files_need_remove.append(file_name)
+
+    for file_name in files_need_remove:
+        file_folder = str(Path(file_name).parent)
+        if not os.access(file_folder, os.W_OK):
+            os.chmod(file_folder, stat.S_IWUSR)
+        shutil.rmtree(file_folder)
+
+
+def md5(file_name):
+    hash_md5 = hashlib.md5()
+    with open(file_name, "rb") as f:
+        for chunk in iter(lambda : f.read(4096), b""):
+            hash_md5.update(chunk)
+
+    return hash_md5.hexdigest()
+
+# get_link_list()
+remove_duplicated_files()
