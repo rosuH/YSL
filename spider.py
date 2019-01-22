@@ -103,5 +103,5 @@ def md5(file_name):
 
     return hash_md5.hexdigest()
 
-# get_link_list()
+get_link_list()
 remove_duplicated_files()
