@@ -9,6 +9,7 @@ import hashlib
 from pathlib import Path
 import shutil
 import stat
+from http.client import RemoteDisconnected
 
 base_url = "https://www.nps.gov"
 
@@ -21,13 +22,16 @@ def get_link_list():
         for link in links:
             animal_name = link.get_text().rstrip()
             if os.path.exists(animal_name) and len(os.listdir(animal_name)) != 0:
+                print(animal_name + "is exists, skip it.")
                 continue
             try:
                 os.mkdir(link.get_text())
             except FileExistsError:
                 pass
             os.chdir(animal_name)
+            print("Trying getting " + animal_name)
             get_res_from_page(build_full_url(link.attrs['href']))
+            print("Succeed.")
             os.chdir("..")
     except FileNotFoundError as f_n_a:
         print(str(f_n_a))
@@ -72,6 +76,9 @@ def get_res_from_page(page_url):
     except TypeError as t_a:
         print(t_a)
         print(page_url)
+    except RemoteDisconnected as r_s_a:
+        print(r_s_a)
+        print(page_url)
 
 
 def build_full_url(href):
@@ -98,10 +105,12 @@ def remove_duplicated_files():
 def md5(file_name):
     hash_md5 = hashlib.md5()
     with open(file_name, "rb") as f:
-        for chunk in iter(lambda : f.read(4096), b""):
+        for chunk in iter(lambda: f.read(4096), b""):
             hash_md5.update(chunk)
 
     return hash_md5.hexdigest()
 
-get_link_list()
-remove_duplicated_files()
+
+if __name__ == '__main__':
+    get_link_list()
+    remove_duplicated_files()
