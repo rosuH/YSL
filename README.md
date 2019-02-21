@@ -4,6 +4,10 @@
 This warehouse collects the public sound library of Yellowstone Park. These sounds contain the sounds of the natural environment and animals.
 You can use this audio as a BGM for your work👩‍💻, study📖 or meditation🙇‍♂️.
 
+# Download
+
+Since Github has a size limit on the uploaded file, I uploaded it to the [Web Archive](https://archive.org/details/YSL.7z).
+Or you can just clone the repo.
 
 # Inspiration 
 
@@ -28,6 +32,11 @@ This library collects public sound libraries from [Yellowstone National Park](ht
 
 这个仓库收集了黄石公园的公开声音库。这些声音包含了自然环境、动物产生的声音。
 您可以使用它们作为您工作 👩‍💻、学习 📖 或冥想的背景音乐 🙇‍♂️。
+
+# 下载
+
+因为 Github 对上传的文件有大小限制，我将之上传到了 [Web Archive](https://archive.org/details/YSL.7z)。
+当然，您也可以直接 clone 本项目。
 
 # 启发
 
