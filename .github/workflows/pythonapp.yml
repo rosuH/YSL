@@ -35,7 +35,8 @@ jobs:
         git show-ref
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "Update assets" -a
+        git add .
+        git commit -m "Update assets"
         git push
     # - name: Push changes
     #   uses: ad-m/github-push-action@master
