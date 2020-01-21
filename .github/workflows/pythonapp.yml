@@ -32,7 +32,12 @@ jobs:
         echo "==================$( date +%Y-%m-%d_%H:%M:%S)====================\n$(git status)\n=========================================================" >> change_log.txt
     - name: Commit files
       run: |
+        git show-ref
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Update assets" -a
-        git push origin origin/dev
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: 'dev'
