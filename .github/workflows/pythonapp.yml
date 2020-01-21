@@ -8,10 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: checkout local branch
-      uses: actions/checkout@v2.0.0
-      with:
-        repository: 'action_dev'
+    - uses : actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
@@ -27,21 +24,22 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
     - name: Run Spider 🤖
       run: |
         python spider.py
+    - name: Save Change
+      run: |
+        echo "==================$( date +%Y-%m-%d_%H:%M:%S)====================\n$(git status)\n=========================================================" >> change_log.txt
     - name: Commit files
       run: |
+        git show-ref
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "Add changes" -a
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        
-    
+        git add .
+        git commit -m "Update assets"
+        git push
+    # - name: Push changes
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: 'dev'
