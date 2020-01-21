@@ -35,4 +35,4 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "Update assets" -a
-        git push origin dev
+        git push origin origin/dev
