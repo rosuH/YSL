@@ -1,21 +1,23 @@
-from urllib.request import urlopen
+import glob
+import hashlib
+import os
+import re
+import shutil
+import stat
+import time
 import urllib.request
+from http.client import RemoteDisconnected
+from pathlib import Path
+from urllib.error import ContentTooShortError
+from urllib.parse import urljoin
+from urllib.request import urlopen
 
 import progressbar
 from bs4 import BeautifulSoup
-import re
-from urllib.parse import urljoin
-import os
-import glob
-import hashlib
-from pathlib import Path
-import shutil
-import stat
-from http.client import RemoteDisconnected
-
-from progressbar import ProgressBar
 
 base_url = "https://www.nps.gov"
+
+sleep_time = 2
 
 
 def get_link_list():
@@ -74,6 +76,16 @@ def get_res_from_page(page_url):
 
         audio_name = page_title + ".mp3"
         urllib.request.urlretrieve(build_full_url(audio.attrs['src']), audio_name, show_progress)
+    except ContentTooShortError as c_t_e:
+        print(c_t_e)
+        print(
+            "facing ContentTooShortError, maybe network issue, just sleep(" + str(
+                sleep_time) + ") and try again. >> " + page_url)
+        if sleep_time >= 50:
+            print("Had been sleep too mush, we should just skit this.")
+            return
+        time.sleep(sleep_time * 1.5)
+        get_res_from_page(page_title)
     except AttributeError as a:
         print(str(a))
         print(page_url)
