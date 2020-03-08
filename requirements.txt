@@ -1,5 +1,10 @@
-beautifulsoup4==4.7.1
-progressbar2==3.47.0
-python-utils==2.3.0
+beautifulsoup4==4.8.2
+certifi==2019.11.28
+chardet==3.0.4
+idna==2.9
+progressbar2==3.50.0
+python-utils==2.4.0
+requests==2.23.0
 six==1.14.0
-soupsieve==1.8
+soupsieve==2.0
+urllib3==1.25.8

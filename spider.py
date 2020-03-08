@@ -4,15 +4,14 @@ import os
 import re
 import shutil
 import stat
+import sys
 import time
-import urllib.request
 from http.client import RemoteDisconnected
 from pathlib import Path
-from urllib.error import ContentTooShortError
 from urllib.parse import urljoin
 from urllib.request import urlopen
 
-import progressbar
+import requests
 from bs4 import BeautifulSoup
 
 base_url = "https://www.nps.gov"
@@ -44,6 +43,25 @@ def get_link_list():
         print(link)
 
 
+def download(url, filename):
+    with open(filename, 'wb') as f:
+        response = requests.get(url, stream=True)
+        total = response.headers.get('content-length')
+
+        if total is None:
+            f.write(response.content)
+        else:
+            downloaded = 0
+            total = int(total)
+            for data in response.iter_content(chunk_size=max(int(total / 1000), 1024 * 1024)):
+                downloaded += len(data)
+                f.write(data)
+                done = int(50 * downloaded / total)
+                sys.stdout.write('\r[{}{}]'.format('█' * done, '.' * (50 - done)))
+                sys.stdout.flush()
+    sys.stdout.write('\n')
+
+
 def get_res_from_page(page_url):
     if page_url is None:
         return
@@ -72,20 +90,33 @@ def get_res_from_page(page_url):
             if date_str:
                 actual_name += date_str.get_text()
 
-            urllib.request.urlretrieve(build_full_url(img_url), page_title + "_" + actual_name + ".jpg")
+            # urllib.request.urlretrieve(build_full_url(img_url), page_title + "_" + actual_name + ".jpg")
+            img_name = page_title + "_" + actual_name + ".jpg"
+            download(build_full_url(img_url), img_name)
 
         audio_name = page_title + ".mp3"
-        urllib.request.urlretrieve(build_full_url(audio.attrs['src']), audio_name, show_progress)
-    except ContentTooShortError as c_t_e:
-        print(c_t_e)
+        download(build_full_url(audio.attrs['src']), audio_name)
+        # urllib.request.urlretrieve(build_full_url(audio.attrs['src']), audio_name, show_progress)
+    except requests.exceptions.Timeout as t_o:
+        print(t_o)
         print(
-            "facing ContentTooShortError, maybe network issue, just sleep(" + str(
+            "Facing Timeout, maybe network issue, just sleep(" + str(
                 sleep_time) + ") and try again. >> " + page_url)
         if sleep_time >= 50:
             print("Had been sleep too mush, we should just skit this.")
             return
         time.sleep(sleep_time * 1.5)
         get_res_from_page(page_title)
+    except requests.exceptions.TooManyRedirects as t_m_r:
+        print(t_m_r)
+        print("Facing TooManyRedirects, maybe url is not available, we should just skit this >>  " + page_url)
+    except requests.exceptions.HTTPError as t_e:
+        print(t_e)
+        print("Facing HTTPError, maybe url is not available, we should just skit this >>  " + page_url)
+    except requests.exceptions.RequestException as e:
+        # catastrophic error. bail.
+        print(e)
+        print("Facing catastrophic error, we can do nothing, just skit this >>  " + page_url)
     except AttributeError as a:
         print(str(a))
         print(page_url)
@@ -129,20 +160,19 @@ def md5(file_name):
     return hash_md5.hexdigest()
 
 
-pbar = None
+# pbar = None
 
-
-def show_progress(block_num, block_size, total_size):
-    global pbar
-    if pbar is None:
-        pbar = progressbar.ProgressBar(maxval=total_size)
-
-    downloaded = block_num * block_size
-    if downloaded < total_size:
-        pbar.update(downloaded)
-    else:
-        pbar.finish()
-        pbar = None
+# def show_progress(block_num, block_size, total_size):
+#     global pbar
+#     if pbar is None:
+#         pbar = progressbar.ProgressBar(maxval=total_size)
+#
+#     downloaded = block_num * block_size
+#     if downloaded < total_size:
+#         pbar.update(downloaded)
+#     else:
+#         pbar.finish()
+#         pbar = None
 
 
 if __name__ == '__main__':
