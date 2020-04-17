@@ -140,3 +140,44 @@ nothing to commit, working tree clean\n=========================================
 Your branch is up to date with 'origin/master'.
 
 nothing to commit, working tree clean\n=========================================================
+==================2020-04-17_02:05:01====================\nOn branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    Bald Eagle/Sound Library - Bald Eagle.mp3
+	deleted:    Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_2016-09-14.jpg
+	deleted:    Bird - Townsend's Solitaire/Townsend's Solitaire.mp3
+	deleted:    Boreal Chorus Frogs/Sound Library - Chorus Frogs.mp3
+	deleted:    Boreal Chorus Frogs/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2015-04-27.jpg
+	deleted:    Castle Geyser/Sound Library - Castle Geyser.mp3
+	deleted:    Castle Geyser/Sound Library - Castle Geyser_NPS_Neal Herbert_2014-02-26.jpg
+	deleted:    Common Loon/Common Loon.mp3
+	deleted:    Dragon's Mouth Spring/Sound Library - The Dragon's Mouth.mp3
+	deleted:    Dragon's Mouth Spring/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_2013-10-29.jpg
+	deleted:    Fire/Sound Library - Fire.mp3
+	deleted:    Fire/Sound Library - Fire_NPS_Jennifer Jerrett_2016-08-14.jpg
+	deleted:    Geyser - Sawmill/Sound Library - Sawmill Geyser.mp3
+	deleted:    Geyser - Sawmill/Sound Library - Sawmill Geyser_NPS_Neal Herbert_2014-02-26.jpg
+	deleted:    Sandhill Crane/Sound Library - Sandhill Crane.mp3
+	deleted:    Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert_2015-04-25.jpg
+	deleted:    Veteran Geyser/Sound Library - Veteran Geyser.mp3
+	deleted:    Yellowstone Lake (singing)/Sound Library - Singing Lake.mp3
+	deleted:    Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_2013-12-17.jpg
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Bird - Bald Eagle/
+	Bird - Common Loon/
+	Bird - Sandhill Crane/
+	Frogs (boreal chorus)/
+	Geyser - Castle/
+	Geyser - Veteran/
+	Sawmill Geyser/
+	Singing Lake/
+	The Dragon's Mouth/
+	Townsend's Solitaire/
+	Wildfire/
+
+no changes added to commit (use "git add" and/or "git commit -a")\n=========================================================
