@@ -193,3 +193,56 @@ nothing to commit, working tree clean\n=========================================
 Your branch is up to date with 'origin/master'.
 
 nothing to commit, working tree clean\n=========================================================
+==================2020-05-15_02:09:19====================\nOn branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    Bird - American Robin/Sound Library - American Robin.mp3
+	deleted:    Bird - American Robin/Sound Library - American Robin_NPS _ Neal Herbert_2016-05-06.jpg
+	deleted:    Bird - Bald Eagle/Sound Library - Bald Eagle.mp3
+	deleted:    Bird - Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_2016-09-14.jpg
+	deleted:    Bird - Common Loon/Common Loon.mp3
+	deleted:    Bird - Mountain Bluebird/Sound Library - Mountain Bluebird.mp3
+	deleted:    Bird - Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert_2015-06-17.jpg
+	deleted:    Bird - Sandhill Crane/Sound Library - Sandhill Crane.mp3
+	deleted:    Bird - Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert_2015-04-25.jpg
+	deleted:    Bird - Warbling Vireo/Warbling Vireos.mp3
+	deleted:    Bird - Warbling Vireo/Warbling Vireos_NPS _ Neal Herbert_2015-07-05.jpg
+	deleted:    Birds - Dawn Chorus/Sound Library - Dawn Chorus.mp3
+	deleted:    Birds - Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert_2014-06-28.jpg
+	deleted:    Canada Goose/Canada Goose.mp3
+	deleted:    Frogs (boreal chorus)/Sound Library - Chorus Frogs.mp3
+	deleted:    Frogs (boreal chorus)/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2015-04-27.jpg
+	deleted:    Geyser - Castle/Sound Library - Castle Geyser.mp3
+	deleted:    Geyser - Castle/Sound Library - Castle Geyser_NPS_Neal Herbert_2014-02-26.jpg
+	deleted:    Geyser - Cliff/Sound Library - Cliff Geyser.mp3
+	deleted:    Geyser - Cliff/Sound Library - Cliff Geyser_NPS_Neal Herbert_2013-10-23.jpg
+	deleted:    Killdeer/Sound Library - Killdeer.mp3
+	deleted:    Sawmill Geyser/Sound Library - Sawmill Geyser.mp3
+	deleted:    Sawmill Geyser/Sound Library - Sawmill Geyser_NPS_Neal Herbert_2014-02-26.jpg
+	deleted:    Singing Lake/Sound Library - Singing Lake.mp3
+	deleted:    Singing Lake/Sound Library - Singing Lake_NPS _ Jim Peaco_2013-12-17.jpg
+	deleted:    The Dragon's Mouth/Sound Library - The Dragon's Mouth.mp3
+	deleted:    The Dragon's Mouth/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_2013-10-29.jpg
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	American Robin/
+	Bald Eagle/
+	Bird - Canada Goose/
+	Bird - Killdeer/
+	Boreal Chorus Frogs/
+	Castle Geyser/
+	Cliff Geyser/
+	Common Loon/
+	Dawn Chorus/
+	Dragon's Mouth Spring/
+	Geyser - Sawmill/
+	Mountain Bluebird/
+	Sandhill Crane/
+	Warbling Vireo/
+	Yellowstone Lake (singing)/
+
+no changes added to commit (use "git add" and/or "git commit -a")\n=========================================================
