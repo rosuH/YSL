@@ -286,3 +286,43 @@ Untracked files:
 	Toad (Spadefoot)/
 
 no changes added to commit (use "git add" and/or "git commit -a")\n=========================================================
+==================2020-05-29_02:08:18====================\nOn branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    Bird - American Robin/Sound Library - American Robin.mp3
+	deleted:    Bird - American Robin/Sound Library - American Robin_NPS _ Neal Herbert_2016-05-06.jpg
+	deleted:    Bird - Bald Eagle/Sound Library - Bald Eagle.mp3
+	deleted:    Bird - Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_2016-09-14.jpg
+	deleted:    Bird - Common Loon/Common Loon.mp3
+	deleted:    Bird - Mountain Bluebird/Sound Library - Mountain Bluebird.mp3
+	deleted:    Bird - Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert_2015-06-17.jpg
+	deleted:    Bird - Sandhill Crane/Sound Library - Sandhill Crane.mp3
+	deleted:    Bird - Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert_2015-04-25.jpg
+	deleted:    Bird - Townsend's Solitaire/Townsend's Solitaire.mp3
+	deleted:    Canada Goose/Canada Goose.mp3
+	deleted:    Fountain Paint Pot/Sound Library - Fountain Paint Pot.mp3
+	deleted:    Fountain Paint Pot/Sound Library - Fountain Paint Pot_NPS_Neal Herbert_2014-05-01.jpg
+	deleted:    Frogs (boreal chorus)/Sound Library - Chorus Frogs.mp3
+	deleted:    Frogs (boreal chorus)/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2015-04-27.jpg
+	deleted:    Singing Lake/Sound Library - Singing Lake.mp3
+	deleted:    Singing Lake/Sound Library - Singing Lake_NPS _ Jim Peaco_2013-12-17.jpg
+	deleted:    Toad (Spadefoot)/Spadefoot Toad.mp3
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	American Robin/
+	Bald Eagle/
+	Bird - Canada Goose/
+	Boreal Chorus Frogs/
+	Common Loon/
+	Mountain Bluebird/
+	Mud Pots/
+	Sandhill Crane/
+	Spadefoot Toad/
+	Townsend's Solitaire/
+	Yellowstone Lake (singing)/
+
+no changes added to commit (use "git add" and/or "git commit -a")\n=========================================================
