@@ -330,3 +330,61 @@ no changes added to commit (use "git add" and/or "git commit -a")\n=============
 Your branch is up to date with 'origin/master'.
 
 nothing to commit, working tree clean\n=========================================================
+==================2020-06-12_02:08:43====================\nOn branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    American Dipper/Sound Library - American Dipper.mp3
+	deleted:    American Dipper/Sound Library - American Dipper_NPS _ Jacob W. Frank_2014-02-26.jpg
+	deleted:    American Robin/Sound Library - American Robin.mp3
+	deleted:    American Robin/Sound Library - American Robin_NPS _ Neal Herbert_2016-05-06.jpg
+	deleted:    Bald Eagle/Sound Library - Bald Eagle.mp3
+	deleted:    Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_2016-09-14.jpg
+	deleted:    Bird - Canada Goose/Canada Goose.mp3
+	deleted:    Bird - Killdeer/Sound Library - Killdeer.mp3
+	deleted:    Boreal Chorus Frogs/Sound Library - Chorus Frogs.mp3
+	deleted:    Boreal Chorus Frogs/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2015-04-27.jpg
+	deleted:    Castle Geyser/Sound Library - Castle Geyser.mp3
+	deleted:    Castle Geyser/Sound Library - Castle Geyser_NPS_Neal Herbert_2014-02-26.jpg
+	deleted:    Cliff Geyser/Sound Library - Cliff Geyser.mp3
+	deleted:    Cliff Geyser/Sound Library - Cliff Geyser_NPS_Neal Herbert_2013-10-23.jpg
+	deleted:    Dawn Chorus/Sound Library - Dawn Chorus.mp3
+	deleted:    Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert_2014-06-28.jpg
+	deleted:    Dragon's Mouth Spring/Sound Library - The Dragon's Mouth.mp3
+	deleted:    Dragon's Mouth Spring/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_2013-10-29.jpg
+	deleted:    Geyser - Veteran/Sound Library - Veteran Geyser.mp3
+	deleted:    Mountain Bluebird/Sound Library - Mountain Bluebird.mp3
+	deleted:    Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert_2015-06-17.jpg
+	deleted:    Ruffed Grouse/Sound Library - Ruffed Grouse.mp3
+	deleted:    Ruffed Grouse/Sound Library - Ruffed Grouse_NPS_Neal Herbert_2014-05-25.jpg
+	deleted:    Townsend's Solitaire/Townsend's Solitaire.mp3
+	deleted:    Warbling Vireo/Warbling Vireos.mp3
+	deleted:    Warbling Vireo/Warbling Vireos_NPS _ Neal Herbert_2015-07-05.jpg
+	deleted:    Wildfire/Sound Library - Fire.mp3
+	deleted:    Wildfire/Sound Library - Fire_NPS_Jennifer Jerrett_2016-08-14.jpg
+	deleted:    Yellowstone Lake (singing)/Sound Library - Singing Lake.mp3
+	deleted:    Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_2013-12-17.jpg
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Bird - American Dipper/
+	Bird - American Robin/
+	Bird - Bald Eagle/
+	Bird - Mountain Bluebird/
+	Bird - Ruffed Grouse/
+	Bird - Townsend's Solitaire/
+	Bird - Warbling Vireo/
+	Birds - Dawn Chorus/
+	Canada Goose/
+	Fire/
+	Frogs (boreal chorus)/
+	Geyser - Castle/
+	Geyser - Cliff/
+	Killdeer/
+	Singing Lake/
+	The Dragon's Mouth/
+	Veteran Geyser/
+
+no changes added to commit (use "git add" and/or "git commit -a")\n=========================================================
