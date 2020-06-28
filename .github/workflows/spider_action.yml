@@ -32,7 +32,7 @@ jobs:
         python spider.py
     - name: logging
       run: |
-        echo "\n==================$( date +%Y-%m-%d_%H:%M:%S)====================\n" >> change_log.txt
+        echo -e "\n==================$( date +%Y-%m-%d_%H:%M:%S)====================\n" >> change_log.txt
     - name: Commit files
       run: |
         git show-ref
@@ -40,7 +40,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add .
         git commit -m "Update assets"
-        echo "\n==================$(git status)====================\n" >> change_log.txt
+        echo -e "\n==================$(git status)====================\n" >> change_log.txt
         git push
     # - name: Push changes
     #   uses: ad-m/github-push-action@master
