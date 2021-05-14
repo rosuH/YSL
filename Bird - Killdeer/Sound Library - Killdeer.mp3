@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js"><!-- Content Copyright National Park Service --><!-- JavaScript & DHTML Code Copyright &copy; 1998-2015, PaperThin, Inc. All Rights Reserved. --><head> 
+<title>Requested Page Not Found (404)</title> 
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<link rel="stylesheet" href="/common/commonspot/templates/assets/css/commonspotRTE.css" type="text/css">
+<style type="text/css">
+.mw { color:#000000;font-family:Verdana,Arial,Helvetica;font-weight:bold;font-size:xx-small;text-decoration:none; }
+a.mw:link	{color:#000000;font-family:Verdana,Arial,Helvetica;font-weight:bold;font-size:xx-small;text-decoration:none;}
+a.mw:visited	{color:#000000;font-family:Verdana,Arial,Helvetica;font-weight:bold;font-size:xx-small;text-decoration:none;}
+a.mw:hover	{color:#0000FF;font-family:Verdana,Arial,Helvetica;font-weight:bold;font-size:xx-small;text-decoration:none;}
+</style> <script type="text/javascript">
+<!--
+var gMenuControlID = 0;
+var menus_included = 0;
+var jsDlgLoader = '/articles/loader.cfm';
+var jsSiteID = 1;
+var jsSubSiteID = 30335;
+var js_gvPageID = 4849811;
+var jsPageID = 4849811;
+var jsPageSetID = 0;
+var jsPageType = 0;
+var jsControlsWithRenderHandlers = ",4,4,4,23,555,689,806,814,9928,9928,9937,10326,10909,10909,11872,11879,11884,11887,13230,103943,107052,115886,118996,167300,167300,250445,250445,261728,264309,265025,265025,307145,307145,307153,307153,307160,307171,307171,307171,307178,307214,307221,307230,307230,307257,307383,307383,307383,307401,307424,307424,307424,307668,307668,347179,390199,390224,480090,481736,481736,481764,481764,481801,481810,481810,515530,515588,515588,515618,535600,535640,535661,535666,535706,535743,535769,535812,535863,535879,535900,535900,535915,535964,535988,535988,535998,535998,536003,536009,536016,536022,536028,589399,589419,589419,636732,681722,689546,689546,730416,738164,757361,770368,775928,827994,827998,1416423,2798354,2800008,4063533,4063542,4063542,4065091,4065502,4065502,4065724,4067520,4067520,4067520,4067548,4067548,4067548,4067563,4067567,4067572,4067572,4067572,4067579,4067579,4067579,4067607,4067624,4067624,4067624,4067635,4067635,4067635,4079297,4079930,4080100,4080100,4080246,4080530,4093973,4094423,4094664,4102704,4103841,4199523,4199560,4200396,4221444,4221454,4237071,4237071,4237071,4237459,4237831,4237895,4237940,4237970,4238001,4239690,4285563,4285563,4285563,4285735,4285735,4285735,4307364,4307376,4307376,4437175,4437187,4437196,4437205,4437214,4437225,4437234,4750026,4755316,4755328,4755350,4755370,4755387,4755427,4755450,4755463,4775817,4775817,4775817,4826238,4826250,4835105,4839879,4854372,4873053,4873080,4886837,4886864,4909999,5044733,5057210,5081481,5081503,5081536,5081615,";
+var jsDefaultRenderHandlerProps = ",555_1,689_1,806_1,814_1,9928_1,9928_1,9937_1,10326_1,10909_1,10909_1,11872_1,11872_1,11879_1,11884_1,11887_1,13230_1,103943_1,107052_1,118996_1,167300_1,167300_1,250445_1,250445_1,261728_1,264309_1,265025_1,265025_1,307145_1,307145_1,307153_1,307153_1,307171_1,307171_1,307230_1,307230_1,307383_1,307383_1,307401_1,307401_1,307424_1,307424_1,481736_1,481736_1,481764_1,481764_1,481810_1,481810_1,535900_1,535900_1,535988_1,535988_1,535998_1,535998_1,589419_1,589419_1,636732_1,636732_1,681722_1,681722_1,689546_1,689546_1,738164_1,738164_1,757361_1,757361_1,770368_1,770368_1,775928_1,775928_1,1416423_1,1416423_1,2798354_1,2800008_1,4065091_1,4065091_1,4102704_1,4102704_1,4103841_1,4103841_1,4199523_1,4199523_1,4199560_1,4199560_1,4200396_1,4200396_1,4237459_1,4237459_1,4237831_1,4237831_1,4237895_1,4237895_1,4237940_1,4237940_1,4237970_1,4237970_1,4238001_1,4238001_1,4239690_1,4239690_1,4307364_1,4307364_1,4307376_1,4307376_1,4437175_1,4437175_1,4437187_1,4437187_1,4437196_1,4437196_1,4437205_1,4437205_1,4437214_1,4437214_1,4437225_1,4437225_1,4437234_1,4437234_1,4750026_1,4750026_1,4755316_1,4755316_1,4755328_1,4755328_1,4755350_1,4755350_1,4755370_1,4755370_1,4755387_1,4755387_1,4755427_1,4755427_1,4755450_1,4755450_1,4755463_1,4755463_1,4826238_1,4826238_1,4826250_1,4826250_1,4835105_1,4835105_1,4839879_1,4839879_1,4854372_1,4854372_1,4873080_1,4873080_1,4909999_1,4909999_1,5044733_1,5044733_1,5057210_1,5057210_1,5081481_1,5081481_1,5081503_1,5081503_1,5081536_1,5081536_1,5081615_1,5081615_1,";
+var jsAuthorizedControls = ",1,2,3,4,6,7,8,9,10,11,16,18,20,21,22,23,25,26,27,28,29,30,31,34,36,37,38,39,40,41,42,43,45,46,47,50,51,52,53,54,555,689,806,814,973,5966,9928,9937,10326,10448,10909,11872,11879,11884,11887,13230,14018,15255,19294,19324,19589,19841,21143,21834,21843,22754,26465,26472,28722,28728,28731,31296,31298,31302,31304,31310,34370,35605,43239,44158,57349,57351,58208,58210,65964,66343,66345,66347,66349,66351,66353,66355,66360,66363,66367,66369,66371,66373,66823,66838,66851,68075,68077,68090,70540,77256,77258,79892,80134,80557,88814,90913,92345,99320,99327,100278,100280,100285,100287,100289,100291,100293,100295,103943,107052,108191,108193,115886,118996,120171,123569,123573,137336,139949,159142,166234,167300,192747,213345,214019,216101,216266,216271,233076,250445,261728,263957,264309,264710,265025,279398,281911,296052,297001,298491,305505,307145,307153,307160,307171,307178,307202,307214,307221,307230,307252,307257,307383,307401,307424,307668,347179,370990,390199,390224,480090,480098,480116,480137,480150,481723,481736,481750,481764,481773,481784,481792,481801,481810,515530,515559,515567,515588,515606,515618,528363,528387,528811,535600,535640,535661,535666,535689,535706,535729,535743,535769,535812,535834,535863,535879,535900,535915,535927,535942,535950,535964,535973,535988,535998,536003,536009,536016,536022,536028,546190,589383,589399,589419,634572,634604,634615,636732,646006,646019,646028,646037,646050,646058,646068,651329,661539,661740,665053,665324,665334,665336,665348,665350,665437,665892,681722,688361,688370,689512,689532,689546,693238,700549,704773,724125,724128,724343,730416,735987,738164,739481,750200,757361,770368,770793,775928,789911,789915,791800,791802,827994,827998,828003,840217,858642,860386,860390,860525,863763,864475,864541,864543,864545,864552,864554,864559,864561,864568,864571,866310,869384,872092,874449,875822,904767,909587,1235116,1316707,1416423,1416491,1445631,2798354,2800008,4063533,4063542,4065091,4065502,4065724,4067518,4067520,4067525,4067531,4067534,4067548,4067563,4067567,4067572,4067579,4067602,4067607,4067624,4067635,4076770,4076777,4076974,4076977,4078362,4079297,4079930,4080100,4080246,4080530,4083870,4093755,4093973,4094363,4094371,4094423,4094432,4094656,4094664,4097134,4097173,4097193,4097210,4097249,4097271,4097296,4097335,4097386,4097406,4097426,4097433,4097440,4097448,4097457,4097463,4097471,4097478,4097485,4097492,4101738,4102704,4103841,4199500,4199513,4199523,4199527,4199551,4199560,4200396,4221444,4221454,4237055,4237062,4237071,4237436,4237459,4237770,4237779,4237787,4237809,4237831,4237874,4237883,4237895,4237899,4237919,4237928,4237940,4237948,4237958,4237970,4237980,4237989,4238001,4239559,4239571,4239690,4282097,4285563,4285735,4307351,4307364,4307376,4307388,4437175,4437187,4437196,4437205,4437214,4437225,4437234,4640238,4750026,4755307,4755316,4755328,4755337,4755350,4755360,4755370,4755379,4755387,4755396,4755427,4755438,4755450,4755463,4775817,4826238,4826250,4826261,4826289,4829372,4829415,4829430,4829453,4829486,4829512,4835105,4839872,4839879,4839902,4840093,4854372,4873053,4873080,4886837,4886864,4909999,4936330,4946494,5005582,5016270,5016385,5029839,5031737,5037775,5044733,5047906,5048587,5053097,5057210,5063503,5063521,5064773,5064779,5074255,5074258,5080996,5081003,5081135,5081481,5081503,5081536,5081583,5081615,5108978,";
+var jsCustomRenderHandlerPairs = "";
+var jsStandardRenderHandlers = "";
+var jsSiteSecurityCreateControls = 0;
+var jsShowRejectForApprover = 1;
+// -->
+</script><script type="text/javascript" src="/commonspot/javascript/browser-all.js"></script> <!-- override SharedContent from Article-->
+<meta charset="utf-8">
+<link href="/common/commonspot/templates/images/icons/favicon.ico" rel="shortcut icon">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript">
+if(typeof scriptsLoaded === 'undefined'){
+var scriptsLoaded= new Array();
+}
+//Load jQuery only once.
+if(!("jQuery" in scriptsLoaded)){
+document.write('<script type="text\/javascript" src="\/ADF\/thirdParty\/jquery\/jquery-1.10.js"><\/script>'+'<script type="text/javascript"><\/script>');
+scriptsLoaded["jQuery"] = true;
+}
+</script>
+<script type="text/javascript">
+if(typeof scriptsLoaded === 'undefined'){
+var scriptsLoaded= new Array();
+}
+//Load jQueryMigrate only once.
+if(!("jQueryMigrate" in scriptsLoaded)){
+document.write('<script src="\/ADF\/thirdParty\/jquery\/migrate\/jquery-migrate-1.2.js"><\/script>'+'<script type="text/javascript"><\/script>');
+scriptsLoaded["jQueryMigrate"] = true;
+}
+</script>
+<script type="text/javascript">
+if(typeof scriptsLoaded === 'undefined'){
+var scriptsLoaded= new Array();
+}
+//Load jqueryCookie only once.
+if(!("jqueryCookie" in scriptsLoaded)){
+document.write('<script type="text\/javascript" src="\/ADF\/thirdParty\/jquery\/cookie\/jquery.cookie.js"><\/script>'+'<script type="text/javascript"><\/script>');
+scriptsLoaded["jqueryCookie"] = true;
+}
+</script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+-->
+<script src="/common/commonspot/templates/assetsCT/javascripts/app.early.min.js"></script>
+<link href="/common/commonspot/templates/assetsCT/stylesheets/css/main.min.css" media="screen, print" rel="stylesheet">
+<!--[if lt IE 9]>
+<link href="/stylesheets/css/main-ie8.css" media="screen, print" rel="stylesheet">
+<![endif]-->
+<link href="/common/commonspot/templates/assetsCT/ctExtraStyles.css" media="screen, print" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:700,600,400|Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css">
+<link href="/common/commonspot/templates/assets/css/redesign.css" media="screen, print" rel="stylesheet">
+<style>
+table#cs_idLayout2,
+table#cs_idLayout2 > tbody,
+table#cs_idLayout2 > tbody > tr,
+table#cs_idLayout2 > tbody > tr >  td
+{
+display: block;
+border-collapse:separate;
+}
+</style>
+<script src="/common/commonspot/templates/js/federated-analytics-uav1.js?ver=true&amp;agency=DOI&amp;subagency=NPS&amp;exts=rtf,odt,ods,odp&amp;dclink=true&amp;enhlink=true" id="_fed_an_ua_tag"></script>
+<link rel="stylesheet" href="/commonspot/commonspot.css" type="text/css" id="cs_maincss"> </head><body lang="en" class="SharedContent"><a name="__topdoc__"></a><script src="/commonspot/pagemode/always-include-common.js" type="text/javascript"></script><script src="/commonspot/pagemode/always-include-ns.js" type="text/javascript"></script>
+<!--googleoff: index-->
+<div tabindex="-1" id="beforeSkipLinks"></div>
+<div class="skip-links">
+<ul>
+<li><a href="#GlobalNav-toggle">Skip to global NPS navigation</a></li>
+<li><a href="#ParkNavigation">Skip to park navigation</a></li>
+<li><a href="#main">Skip to main content</a></li>
+<li><a href="#ParkFooter">Skip to park information</a></li>
+<li><a href="#GlobalFooter">Skip to footer</a></li>
+</ul>
+</div>
+<!--googleon: index-->
+<!--googleoff: index-->
+<div class="PromoBanner"></div>
+<!--googleon: index-->
+<!--googleoff: index-->
+<div class="GlobalHeader">
+<div class="container relative">
+<a class="GlobalHeader-homelink" href="/">
+<span class="GlobalHeader-logo hide-text">National Park Service Logo</span>
+<span class="GlobalHeader-text">National Park Service</span>
+</a>
+<div class="GlobalHeader-buttonRow row">
+<div class="GlobalHeader-buttonContainer">
+<div id="SearchHeader" class="GlobalSearch">
+<a id="footerSearchLink" href="#site_search_footer" class="GlobalSearch-footerLink js-scrollTo">
+<i class="fa fa-search"></i> <span class="visuallyhidden">Search</span>
+</a>
+<form class="GlobalSearch-form" id="globalSearchForm" action="/search/index.htm" method="GET">
+<div class="GlobalSearch-inputGroup">
+<input class="GlobalSearch-input" type="text" autocomplete="off" id="site_search" name="query" placeholder="Keyword Search">
+<button class="GlobalSearch-button GlobalSearch-submitButton btn-form btn-form-primary js-use-site-limit" type="submit">This Site</button>
+<button class="GlobalSearch-button GlobalSearch-secondaryButton btn-form btn-form-primary" type="submit">All NPS</button>
+<div id="search-suggestions"></div>
+</div>
+<script type="text/template" id="suggestionsTemplate">
+<div class="GlobalSearch-suggestions">
+<ul>
+{{ _.each(suggestions, function(suggestion) { }}
+<li><a href="{{{ url }}}{{{ suggestion }}}">{{{ suggestion }}}</a></li>
+{{ }) }}
+</ul>
+</div>
+</script>
+</form>
+<label class="GlobalSearch-label js-toggle GlobalHeader-button" for="site_search">
+<button type="button" class="js-toggle">
+<i class="fa fa-search"></i> Search
+</button>
+</label>
+</div>
+<h3 class="GlobalHeader-menuHeader js-collapser GlobalHeader-button" style="display: block;" data-aria-controls="GlobalNav" data-class="GlobalHeader-menuButton" data-id="GlobalNav-toggle" data-text-active="<i class='fa fa-times'></i> Close<span class='visuallyhidden'> Menu</span>" data-text-inactive="<i class='fa fa-bars'></i> <span class='visuallyhidden'>Open </span>Menu" data-slide-speed="500" data-remove-header="true">
+<button class="js-collapser-button GlobalHeader-menuButton" id="GlobalNav-toggle" aria-expanded="false">
+<i class="fa fa-bars"></i>
+<span class="visuallyhidden">Open </span>
+Menu
+</button>
+</h3>
+</div>
+</div>
+<nav id="GlobalNav-container" class="row" role="navigation" aria-label="NPS Primary Navigation" aria-labelledby="GlobalNav-toggle" tabindex="-1">
+<ul id="GlobalNav" class="GlobalNav GlobalNav-lvl-1">
+<div id="cs_control_699042" class="cs_control CS_Element_CustomCF"><div id="CS_CCF_4849811_699042"><div id="cs_control_481717" class="cs_control CS_Element_Custom"><!-- _CSDPFID=4849811|4849811=_CSDPFID -->
+<!-- nav -->
+<!--googleoff: index-->
+<div id="npsNav"><li id="LocalNav-mobile">
+<!-- This navigation template (rootsubsite) needs to be added: /articles -->
+</li></div>
+<!--googleon: index-->
+</div></div></div>
+</ul> <!-- <ul id="GlobalNav" class="GlobalNav GlobalNav-lvl-1"> -->
+</nav>
+</div>
+</div>
+<!--googleon: index-->
+<div id="myModal" class="modal refreshableModal">
+<div class="modal-dialog">
+<div class="modal-content">
+</div>
+</div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+setTimeout( function() {
+NPS.display.showAdminTools( 0 );
+} ,10);
+});
+</script>
+<div id="main" role="main" class="MainContent">
+<style>
+#modal-contact-us .modal-body { padding-top:0px; }
+.modal-header {border:none;}
+</style>
+<div aria-labeledby="modal-contact-us-label" class="modal" id="modal-contact-us" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+<h4 class="sr-only" id="modal-contact-us-label">Contact Us</h4>
+</div>
+<div class="modal-body">
+<iframe frameborder="0" id="modal-contact-us-iframe" width="100%" height="100%"></iframe>
+</div>
+</div>
+</div>
+</div>
+<div id="adminTools"></div>
+<!--<meta name="Category" content="Articles"><meta name="Type" content="Article"><meta name="Date_Last_Modified" content="2015-02-04 09:51:36"><meta name="Title" content="Emancipation and the Quest for Freedom"><meta name="Sites_Item" content="Antietam National Battlefield"><meta name="Sites_Item" content="Appomattox Court House National Historical Park"><meta name="Sites_Item" content="Booker T Washington National Monument"><meta name="Sites_Item" content="Boston African American National Historic Site"><meta name="Sites_Item" content="Cane River Creole National Historical Park"><meta name="Sites_Item" content="Charles Pinckney National Historic Site"><meta name="Sites_Item" content="Colonial National Historical Park"><meta name="Sites_Item" content="Fort Raleigh National Historic Site"><meta name="Sites_Item" content="Frederick Douglass National Historic Site"><meta name="Sites_Item" content="Fredericksburg &amp; Spotsylvania National Military Park"><meta name="Sites_Item" content="George Washington Carver National Monument"><meta name="Sites_Item" content="Gulf Islands National Seashore"><meta name="Sites_Item" content="Hampton National Historic Site"><meta name="Sites_Item" content="Harpers Ferry National Historical Park"><meta name="Sites_Item" content="Independence National Historical Park"><meta name="Sites_Item" content="Lincoln Boyhood National Memorial"><meta name="Sites_Item" content="Lincoln Home National Historic Site"><meta name="Sites_Item" content="Lincoln Memorial"><meta name="Sites_Item" content="Marsh - Billings - Rockefeller National Historical Park"><meta name="Sites_Item" content="Monocacy National Battlefield"><meta name="Sites_Item" content="Natchez National Historical Park"><meta name="Sites_Item" content="Natchez Trace Parkway"><meta name="Sites_Item" content="Natchez Trace National Scenic Trail"><meta name="Sites_Item" content="Richmond National Battlefield Park"><meta name="Sites_Item" content="Tuskegee Institute National Historic Site"><meta name="Sites" content="Antietam National Battlefield,Appomattox Court House National Historical Park,Booker T Washington National Monument,Boston African American National Historic Site,Cane River Creole National Historical Park,Charles Pinckney National Historic Site,Colonial National Historical Park,Fort Raleigh National Historic Site,Frederick Douglass National Historic Site,Fredericksburg &amp; Spotsylvania National Military Park,George Washington Carver National Monument,Gulf Islands National Seashore,Hampton National Historic Site,Harpers Ferry National Historical Park,Independence National Historical Park,Lincoln Boyhood National Memorial,Lincoln Home National Historic Site,Lincoln Memorial ,Marsh - Billings - Rockefeller National Historical Park,Monocacy National Battlefield,Natchez National Historical Park,Natchez Trace Parkway,Natchez Trace National Scenic Trail,Richmond National Battlefield Park,Tuskegee Institute National Historic Site"><meta name="Abstract" content="Although the abolition of slavery emerged as a dominant objective of the Union war effort, most Northerners embraced abolition as a practical measure rather than a moral cause. The war resolved legally and constitutionally the single most important moral question that afflicted the nascent republic, an issue that prevented the country from coalescing around a shared vision of freedom, equality, morality, and nationhood."><meta name="Image_Alt_Text" content="Slave family seated in front of their house"><meta name="Image_URL" content="/common/uploads/stories/images/nri/subject/civilwar/D673C06D-98D4-196E-15A53F97ABD2568A/D673C06D-98D4-196E-15A53F97ABD2568A.jpg"> -->
+<div class="container">
+<div class="ColumnGrid row">
+<!-- <div class="ColumnMain col-sm-9"> -->
+<div class="ColumnMain col-sm-12">
+
+      <!-- /// Start Random Images /// -->
+        <!-- /// Added by Dan 11/24/14 /// -->
+        <div align="center">
+        <script language="JavaScript">
+
+          var domain
+
+          function random_imglink(){
+
+              var images = []; // [] means new array - arrays index from 0 in JS
+
+              //specify random images below. You can have as many as you wish
+              images[0] = []; // associative array (http://www.w3schools.com/js/js_arrays.asp)
+              images[0].url = "/common/commonspot/templates/images/graphics/404/01.jpg";
+              images[0].alt = "404 missing page error image with woods at night and text that reads sorry we can't find that page but here are some lovely northern lights to enjoy please try the search tool to find what you need";
+              images[1] = [];
+              images[1].url = "/common/commonspot/templates/images/graphics/404/02.jpg";
+              images[1].alt = "404 missing page error image with mountains and text that reads sorry we can't find this page but how about a john muir quote keep close to nature's heart and break clear once in a while and climb a mountain or spend a week in the woods wash your spirit clean please try the search tool to find what you need";
+              images[2] = [];
+              images[2].url = "/common/commonspot/templates/images/graphics/404/03.jpg";
+              images[2].alt = "404 missing page error image with a squirrel and text that reads we are looking for it but in the meantime you may want to use the search tool";
+              images[3] = [];
+              images[3].url = "/common/commonspot/templates/images/graphics/404/04.jpg";
+              images[3].alt = "404 missing page error image with a grizzly bear drooling and text that reads please bear with us we cannot seem to find that page try using the search tool to find what you need";
+              images[4] = [];
+              images[4].url = "/common/commonspot/templates/images/graphics/404/05.jpg";
+              images[4].alt = "404 missing page error image with trees and a trail and text that reads sorry about that we must've led you down the wrong fork in the trail use the back button on your browser or try the search bar at upper right to find what you need";
+              images[5] = [];
+              images[5].url = "/common/commonspot/templates/images/graphics/404/06.jpg";
+              images[5].alt = "404 missing page error image with a skunk and text that reads well that stinks we can't find that page please try using the search tool to find what you need";
+
+              var ry = Math.floor(Math.random() * images.length);
+
+              document.write('<img style="max-width:100%" src="'+images[ry].url+'" alt="'+images[ry].alt+'" border="0" />');
+              
+          }
+
+          random_imglink();
+
+          </script>
+        </div>
+        <!-- // End Random Images /// -->
+        <!-- //////////////////////// -->
+
+
+</div><!-- col-sm-12 -->
+</div><!-- row -->
+<!-- </div> --><!-- ColumnMain col-sm-9 -->
+
+</div><!-- end container -->
+</div><!-- end of <div main> -->
+<!--googleoff: index-->
+<footer id="GlobalFooter" class="GlobalFooter">
+<div class="container">
+<div id="SearchFooter" class="GlobalSearch">
+<form class="GlobalSearch-form" action="/search/index.htm"  method="GET">
+<label class="GlobalSearch-label js-toggle" for="site_search_footer">Search <i class="fa fa-search"></i></label>
+<div class="GlobalSearch-inputGroup">
+<input class="GlobalSearch-input" type="text" autocomplete="off" id="site_search_footer" name="query" placeholder="Keyword Search">
+<button class="GlobalSearch-button GlobalSearch-submitButton btn-form btn-form-primary js-use-site-limit" type="submit">This Site</button>
+<button class="GlobalSearch-button GlobalSearch-secondaryButton btn-form btn-form-primary" type="submit">All NPS</button>
+<input type="hidden" id="sitelimit" class="visuallyhidden" name="sitelimit" value="nps.gov/yose" />
+</div>
+</form>
+</div>
+<div class="row">
+<img class="GlobalFooter-printLogo print-only" src="/common/commonspot/templates/assetsCT/images/branding/nps_logo-bw.gif" alt="NPS print format logo">
+<div class="col-sm-12">
+<img class="GlobalFooter-slogan" src="/common/commonspot/templates/assetsCT/images/branding/nps-footer-slogan.png" srcset="/common/commonspot/templates/assetsCT/images/branding/nps-footer-slogan.png 1x, /common/commonspot/templates/assetsCT/images/branding/nps-footer-slogan.png 2x" alt="Experience Your America">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-sm-push-8">
+<div class="GlobalFooter-nps-logo">
+<div class="GlobalFooter-nps-logo-text" style="padding-right:30px;">
+<a href="//www.nps.gov">National Park Service</a>
+<a href="//www.doi.gov">U.S. Department of the Interior</a>
+</div>
+<div class="GlobalFooter-nps-logo-image">
+<a href="//www.nps.gov">
+<svg role="img" focusable="false" id="nps-logo-footer" aria-labelledby="nps-logo-title nps-logo-desc">
+<title id="nps-logo-title">National Park Service Logo</title>
+<desc id="nps-logo-desc">National Park Service Logo</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#nps-logo"></use>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-8 col-sm-pull-4">
+<ul class="GlobalFooter-generalLinks">
+<li><a href="//www.nps.gov/aboutus/accessibility.htm">Accessibility</a></li>
+<li><a href="//www.nps.gov/aboutus/privacy.htm">Privacy Policy</a></li>
+<li><a href="//www.nps.gov/aboutus/foia/index.htm ">FOIA</a></li>
+<li><a href="//www.nps.gov/aboutus/notices.htm">Notices</a></li>
+<li><a href="//www.nps.gov/aboutus/disclaimer.htm">Disclaimer</a></li>
+</ul>
+<ul class="GlobalFooter-generalLinks">
+<li><a href="//www.nps.gov/aboutus/faqs.htm">FAQ</a></li>
+<li><a href="//www.doi.gov/pmb/eeo/no-fear-act">No Fear Act</a></li>
+<li><a href="//www.nps.gov/aboutus/contactus.htm">Contact Us</a></li>
+<li><a href="//www.usa.gov">USA.gov</a></li>
+</ul>
+<ul class="GlobalFooter-socialLinks">
+<li>
+<a href="//www.facebook.com/nationalparkservice">
+<svg role="img" focusable="false" id="facebook-footer-link" aria-labelledby="facebookTitle facebookDesc">
+<title id="facebookTitle">Facebook</title>
+<desc id="facebookDesc">Facebook</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#facebook"></use>
+</svg>
+<span>Facebook</span>
+</a>
+</li>
+<li>
+<a href="//www.youtube.com/nationalparkservice">
+<svg role="img" focusable="false" id="youtube-footer-link" aria-labelledby="youtubeTitle youtubeDesc">
+<title id="youtubeTitle">Youtube</title>
+<desc id="youtubeDesc">Youtube</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#youtube"></use>
+</svg>
+<span>Youtube</span>
+</a>
+</li>
+<li>
+<a href="//www.twitter.com/natlparkservice">
+<svg role="img" focusable="false" id="twitter-footer-link" aria-labelledby="twitterTitle twitterDesc">
+<title id="twitterTitle">Twitter</title>
+<desc id="twitterDesc">Twitter</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#twitter"></use>
+</svg>
+<span>Twitter</span>
+</a>
+</li>
+<li>
+<a href="//www.instagram.com/nationalparkservice">
+<svg role="img" focusable="false" id="instagram-footer-link" aria-labelledby="instagramTitle instagramDesc">
+<title id="instagramTitle">Instagram</title>
+<desc id="instagramDesc">Instagram</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#instagram"></use>
+</svg>
+<span>Instagram</span>
+</a>
+</li>
+<li>
+<a href="//www.flickr.com/nationalparkservice">
+<svg role="img" focusable="false" id="flickr-footer-link" aria-labelledby="flickrTitle flickrDesc">
+<title id="flickrTitle">Flickr</title>
+<desc id="flickrDesc">Flickr</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#flickr"></use>
+</svg>
+<span>Flickr</span>
+</a>
+</li>
+<li>
+<a href="//itunes.apple.com/WebObjects/MZStore.woa/wa/viewArtistLegacy?cc=us&id=216751324">
+<svg role="img" focusable="false" id="itunes-footer-link" aria-labelledby="itunesTitle itunesDesc">
+<title id="itunesTitle">iTunes</title>
+<desc id="itunesDesc">iTunes</desc>
+<use xlink:href="/common/commonspot/templates/assetsCT/sprite.symbol.svg#itunes"></use>
+</svg>
+<span>iTunes</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+<!--googleon: index-->
+<!-- the rest of the scripts are leftovers from before the centennial down and should be pared down where possible -->
+<script src="/common/commonspot/templates/jsCT/global.js"></script>
+<script src="/common/commonspot/templates/assets/libs/jquery.magnific-popup/jquery.magnific-popup.js"></script>
+<script src="/common/commonspot/templates/assets/js/redesign.js"></script>
+<link href="/common/commonspot/templates/assets/libs/colorbox/colorbox.css" rel="stylesheet">
+<script type="text/javascript" src="/common/commonspot/templates/js/libs/jquery.colorbox-min.js"></script>
+<script src="/common/commonspot/templates/jsCT/intercept-include.js"></script>
+<script src="/common/commonspot/templates/assets/libs/image-map-resizer/imageMapResizer.min.js"></script>
+<script src="/common/commonspot/templates/assetsCT/javascripts/app.late.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (window.location.href.indexOf("www") > -1) {
+var aid = "nps.gov";
+var script = document.createElement('script');
+script.type = "text/javascript";
+script.src = "https://search.usa.gov/javascripts/stats.js";
+document.getElementsByTagName("head")[0].appendChild(script);
+}
+//]]>
+
+if(!commonspot)
+	var commonspot = {};
+	
+commonspot.csPage = {};
+commonspot.csPage.siteRoot = '/';
+commonspot.csPage.subsiteRoot = '/';
+
+</script>
+
+<div style="display:block; clear:left; padding:0px; font-family:Verdana,Arial; font-size:10px; color:gray;"></div>
+</div>
+</body>
+</html>
