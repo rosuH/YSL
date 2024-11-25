@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.3
-certifi==2021.5.30
+certifi==2022.12.7
 chardet==4.0.0
 charset-normalizer==2.0.4
 idna==3.2
