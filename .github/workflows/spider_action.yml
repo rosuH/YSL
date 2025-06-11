@@ -1,49 +1,86 @@
-name: Python application
+name: Spider Data Collection
 
 on:
   schedule:
-      - cron:  '0 2 * * 5'
+    - cron: '0 2 * * 5'  # 每周五 UTC 2:00 运行
   push:
-    branches: master
+    branches:
+      - master
+  workflow_dispatch:  # 允许手动触发
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 明确声明需要的权限
 
     steps:
-    - uses : actions/checkout@v2
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    - name: Checkout code
+      uses: actions/checkout@v4  # 升级到最新版本
       with:
-        python-version: 3.7
+        fetch-depth: 0  # 获取完整历史以确保正确的提交
+
+    - name: Set up Python
+      uses: actions/setup-python@v5  # 升级到最新版本
+      with:
+        python-version: '3.10'  # 使用更新的 Python 版本
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v4  # 添加缓存以加速构建
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
     - name: Lint with flake8
       run: |
         pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
+        # 检查 Python 语法错误或未定义的变量名
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        # 将所有错误作为警告处理
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
     - name: Run Spider 🤖
       run: |
         python spider.py
-    - name: logging
+      env:
+        PYTHONUNBUFFERED: 1  # 确保 Python 输出不被缓冲
+
+    - name: Add timestamp to log
       run: |
         echo -e "\n==================$( date +%Y-%m-%d_%H:%M:%S)====================\n" >> change_log.txt
-    - name: Commit files
+
+    - name: Commit and push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git show-ref
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        # 检查是否有更改需要提交
+        if [[ -z $(git status -s) ]]; then
+          echo "No changes to commit"
+          exit 0
+        fi
+        
+        # 设置 Git 用户信息
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        
+        # 添加文件、提交并推送
         git add .
-        git commit -m "Update assets"
+        git commit -m "Update assets [skip ci]" -m "Automated update via GitHub Actions"
         echo -e "\n==================$(git status)====================\n" >> change_log.txt
+        
         git push
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: 'dev'
+
+    - name: Upload logs as artifacts
+      uses: actions/upload-artifact@v4
+      if: always()  # 即使任务失败也上传日志
+      with:
+        name: logs
+        path: change_log.txt
+        retention-days: 14  # 保留两周
