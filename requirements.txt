@@ -9,4 +9,4 @@ requests==2.32.4
 six==1.16.0
 soupsieve==2.2.1
 tqdm==4.66.3
-urllib3==2.5.0
+urllib3==2.6.3
