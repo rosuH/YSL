@@ -1,5 +1,5 @@
 black==26.3.1
-flake8==7.1.1
+flake8==7.3.0
 mypy==1.13.0
 pytest==9.0.3
 pre-commit==4.0.1
