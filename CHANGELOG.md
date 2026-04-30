@@ -22,8 +22,21 @@
 - **Disabled** the weekly scheduled cron job — the NPS sound library is essentially static, so automatic runs only produced empty commits.
 - **Retained** `workflow_dispatch` so the spider can still be triggered manually when needed.
 - Upgraded Action runtime to Python 3.12.
+- Added `concurrency` control, `timeout-minutes: 15`, and `fetch-depth: 1` for faster, safer runs.
 
 ### Spider Rewrite
 - **Unified HTTP client**: replaced mixed `urllib.request.urlopen` + `requests` usage with a single `requests.Session()`.
 - **URL-level deduplication**: the crawler now tracks processed URLs, preventing duplicate folders when the NPS site lists the same page under multiple titles.
+- **Directory name normalization**: new downloads prefer short names and reuse existing folders with suffix variants (e.g. `Old Faithful Geyser`).
 - Improved error handling, type hints, and logging consistency.
+
+### Developer Experience
+- Added **13 unit tests** covering directory resolution, MD5 hashing, and duplicate removal logic.
+- Added linting & formatting toolchain: `black`, `flake8`, `mypy`, `pytest`, `pre-commit`.
+- Added `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml`, and `.github/dependabot.yml`.
+- Added `requirements-dev.txt` for reproducible development dependencies.
+
+### Documentation
+- **Rewrote README** with clearer copyright notices, compliance statement, and CI badges.
+- Added explicit **robots.txt compliance** and **public domain attribution** guidance.
+- Fixed LICENSE copyright holder name.

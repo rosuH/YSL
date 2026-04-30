@@ -1,71 +1,71 @@
 name: Spider Data Collection
 
 on:
-  workflow_dispatch:  # 仅允许手动触发
+  workflow_dispatch: # 仅允许手动触发
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Cache pip dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Lint with flake8
-      run: |
-        pip install flake8
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Lint with flake8
+        run: |
+          pip install "flake8==7.3.0"
+          flake8 . --count --show-source --statistics
 
-    - name: Run Spider 🤖
-      run: |
-        python spider.py
-      env:
-        PYTHONUNBUFFERED: 1
+      - name: Run tests
+        run: |
+          pip install pytest
+          pytest -v
 
-    - name: Commit and push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        if [[ -z $(git status -s) ]]; then
-          echo "No changes to commit"
-          exit 0
-        fi
+      - name: Run Spider 🤖
+        run: |
+          python spider.py
+        env:
+          PYTHONUNBUFFERED: "1"
 
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ -z $(git status -s) ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
 
-        git add .
-        git commit -m "Update assets [skip ci]" -m "Automated update via GitHub Actions"
-        git push
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
 
-    - name: Upload logs as artifacts
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: spider-logs
-        path: |
-          CHANGELOG.md
-        retention-days: 14
+          git add .
+          git commit -m "Update assets [skip ci]" -m "Automated update via GitHub Actions"
+          git push

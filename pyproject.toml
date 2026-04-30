@@ -1,0 +1,15 @@
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+follow_untyped_imports = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-v"
+
+[tool.black]
+line-length = 127
+target-version = ['py310']

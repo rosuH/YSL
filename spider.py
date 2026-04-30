@@ -17,11 +17,10 @@ import os
 import re
 import shutil
 import time
-from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from tqdm import tqdm
 
 # ---------------------------------------------------------------------------
@@ -46,18 +45,17 @@ MAX_RETRIES = 3
 class YellowstoneSoundCrawler:
     """Crawler for the Yellowstone National Park sound library."""
 
-    def __init__(self, base_url=BASE_URL, sleep_time=DEFAULT_SLEEP_TIME, max_retries=MAX_RETRIES):
+    def __init__(
+        self,
+        base_url: str = BASE_URL,
+        sleep_time: float = DEFAULT_SLEEP_TIME,
+        max_retries: int = MAX_RETRIES,
+    ) -> None:
         self.base_url = base_url
         self.sleep_time = sleep_time
         self.max_retries = max_retries
         self.session = requests.Session()
-        self.session.headers.update(
-            {
-                "User-Agent": (
-                    "Mozilla/5.0 YSL-Spider (https://github.com/rosuH/YSL)"
-                )
-            }
-        )
+        self.session.headers.update({"User-Agent": ("Mozilla/5.0 YSL-Spider (https://github.com/rosuH/YSL)")})
         # Track processed URLs to avoid duplicate folders for the same page.
         self._processed_urls: set[str] = set()
 
@@ -73,7 +71,7 @@ class YellowstoneSoundCrawler:
         """Return *name* with known prefixes stripped."""
         for prefix in self._DIR_PREFIXES:
             if name.startswith(prefix):
-                return name[len(prefix):]
+                return name[len(prefix) :]
         return name
 
     def _resolve_target_dir(self, animal_name: str) -> str:
@@ -108,7 +106,7 @@ class YellowstoneSoundCrawler:
     def _full_url(self, href: str | None) -> str | None:
         if href is None:
             return None
-        return urljoin(self.base_url, href)
+        return str(urljoin(self.base_url, href))
 
     def _get(self, url: str, retries: int = 0) -> BeautifulSoup | None:
         """Fetch *url* with retries and exponential back-off."""
@@ -125,7 +123,7 @@ class YellowstoneSoundCrawler:
             if retries >= self.max_retries:
                 logger.error("Max retries reached, skipping: %s", url)
                 return None
-            wait = self.sleep_time * (2 ** retries)
+            wait = self.sleep_time * (2**retries)
             logger.warning("Request failed (%s), retrying in %ss: %s", exc, wait, url)
             time.sleep(wait)
             return self._get(url, retries + 1)
@@ -139,13 +137,16 @@ class YellowstoneSoundCrawler:
             with self.session.get(url, stream=True, timeout=60) as resp:
                 resp.raise_for_status()
                 total = int(resp.headers.get("content-length", 0))
-                with open(filename, "wb") as fh, tqdm(
-                    desc=os.path.basename(filename),
-                    total=total,
-                    unit="B",
-                    unit_scale=True,
-                    unit_divisor=1024,
-                ) as bar:
+                with (
+                    open(filename, "wb") as fh,
+                    tqdm(
+                        desc=os.path.basename(filename),
+                        total=total,
+                        unit="B",
+                        unit_scale=True,
+                        unit_divisor=1024,
+                    ) as bar,
+                ):
                     for chunk in resp.iter_content(chunk_size=8192):
                         if chunk:
                             fh.write(chunk)
@@ -202,7 +203,7 @@ class YellowstoneSoundCrawler:
             os.chdir(target_dir)
             try:
                 # Image
-                if img_obj:
+                if img_obj and isinstance(img_obj, Tag):
                     img_url = self._full_url(img_obj.attrs.get("src"))
                     author = bs_obj.find("p", class_="figcredit")
                     date_dd = bs_obj.find("dd", string=re.compile(r"\d{4}-\d{2}-\d{2}"))
@@ -218,7 +219,8 @@ class YellowstoneSoundCrawler:
                         self._download(img_url, img_name)
 
                 # Audio
-                audio_url = self._full_url(audio.attrs.get("src"))
+                if audio and isinstance(audio, Tag):
+                    audio_url = self._full_url(audio.attrs.get("src"))
                 audio_name = f"{page_title}.mp3"
                 if audio_url:
                     self._download(audio_url, audio_name)
@@ -314,7 +316,7 @@ def remove_duplicated_files() -> None:
 
     for pattern in ("*/*.mp3", "*/*.jpg"):
         files_map: dict[str, str] = {}
-        duplicates: list[tuple[str, str]] = []
+        duplicates: list[tuple[str, str, str]] = []
 
         for file_name in glob.iglob(pattern, recursive=False):
             file_md5 = _md5(file_name)
@@ -322,22 +324,35 @@ def remove_duplicated_files() -> None:
                 files_map[file_md5] = file_name
             else:
                 logger.info("Duplicate found: %s (same as %s)", file_name, files_map[file_md5])
-                duplicates.append((file_name, files_map[file_md5]))
+                duplicates.append((file_name, files_map[file_md5], file_md5))
 
-        for dup, orig in duplicates:
+        for dup, orig, file_md5 in duplicates:
             dup_dir = os.path.dirname(dup)
             orig_dir = os.path.dirname(orig)
 
-            dup_support = len([f for f in os.listdir(dup_dir) if f.lower().endswith((".mp3", ".jpg", ".jpeg", ".png"))])
-            orig_support = len([f for f in os.listdir(orig_dir) if f.lower().endswith((".mp3", ".jpg", ".jpeg", ".png"))])
+            media_exts = (".mp3", ".jpg", ".jpeg", ".png")
+            dup_support = sum(1 for f in os.listdir(dup_dir) if f.lower().endswith(media_exts))
+            orig_support = sum(1 for f in os.listdir(orig_dir) if f.lower().endswith(media_exts))
 
             if dup_support > orig_support:
-                to_delete, to_keep = orig, dup
-                files_map[_md5(dup)] = dup
-                logger.info("Keeping %s (%d files) over %s (%d files)", dup, dup_support, orig, orig_support)
+                to_delete = orig
+                files_map[file_md5] = dup
+                logger.info(
+                    "Keeping %s (%d files) over %s (%d files)",
+                    dup,
+                    dup_support,
+                    orig,
+                    orig_support,
+                )
             else:
-                to_delete, to_keep = dup, orig
-                logger.info("Keeping %s (%d files) over %s (%d files)", orig, orig_support, dup, dup_support)
+                to_delete = dup
+                logger.info(
+                    "Keeping %s (%d files) over %s (%d files)",
+                    orig,
+                    orig_support,
+                    dup,
+                    dup_support,
+                )
 
             try:
                 if os.path.exists(to_delete):
@@ -379,7 +394,8 @@ def parse_arguments() -> argparse.Namespace:
         help="Skip the post-crawl duplicate-file check",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Enable debug logging",
     )
