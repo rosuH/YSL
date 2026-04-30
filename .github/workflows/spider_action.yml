@@ -1,32 +1,27 @@
 name: Spider Data Collection
 
 on:
-  schedule:
-    - cron: '0 2 * * 5'  # 每周五 UTC 2:00 运行
-  push:
-    branches:
-      - master
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:  # 仅允许手动触发
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 明确声明需要的权限
+      contents: write
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4  # 升级到最新版本
+      uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # 获取完整历史以确保正确的提交
+        fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v5  # 升级到最新版本
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'  # 使用更新的 Python 版本
+        python-version: '3.12'
 
     - name: Cache pip dependencies
-      uses: actions/cache@v4  # 添加缓存以加速构建
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -41,46 +36,35 @@ jobs:
     - name: Lint with flake8
       run: |
         pip install flake8
-        # 检查 Python 语法错误或未定义的变量名
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # 将所有错误作为警告处理
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Run Spider 🤖
       run: |
         python spider.py
       env:
-        PYTHONUNBUFFERED: 1  # 确保 Python 输出不被缓冲
-
-    - name: Add timestamp to log
-      run: |
-        echo -e "\n==================$( date +%Y-%m-%d_%H:%M:%S)====================\n" >> change_log.txt
+        PYTHONUNBUFFERED: 1
 
     - name: Commit and push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # 检查是否有更改需要提交
         if [[ -z $(git status -s) ]]; then
           echo "No changes to commit"
           exit 0
         fi
-        
-        # 设置 Git 用户信息
+
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        
-        # 添加文件、提交并推送
+
         git add .
         git commit -m "Update assets [skip ci]" -m "Automated update via GitHub Actions"
-        echo -e "\n==================$(git status)====================\n" >> change_log.txt
-        
         git push
 
     - name: Upload logs as artifacts
       uses: actions/upload-artifact@v4
-      if: always()  # 即使任务失败也上传日志
+      if: always()
       with:
         name: logs
         path: change_log.txt
-        retention-days: 14  # 保留两周
+        retention-days: 14
