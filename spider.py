@@ -131,26 +131,41 @@ class YellowstoneSoundCrawler:
             logger.error("Failed to fetch %s: %s", url, exc)
             return None
 
-    def _download(self, url: str, filename: str) -> bool:
-        """Download *url* to *filename* with a progress bar."""
+    def _download(self, url: str, filename: str, dry_run: bool = False) -> bool:
+        """Download *url* to *filename* with a progress bar.
+
+        Args:
+            url: File URL
+            filename: Destination path
+            dry_run: If True, log the action without downloading
+        """
+        if dry_run:
+            logger.info("[DRY-RUN] Would download %s -> %s", url, filename)
+            return True
+
         try:
             with self.session.get(url, stream=True, timeout=60) as resp:
                 resp.raise_for_status()
                 total = int(resp.headers.get("content-length", 0))
-                with (
-                    open(filename, "wb") as fh,
-                    tqdm(
-                        desc=os.path.basename(filename),
-                        total=total,
-                        unit="B",
-                        unit_scale=True,
-                        unit_divisor=1024,
-                    ) as bar,
-                ):
-                    for chunk in resp.iter_content(chunk_size=8192):
-                        if chunk:
-                            fh.write(chunk)
-                            bar.update(len(chunk))
+                # Disable progress bar in non-TTY / CI environments
+                use_tqdm = os.isatty(2) and not os.environ.get("CI")
+                with open(filename, "wb") as fh:
+                    if use_tqdm:
+                        with tqdm(
+                            desc=os.path.basename(filename),
+                            total=total,
+                            unit="B",
+                            unit_scale=True,
+                            unit_divisor=1024,
+                        ) as bar:
+                            for chunk in resp.iter_content(chunk_size=8192):
+                                if chunk:
+                                    fh.write(chunk)
+                                    bar.update(len(chunk))
+                    else:
+                        for chunk in resp.iter_content(chunk_size=8192):
+                            if chunk:
+                                fh.write(chunk)
             return True
         except Exception as exc:
             logger.error("Download failed %s: %s", url, exc)
@@ -161,7 +176,7 @@ class YellowstoneSoundCrawler:
     # ------------------------------------------------------------------
     # Page processing
     # ------------------------------------------------------------------
-    def process_sound_page(self, page_url: str, animal_name: str) -> bool:
+    def process_sound_page(self, page_url: str, animal_name: str, dry_run: bool = False) -> bool:
         """Parse a sound detail page and download its audio and image."""
         bs_obj = self._get(page_url)
         if not bs_obj:
@@ -194,40 +209,38 @@ class YellowstoneSoundCrawler:
                 logger.warning("No audio found on %s", page_url)
                 return False
 
-            # Build target directory from the link text (animal_name) rather
-            # than the <h1> on the detail page — this keeps the folder name
-            # consistent with the listing page.
             target_dir = self._resolve_target_dir(animal_name)
-            os.makedirs(target_dir, exist_ok=True)
-            original_dir = os.getcwd()
-            os.chdir(target_dir)
-            try:
-                # Image
-                if img_obj and isinstance(img_obj, Tag):
-                    img_url = self._full_url(img_obj.attrs.get("src"))
-                    author = bs_obj.find("p", class_="figcredit")
-                    date_dd = bs_obj.find("dd", string=re.compile(r"\d{4}-\d{2}-\d{2}"))
+            if not dry_run:
+                os.makedirs(target_dir, exist_ok=True)
 
-                    meta_parts = []
-                    if author:
-                        meta_parts.append(author.get_text().replace("/", "_"))
-                    if date_dd:
-                        meta_parts.append(date_dd.get_text())
+            # Image
+            if img_obj and isinstance(img_obj, Tag):
+                img_url = self._full_url(img_obj.attrs.get("src"))
+                author = bs_obj.find("p", class_="figcredit")
+                date_dd = bs_obj.find("dd", string=re.compile(r"\d{4}-\d{2}-\d{2}"))
 
-                    img_name = f"{page_title}_{'_'.join(meta_parts)}.jpg" if meta_parts else f"{page_title}.jpg"
-                    if img_url:
-                        self._download(img_url, img_name)
+                meta_parts = []
+                if author:
+                    meta_parts.append(author.get_text().replace("/", "_"))
+                if date_dd:
+                    meta_parts.append(date_dd.get_text())
 
-                # Audio
-                if audio and isinstance(audio, Tag):
-                    audio_url = self._full_url(audio.attrs.get("src"))
+                img_name = f"{page_title}_{'_'.join(meta_parts)}.jpg" if meta_parts else f"{page_title}.jpg"
+                if img_url:
+                    self._download(img_url, os.path.join(target_dir, img_name), dry_run=dry_run)
+
+            # Audio
+            if audio and isinstance(audio, Tag):
+                audio_url = self._full_url(audio.attrs.get("src"))
                 audio_name = f"{page_title}.mp3"
                 if audio_url:
-                    self._download(audio_url, audio_name)
+                    self._download(
+                        audio_url,
+                        os.path.join(target_dir, audio_name),
+                        dry_run=dry_run,
+                    )
 
-                return True
-            finally:
-                os.chdir(original_dir)
+            return True
 
         except AttributeError as exc:
             logger.error("Parse error on %s: %s", page_url, exc)
@@ -239,9 +252,11 @@ class YellowstoneSoundCrawler:
     # ------------------------------------------------------------------
     # Main crawl
     # ------------------------------------------------------------------
-    def crawl_sound_library(self) -> bool:
+    def crawl_sound_library(self, dry_run: bool = False) -> bool:
         """Crawl the sound-library index and process every unique link."""
         logger.info("Starting crawl of %s", SOUND_LIBRARY_URL)
+        if dry_run:
+            logger.info("[DRY-RUN] No files will be downloaded")
 
         bs_obj = self._get(SOUND_LIBRARY_URL)
         if not bs_obj:
@@ -263,23 +278,26 @@ class YellowstoneSoundCrawler:
                 logger.warning("[%s] Missing href, skipping", animal_name)
                 continue
 
-            # Deduplicate by URL — the NPS site lists the same page twice
-            # under different titles (e.g. "American Coots" and
-            # "Bird - American Coots").
             if full_url in self._processed_urls:
-                logger.info("[%s] URL already processed (%s), skipping", animal_name, full_url)
+                logger.info(
+                    "[%s] URL already processed (%s), skipping",
+                    animal_name,
+                    full_url,
+                )
                 skip_count += 1
                 continue
             self._processed_urls.add(full_url)
 
-            # Also skip if a local folder already has content for this name.
             if os.path.isdir(animal_name) and os.listdir(animal_name):
-                logger.info("[%s] Folder already exists and is not empty, skipping", animal_name)
+                logger.info(
+                    "[%s] Folder already exists and is not empty, skipping",
+                    animal_name,
+                )
                 skip_count += 1
                 continue
 
             logger.info("Processing [%s]", animal_name)
-            if self.process_sound_page(full_url, animal_name):
+            if self.process_sound_page(full_url, animal_name, dry_run=dry_run):
                 success_count += 1
             else:
                 fail_count += 1
@@ -421,6 +439,11 @@ def parse_arguments() -> argparse.Namespace:
         action="store_true",
         help="Enable debug logging",
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview what would be downloaded without writing any files",
+    )
     return parser.parse_args()
 
 
@@ -435,9 +458,9 @@ def main() -> None:
         max_retries=args.retries,
     )
 
-    crawler.crawl_sound_library()
+    crawler.crawl_sound_library(dry_run=args.dry_run)
 
-    if not args.skip_duplicates:
+    if not args.skip_duplicates and not args.dry_run:
         remove_duplicated_files()
 
     logger.info("All done!")

@@ -36,6 +36,11 @@
 - Added `Makefile`, `pyproject.toml`, `.pre-commit-config.yaml`, and `.github/dependabot.yml`.
 - Added `requirements-dev.txt` for reproducible development dependencies.
 
+### Usability
+- Added `--dry-run` CLI flag to preview downloads without writing files.
+- Auto-disable tqdm progress bars in non-TTY / CI environments.
+- Added executable permission to `spider.py`.
+
 ### Documentation
 - **Rewrote README** with clearer copyright notices, compliance statement, and CI badges.
 - Added explicit **robots.txt compliance** and **public domain attribution** guidance.
