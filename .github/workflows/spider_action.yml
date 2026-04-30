@@ -65,6 +65,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: logs
-        path: change_log.txt
+        name: spider-logs
+        path: |
+          CHANGELOG.md
         retention-days: 14

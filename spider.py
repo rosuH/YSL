@@ -79,20 +79,28 @@ class YellowstoneSoundCrawler:
     def _resolve_target_dir(self, animal_name: str) -> str:
         """Pick a local directory name for *animal_name*.
 
-        If a directory already exists — either the exact name or the
-        short/core variant — we reuse it.  Otherwise we prefer the short
-        (prefix-free) name for new downloads.
+        If a directory already exists — either the exact name, the
+        short/core variant, or a known suffix variant — we reuse it.
+        Otherwise we prefer the short (prefix-free) name for new downloads.
         """
         exact = animal_name.strip()
         core = self._core_name(exact)
 
-        # Exact match exists and has content → use it.
-        if os.path.isdir(exact) and os.listdir(exact):
-            return exact
+        candidates = [exact, core]
 
-        # Core (short) match exists and has content → use it.
-        if os.path.isdir(core) and os.listdir(core):
-            return core
+        # Known suffix variations (e.g. "Old Faithful" vs "Old Faithful Geyser")
+        for suffix in (" Geyser",):
+            candidates.append(core + suffix)
+
+        # Also scan existing directories for any whose core name matches.
+        for d in os.listdir("."):
+            if os.path.isdir(d) and os.listdir(d) and not d.startswith("."):
+                if self._core_name(d).lower() == core.lower():
+                    candidates.append(d)
+
+        for cand in candidates:
+            if os.path.isdir(cand) and os.listdir(cand):
+                return cand
 
         # Nothing exists yet → prefer short name for new folders.
         return core
