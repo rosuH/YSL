@@ -4,4 +4,4 @@ mypy==1.13.0
 pytest==9.0.3
 pre-commit==4.0.1
 types-requests==2.32.0
-types-tqdm==4.66.0
+types-tqdm==4.67.3.20260408
