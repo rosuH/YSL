@@ -218,6 +218,10 @@ env/
 venv/
 ENV/
 env.bak/
+
+# Local agent workspaces
+.worktrees/
+.superpowers/
 venv.bak/
 
 # Spyder project settings
