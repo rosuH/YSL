@@ -1,0 +1,79 @@
+[
+  {
+    "id": "dawn-chorus",
+    "title": "Dawn Chorus",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Morning soundscape",
+    "audioPath": "Dawn Chorus/Sound Library - Dawn Chorus.mp3",
+    "imagePath": "Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert.jpg",
+    "description": "The route opens with layered birdsong as the park wakes up.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "mountain-bluebird",
+    "title": "Mountain Bluebird",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Open meadow",
+    "audioPath": "Mountain Bluebird/Sound Library - Mountain Bluebird.mp3",
+    "imagePath": "Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert.jpg",
+    "description": "A bright morning wildlife stop before the route reaches the thermal basins.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "old-faithful",
+    "title": "Old Faithful",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Old Faithful Geyser/Sound Library - Old Faithful.mp3",
+    "imagePath": "Old Faithful Geyser/Sound Library - Old Faithful_NPS_Neal Herbert.jpg",
+    "description": "The route moves into Yellowstone's iconic geothermal soundscape.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "black-growler-steam-vent",
+    "title": "Black Growler Steam Vent",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Norris Geyser Basin",
+    "audioPath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent.mp3",
+    "imagePath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent_NPS_Neal Herbert_2014-01-31.jpg",
+    "description": "Steam and pressure add a harsher texture to the afternoon route.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "singing-lake",
+    "title": "Singing Lake",
+    "timeOfDay": "Late Afternoon",
+    "theme": "Water",
+    "zoneLabel": "Yellowstone Lake",
+    "audioPath": "Yellowstone Lake (singing)/Sound Library - Singing Lake.mp3",
+    "imagePath": "Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_.jpg",
+    "description": "The route opens out from thermal noise into lake atmosphere.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "elk",
+    "title": "Elk",
+    "timeOfDay": "Dusk",
+    "theme": "Wildlife",
+    "zoneLabel": "Evening meadow",
+    "audioPath": "Elk/Sound Library - Elk.mp3",
+    "imagePath": "Elk/Sound Library - Elk_NPS _ Neal Herbert_2016-09-13.jpg",
+    "description": "A dusk wildlife encounter shifts the route toward evening.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "wolves",
+    "title": "Wolves",
+    "timeOfDay": "Night",
+    "theme": "Wildlife",
+    "zoneLabel": "Night soundscape",
+    "audioPath": "Wolves/Sound Library - Wolves.mp3",
+    "imagePath": "Wolves/Sound Library - Wolves_NPS _ Jacob Frank_2016-01-11.jpg",
+    "description": "The journey closes with distant night wildlife.",
+    "credit": "Audio and image courtesy of National Park Service."
+  }
+]
