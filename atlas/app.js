@@ -99,6 +99,7 @@ function renderCurrentStop() {
   elements.meta.textContent = stop.zoneLabel;
   elements.credit.textContent = stop.credit;
 
+  elements.audio.disabled = false;
   elements.audio.src = encodeURI(`../${stop.audioPath}`);
   elements.audio.load();
   elements.audio.removeAttribute("aria-disabled");
@@ -125,6 +126,33 @@ function validateRoute(stops) {
   if (!Array.isArray(stops) || stops.length === 0) {
     throw new Error("Route data is empty.");
   }
+
+  const requiredStringFields = [
+    "id",
+    "title",
+    "timeOfDay",
+    "theme",
+    "zoneLabel",
+    "audioPath",
+    "description",
+    "credit",
+  ];
+
+  stops.forEach((stop, index) => {
+    if (!stop || typeof stop !== "object" || Array.isArray(stop)) {
+      throw new Error(`Route stop ${index + 1} is malformed.`);
+    }
+
+    requiredStringFields.forEach((field) => {
+      if (typeof stop[field] !== "string" || stop[field].trim() === "") {
+        throw new Error(`Route stop ${index + 1} is missing ${field}.`);
+      }
+    });
+
+    if ("imagePath" in stop && typeof stop.imagePath !== "string") {
+      throw new Error(`Route stop ${index + 1} has an invalid imagePath.`);
+    }
+  });
 }
 
 async function loadRoute() {
@@ -160,6 +188,8 @@ elements.next.addEventListener("click", () => {
 });
 
 elements.audio.addEventListener("error", () => {
+  elements.audio.disabled = true;
+  elements.audio.setAttribute("aria-disabled", "true");
   setStatus("Audio unavailable for this stop.", true);
 });
 
