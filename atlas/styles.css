@@ -6,7 +6,7 @@
   --panel: #fffaf0;
   --line: #c6b99d;
   --forest: #2f5d46;
-  --thermal: #b96f3d;
+  --thermal: #8f4f24;
   --lake: #416f7d;
   --night: #28334d;
   --shadow: 0 18px 50px rgba(36, 31, 22, 0.14);
@@ -142,9 +142,9 @@ p {
 
 .map-node {
   position: absolute;
-  left: calc(12% + (var(--node-index) * 11%));
-  top: calc(78% - (var(--node-index) * 9%));
-  max-width: 130px;
+  left: clamp(8px, calc(12% + (var(--node-index) * 11%)), calc(100% - 138px));
+  top: clamp(8px, calc(78% - (var(--node-index) * 9%)), calc(100% - 72px));
+  width: 130px;
   min-height: 44px;
   padding: 8px 10px;
   border: 1px solid rgba(23, 33, 29, 0.18);
@@ -152,6 +152,10 @@ p {
   background: rgba(255, 250, 240, 0.92);
   color: var(--ink);
   box-shadow: 0 8px 20px rgba(23, 33, 29, 0.12);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  text-align: center;
+  white-space: normal;
 }
 
 .map-node.is-active,
@@ -284,7 +288,9 @@ audio {
   }
 
   .map-node {
-    max-width: 112px;
+    left: clamp(8px, calc(12% + (var(--node-index) * 11%)), calc(100% - 120px));
+    top: clamp(8px, calc(78% - (var(--node-index) * 9%)), calc(100% - 76px));
+    width: 112px;
     font-size: 0.82rem;
   }
 
