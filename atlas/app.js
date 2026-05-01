@@ -74,11 +74,18 @@ function renderRouteList() {
   state.stops.forEach((stop, index) => {
     const card = createButton("stop-card", "", () => selectStop(index));
     card.dataset.stopId = stop.id;
-    card.innerHTML = `
-      <span class="stop-card-time">${stop.timeOfDay}</span>
-      <strong>${stop.title}</strong>
-      <span>${stop.theme} · ${stop.zoneLabel}</span>
-    `;
+
+    const time = document.createElement("span");
+    time.className = "stop-card-time";
+    time.textContent = stop.timeOfDay;
+
+    const title = document.createElement("strong");
+    title.textContent = stop.title;
+
+    const details = document.createElement("span");
+    details.textContent = `${stop.theme} · ${stop.zoneLabel}`;
+
+    card.append(time, title, details);
     elements.routeList.append(card);
   });
 }
