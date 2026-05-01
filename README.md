@@ -14,6 +14,21 @@ You can use this audio as BGM for your work 👩‍💻, study 📖 or meditatio
 Since GitHub has a size limit on uploaded files, the full archive is also available on the [Web Archive](https://archive.org/details/YSL.7z).
 Or you can just clone this repository.
 
+## Sound Atlas
+
+The repository includes a static guided listening route:
+
+- `atlas/index.html` — Yellowstone Sound Atlas: Dawn to Night
+- `atlas/dawn-to-night.json` — curated route metadata
+
+To preview it locally, run a static server from the repository root:
+
+```bash
+python -m http.server 8000
+```
+
+Then open <http://localhost:8000/atlas/>.
+
 ## Inspiration
 
 [tonyq0802's tweet](https://twitter.com/tonyq0802/status/1084364955506290688)
@@ -51,6 +66,21 @@ This repository collects public sound libraries from [Yellowstone National Park]
 
 因为 GitHub 对上传的文件有大小限制，完整的归档也上传到了 [Web Archive](https://archive.org/details/YSL.7z)。
 当然，您也可以直接 clone 本项目。
+
+## 声音图谱
+
+本仓库包含一个静态引导式聆听路线：
+
+- `atlas/index.html` — Yellowstone Sound Atlas: Dawn to Night
+- `atlas/dawn-to-night.json` — 路线元数据
+
+本地预览时，请在仓库根目录启动静态服务器：
+
+```bash
+python -m http.server 8000
+```
+
+然后打开 <http://localhost:8000/atlas/>。
 
 ## 启发
 
