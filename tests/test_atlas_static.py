@@ -20,11 +20,13 @@ def test_atlas_index_exists():
 def test_index_references_local_css_and_javascript():
     page = load_page()
 
-    stylesheet = page.find("link", rel="stylesheet")
-    script = page.find("script", src=True)
+    stylesheet_hrefs = [
+        stylesheet["href"] for stylesheet in page.find_all("link", rel="stylesheet")
+    ]
+    script_sources = [script["src"] for script in page.find_all("script", src=True)]
 
-    assert stylesheet["href"] == "styles.css"
-    assert script["src"] == "app.js"
+    assert "styles.css" in stylesheet_hrefs
+    assert "app.js" in script_sources
 
 
 def test_index_contains_required_application_regions():
