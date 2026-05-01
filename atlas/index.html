@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yellowstone Sound Atlas: Dawn to Night</title>
+    <meta
+      name="description"
+      content="A guided Yellowstone sound route from dawn birdsong to night wildlife."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="atlas-shell">
+      <section class="hero" aria-labelledby="atlas-title">
+        <p class="eyebrow">Yellowstone Sound Atlas</p>
+        <h1 id="atlas-title">Dawn to Night</h1>
+        <p class="hero-copy">
+          Follow a guided listening route through Yellowstone's public-domain
+          sound library, from morning birdsong to night wildlife.
+        </p>
+      </section>
+
+      <section class="atlas-grid" aria-label="Dawn to Night route">
+        <div class="map-panel">
+          <div class="map-header">
+            <h2>Route Map</h2>
+            <p id="status-message" role="status">Loading route...</p>
+          </div>
+          <div id="route-map" class="route-map" aria-label="Selectable route stops"></div>
+        </div>
+
+        <article id="current-stop" class="current-stop" aria-live="polite">
+          <div class="image-frame" id="current-image-frame">
+            <span id="current-image-fallback">Yellowstone</span>
+          </div>
+          <div class="stop-copy">
+            <p class="stop-chapter" id="current-chapter">Dawn</p>
+            <h2 id="current-title">Loading...</h2>
+            <p id="current-description"></p>
+            <p class="stop-meta" id="current-meta"></p>
+            <p class="credit" id="current-credit"></p>
+          </div>
+
+          <div class="player-controls" aria-label="Audio controls">
+            <button id="previous-stop" type="button" aria-label="Previous stop">Previous</button>
+            <audio id="audio-player" controls preload="metadata"></audio>
+            <button id="next-stop" type="button" aria-label="Next stop">Next</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="route-list-section" aria-labelledby="route-list-heading">
+        <h2 id="route-list-heading">Stops</h2>
+        <div id="route-list" class="route-list"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
