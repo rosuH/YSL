@@ -377,22 +377,17 @@ def remove_duplicated_files() -> None:
                 if dup < orig:
                     to_delete = orig
                     files_map[file_md5] = dup
-                    logger.info(
-                        "Keeping %s (%d files) over %s (%d files)",
-                        dup,
-                        dup_support,
-                        orig,
-                        orig_support,
-                    )
+                    keep, keep_support = dup, dup_support
                 else:
                     to_delete = dup
-                    logger.info(
-                        "Keeping %s (%d files) over %s (%d files)",
-                        orig,
-                        orig_support,
-                        dup,
-                        dup_support,
-                    )
+                    keep, keep_support = orig, orig_support
+                logger.info(
+                    "Keeping %s (%d files) over %s (%d files)",
+                    keep,
+                    keep_support,
+                    to_delete,
+                    dup_support if keep == orig else orig_support,
+                )
 
             try:
                 if os.path.exists(to_delete):

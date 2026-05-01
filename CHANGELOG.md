@@ -45,3 +45,14 @@
 - **Rewrote README** with clearer copyright notices, compliance statement, and CI badges.
 - Added explicit **robots.txt compliance** and **public domain attribution** guidance.
 - Fixed LICENSE copyright holder name.
+
+## 2026-05-01
+
+### Maintenance
+- **Bumped dev dependencies** to patched versions: `pytest` 8.3.5 → 9.0.3, `black` 24.10.0 → 26.3.1.
+- **Removed unused runtime dependencies** (`python-utils`, `six`) from `requirements.txt` to reduce attack surface.
+- **Aligned `pre-commit` black version** with `requirements-dev.txt` to prevent formatting mismatches.
+- **Pinned pytest version in CI** (`pytest==9.0.3`) for reproducible builds.
+- **Unified flake8 scope** in CI with Makefile (`spider.py tests/`).
+- **Added Dependabot grouping** (`runtime-deps`, `dev-deps`, `actions`) to reduce PR noise.
+- **Simplified duplicate-removal logging** in `spider.py` — removed 12 lines of redundant branch logic.

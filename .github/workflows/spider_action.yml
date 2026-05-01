@@ -41,11 +41,11 @@ jobs:
       - name: Lint with flake8
         run: |
           pip install "flake8==7.3.0"
-          flake8 . --count --show-source --statistics
+          flake8 spider.py tests/ --count --show-source --statistics
 
       - name: Run tests
         run: |
-          pip install pytest
+          pip install "pytest==9.0.3"
           pytest -v
 
       - name: Run Spider 🤖
