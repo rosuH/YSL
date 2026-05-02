@@ -67,3 +67,7 @@ def test_strata_deck_and_specimen_fragment_are_labelled():
     assert strata_deck.get("aria-label") == "Dawn to Night strata deck"
     assert specimen_fragment
     assert specimen_fragment.get("aria-labelledby") == "specimen-heading"
+
+    specimen_heading = page.find(id=specimen_fragment["aria-labelledby"])
+    assert specimen_heading
+    assert specimen_heading.get_text(strip=True)
