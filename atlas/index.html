@@ -6,54 +6,94 @@
     <title>Yellowstone Sound Atlas: Dawn to Night</title>
     <meta
       name="description"
-      content="A guided Yellowstone sound route from dawn birdsong to night wildlife."
+      content="A radical Yellowstone listening terrain from dawn birdsong to night wildlife."
     >
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="atlas-shell">
-      <section class="hero" aria-labelledby="atlas-title">
-        <p class="eyebrow">Yellowstone Sound Atlas</p>
-        <h1 id="atlas-title">Dawn to Night</h1>
-        <p class="hero-copy">
-          Follow a guided listening route through Yellowstone's public-domain
-          sound library, from morning birdsong to night wildlife.
-        </p>
-      </section>
+    <a class="skip-link" href="#rupture-hero">Skip to listening terrain</a>
 
-      <section class="atlas-grid" aria-label="Dawn to Night route">
-        <div class="map-panel">
-          <div class="map-header">
-            <h2>Route Map</h2>
-            <p id="status-message" role="status">Loading route...</p>
-          </div>
-          <div id="route-map" class="route-map" aria-label="Selectable route stops"></div>
+    <main class="geomorphic-atlas" aria-labelledby="atlas-title">
+      <aside id="rupture-nav" class="rupture-nav" aria-label="Route chapters">
+        <div class="nav-sigil" aria-hidden="true"></div>
+        <div class="nav-chapters" id="nav-chapters"></div>
+        <div class="nav-location">Yellowstone acoustic terrain</div>
+      </aside>
+
+      <section id="rupture-hero" class="rupture-hero">
+        <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-topline">
+          <p class="site-label">not a map, a listening fault line</p>
+          <p class="coordinate-block" id="hero-meta">Loading route...</p>
         </div>
 
-        <article id="current-stop" class="current-stop" aria-live="polite">
-          <div class="image-frame" id="current-image-frame">
-            <span id="current-image-fallback">Yellowstone</span>
-          </div>
-          <div class="stop-copy">
-            <p class="stop-chapter" id="current-chapter">Dawn</p>
-            <h2 id="current-title">Loading...</h2>
-            <p id="current-description"></p>
-            <p class="stop-meta" id="current-meta"></p>
-            <p class="credit" id="current-credit"></p>
-          </div>
+        <div class="hero-title">
+          <p class="chapter-kicker" id="current-chapter">Dawn to Night</p>
+          <h1 id="atlas-title">The day cracks open in sound.</h1>
+          <p id="current-description">
+            Yellowstone is treated as a living cross-section.
+          </p>
+        </div>
 
-          <div class="player-controls" aria-label="Audio controls">
-            <button id="previous-stop" type="button" aria-label="Previous stop">Previous</button>
+        <div class="crack-field" aria-hidden="true">
+          <svg
+            id="fault-lines"
+            class="fault-lines"
+            viewBox="0 0 1080 620"
+            role="img"
+            aria-label="Abstract acoustic fault lines"
+          >
+            <path class="fault strong" d="M48 346 C124 178 290 125 452 198 C596 263 682 69 858 124 C1008 171 1035 382 868 482 C710 577 562 464 420 532 C264 606 93 516 48 346 Z"></path>
+            <path class="fault" d="M130 352 C196 225 314 186 444 239 C560 286 650 141 802 178 C914 205 943 357 824 421 C691 492 564 398 442 463 C318 530 180 470 130 352 Z"></path>
+            <path class="fault" d="M222 354 C281 270 358 239 452 274 C548 310 633 219 733 232 C815 243 835 339 750 380 C648 429 566 358 462 410 C370 455 259 424 222 354 Z"></path>
+            <path class="fault faint" d="M31 178 C184 115 300 178 436 128 C574 77 720 89 1016 34"></path>
+            <path class="fault faint" d="M94 530 C272 438 432 548 599 472 C753 402 868 440 1038 348"></path>
+            <path class="sound-fissure" d="M15 431 C144 372 214 441 353 388 C486 338 527 233 661 263 C775 289 831 214 1062 248"></path>
+          </svg>
+          <div class="fracture-node bird">Bird</div>
+          <div class="fracture-node heat">Heat</div>
+          <div class="fracture-node lake">Lake</div>
+        </div>
+
+        <article id="listening-slab" class="listening-slab" aria-live="polite">
+          <div class="slab-meta">
+            <span>Now sounding</span>
+            <span id="current-zone">Route specimen</span>
+          </div>
+          <h2 id="current-title">Loading...</h2>
+          <p id="current-summary">Loading the first Yellowstone sound specimen.</p>
+          <div id="wave-lattice" class="wave-lattice" aria-hidden="true"></div>
+          <div class="slab-controls" aria-label="Audio controls">
+            <button id="previous-stop" class="slab-button" type="button" aria-label="Previous stop">‹</button>
             <audio id="audio-player" controls preload="metadata"></audio>
-            <button id="next-stop" type="button" aria-label="Next stop">Next</button>
+            <button id="next-stop" class="slab-button" type="button" aria-label="Next stop">›</button>
           </div>
         </article>
       </section>
 
-      <section class="route-list-section" aria-labelledby="route-list-heading">
-        <h2 id="route-list-heading">Stops</h2>
-        <div id="route-list" class="route-list"></div>
+      <section class="specimen-section">
+        <h2 id="specimen-heading">Specimen notes interrupt the terrain.</h2>
+        <article
+          id="specimen-fragment"
+          class="specimen-fragment"
+          aria-labelledby="specimen-heading"
+        >
+          <p id="current-specimen-note">
+            Source details and habitat notes will appear after the route loads.
+          </p>
+          <p class="credit" id="current-credit"></p>
+        </article>
       </section>
+
+      <section
+        id="strata-deck"
+        class="strata-deck"
+        aria-label="Dawn to Night strata deck"
+      ></section>
+
+      <footer class="source-footer">
+        <p id="source-status" role="status">Loading route...</p>
+      </footer>
     </main>
 
     <script src="app.js"></script>
