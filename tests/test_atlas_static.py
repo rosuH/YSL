@@ -29,20 +29,23 @@ def test_index_references_local_css_and_javascript():
     assert "app.js" in script_sources
 
 
-def test_index_contains_required_application_regions():
+def test_index_contains_radical_geomorphic_regions():
     page = load_page()
 
     for element_id in [
-        "route-map",
-        "route-list",
-        "current-stop",
+        "rupture-nav",
+        "rupture-hero",
+        "fault-lines",
+        "listening-slab",
         "audio-player",
-        "status-message",
+        "strata-deck",
+        "specimen-fragment",
+        "source-status",
     ]:
         assert page.find(id=element_id), element_id
 
 
-def test_index_contains_accessible_navigation_buttons():
+def test_index_contains_accessible_audio_navigation_buttons():
     page = load_page()
 
     previous_button = page.find("button", id="previous-stop")
@@ -52,3 +55,15 @@ def test_index_contains_accessible_navigation_buttons():
     assert previous_button.get("aria-label") == "Previous stop"
     assert next_button
     assert next_button.get("aria-label") == "Next stop"
+
+
+def test_strata_deck_and_specimen_fragment_are_labelled():
+    page = load_page()
+
+    strata_deck = page.find(id="strata-deck")
+    specimen_fragment = page.find(id="specimen-fragment")
+
+    assert strata_deck
+    assert strata_deck.get("aria-label") == "Dawn to Night strata deck"
+    assert specimen_fragment
+    assert specimen_fragment.get("aria-labelledby") == "specimen-heading"
