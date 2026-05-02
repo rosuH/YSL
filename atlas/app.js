@@ -1,4 +1,3 @@
-if (document.querySelector("#route-map")) {
 const ROUTE_URL = "dawn-to-night.json";
 
 const state = {
@@ -7,20 +6,33 @@ const state = {
 };
 
 const elements = {
-  routeMap: document.querySelector("#route-map"),
-  routeList: document.querySelector("#route-list"),
-  currentStop: document.querySelector("#current-stop"),
-  imageFrame: document.querySelector("#current-image-frame"),
-  imageFallback: document.querySelector("#current-image-fallback"),
+  body: document.body,
+  navChapters: document.querySelector("#nav-chapters"),
+  heroBackdrop: document.querySelector("#hero-backdrop"),
+  heroMeta: document.querySelector("#hero-meta"),
   chapter: document.querySelector("#current-chapter"),
   title: document.querySelector("#current-title"),
   description: document.querySelector("#current-description"),
-  meta: document.querySelector("#current-meta"),
+  summary: document.querySelector("#current-summary"),
+  zone: document.querySelector("#current-zone"),
   credit: document.querySelector("#current-credit"),
+  specimenNote: document.querySelector("#current-specimen-note"),
+  waveLattice: document.querySelector("#wave-lattice"),
+  strataDeck: document.querySelector("#strata-deck"),
   audio: document.querySelector("#audio-player"),
   previous: document.querySelector("#previous-stop"),
   next: document.querySelector("#next-stop"),
-  status: document.querySelector("#status-message"),
+  status: document.querySelector("#source-status"),
+};
+
+const chapterTone = {
+  Dawn: "moss",
+  Morning: "moss",
+  Midday: "clay",
+  Afternoon: "clay",
+  "Late Afternoon": "lake",
+  Dusk: "dusk",
+  Night: "night",
 };
 
 function setStatus(message, isError = false) {
@@ -53,51 +65,71 @@ function selectStop(index) {
   renderActiveState();
 }
 
-function renderMap() {
-  clearChildren(elements.routeMap);
-
-  const path = document.createElement("div");
-  path.className = "route-path";
-  elements.routeMap.append(path);
+function renderNavChapters() {
+  clearChildren(elements.navChapters);
 
   state.stops.forEach((stop, index) => {
-    const node = createButton("map-node", `${index + 1}. ${stop.timeOfDay}`, () => selectStop(index));
-    node.dataset.stopId = stop.id;
-    node.style.setProperty("--node-index", index);
-    node.setAttribute("aria-label", `Select ${stop.title}`);
-    elements.routeMap.append(node);
+    const chapter = createButton("nav-chapter", stop.timeOfDay, () => selectStop(index));
+    chapter.dataset.stopId = stop.id;
+    chapter.setAttribute("aria-label", `Select ${stop.title}`);
+    elements.navChapters.append(chapter);
   });
 }
 
-function renderRouteList() {
-  clearChildren(elements.routeList);
+function getStrataRise(index) {
+  const rises = [102, 128, 184, 204, 146, 172, 112, 136];
+  return rises[index % rises.length];
+}
+
+function renderStrataDeck() {
+  clearChildren(elements.strataDeck);
 
   state.stops.forEach((stop, index) => {
-    const card = createButton("stop-card", "", () => selectStop(index));
-    card.dataset.stopId = stop.id;
+    const piece = createButton("strata-piece", "", () => selectStop(index));
+    piece.dataset.stopId = stop.id;
+    piece.style.setProperty("--rise", `${getStrataRise(index)}px`);
+    piece.dataset.tone = chapterTone[stop.timeOfDay] || "moss";
+    piece.setAttribute("aria-label", `Select ${stop.title}`);
 
-    const time = document.createElement("span");
-    time.className = "stop-card-time";
+    const time = document.createElement("small");
     time.textContent = stop.timeOfDay;
 
     const title = document.createElement("strong");
     title.textContent = stop.title;
 
-    const details = document.createElement("span");
-    details.textContent = `${stop.theme} · ${stop.zoneLabel}`;
+    const theme = document.createElement("span");
+    theme.textContent = stop.theme;
 
-    card.append(time, title, details);
-    elements.routeList.append(card);
+    piece.append(time, title, theme);
+    elements.strataDeck.append(piece);
   });
+}
+
+function renderWaveLattice(stop) {
+  clearChildren(elements.waveLattice);
+
+  const seed = stop.id.length + state.selectedIndex;
+  for (let index = 0; index < 18; index += 1) {
+    const trace = document.createElement("span");
+    const height = 28 + ((seed * (index + 3)) % 66);
+    trace.style.setProperty("--trace-height", `${height}%`);
+    trace.style.setProperty("--trace-delay", `${index * 38}ms`);
+    elements.waveLattice.append(trace);
+  }
 }
 
 function renderCurrentStop() {
   const stop = state.stops[state.selectedIndex];
+  const chapterClass = (chapterTone[stop.timeOfDay] || "moss").toLowerCase();
 
+  elements.body.dataset.chapter = chapterClass;
+  elements.heroMeta.textContent = `${state.selectedIndex + 1}/${state.stops.length} · ${stop.theme} · ${stop.zoneLabel}`;
   elements.chapter.textContent = `${stop.timeOfDay} · ${stop.theme}`;
   elements.title.textContent = stop.title;
   elements.description.textContent = stop.description;
-  elements.meta.textContent = stop.zoneLabel;
+  elements.summary.textContent = stop.description;
+  elements.zone.textContent = stop.zoneLabel;
+  elements.specimenNote.textContent = `${stop.zoneLabel}. ${stop.description}`;
   elements.credit.textContent = stop.credit;
 
   elements.audio.disabled = false;
@@ -106,20 +138,23 @@ function renderCurrentStop() {
   elements.audio.removeAttribute("aria-disabled");
 
   if (stop.imagePath) {
-    elements.imageFrame.style.backgroundImage = `linear-gradient(rgba(12, 22, 18, 0.12), rgba(12, 22, 18, 0.35)), url("${encodeURI(`../${stop.imagePath}`)}")`;
-    elements.imageFallback.textContent = "";
+    elements.heroBackdrop.style.backgroundImage = `linear-gradient(105deg, rgba(22, 18, 13, 0.82), rgba(22, 18, 13, 0.34) 46%, transparent), url("${encodeURI(`../${stop.imagePath}`)}")`;
+    elements.heroBackdrop.dataset.fallback = "false";
   } else {
-    elements.imageFrame.style.backgroundImage = "";
-    elements.imageFallback.textContent = stop.title;
+    elements.heroBackdrop.style.backgroundImage = "";
+    elements.heroBackdrop.dataset.fallback = "true";
   }
+
+  renderWaveLattice(stop);
 
   elements.previous.disabled = state.selectedIndex === 0;
   elements.next.disabled = state.selectedIndex === state.stops.length - 1;
 }
 
 function renderActiveState() {
+  const activeStop = state.stops[state.selectedIndex];
   document.querySelectorAll("[data-stop-id]").forEach((node) => {
-    node.classList.toggle("is-active", node.dataset.stopId === state.stops[state.selectedIndex].id);
+    node.classList.toggle("is-active", node.dataset.stopId === activeStop.id);
   });
 }
 
@@ -167,14 +202,14 @@ async function loadRoute() {
     validateRoute(stops);
     state.stops = stops;
 
-    renderMap();
-    renderRouteList();
+    renderNavChapters();
+    renderStrataDeck();
     selectStop(0);
-    setStatus(`${stops.length} stops loaded`);
+    setStatus(`${stops.length} sound specimens loaded`);
   } catch (error) {
     setStatus("Unable to load the Dawn to Night route.", true);
-    elements.currentStop.classList.add("has-error");
     elements.description.textContent = error.message;
+    elements.summary.textContent = error.message;
     elements.audio.removeAttribute("src");
     elements.audio.setAttribute("aria-disabled", "true");
   }
@@ -195,4 +230,3 @@ elements.audio.addEventListener("error", () => {
 });
 
 loadRoute();
-}
