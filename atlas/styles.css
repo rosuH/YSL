@@ -132,7 +132,7 @@ p {
 
 .geomorphic-atlas {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   padding-left: var(--rail-width);
   padding-bottom: var(--deck-height);
   overflow-x: clip;
