@@ -1,3 +1,4 @@
+if (document.querySelector("#route-map")) {
 const ROUTE_URL = "dawn-to-night.json";
 
 const state = {
@@ -194,3 +195,4 @@ elements.audio.addEventListener("error", () => {
 });
 
 loadRoute();
+}

@@ -20,7 +20,7 @@
         <div class="nav-location">Yellowstone acoustic terrain</div>
       </aside>
 
-      <section id="rupture-hero" class="rupture-hero">
+      <section id="rupture-hero" class="rupture-hero" tabindex="-1">
         <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
         <div class="hero-topline">
           <p class="site-label">not a map, a listening fault line</p>
@@ -40,8 +40,6 @@
             id="fault-lines"
             class="fault-lines"
             viewBox="0 0 1080 620"
-            role="img"
-            aria-label="Abstract acoustic fault lines"
           >
             <path class="fault strong" d="M48 346 C124 178 290 125 452 198 C596 263 682 69 858 124 C1008 171 1035 382 868 482 C710 577 562 464 420 532 C264 606 93 516 48 346 Z"></path>
             <path class="fault" d="M130 352 C196 225 314 186 444 239 C560 286 650 141 802 178 C914 205 943 357 824 421 C691 492 564 398 442 463 C318 530 180 470 130 352 Z"></path>
@@ -63,7 +61,7 @@
           <h2 id="current-title">Loading...</h2>
           <p id="current-summary">Loading the first Yellowstone sound specimen.</p>
           <div id="wave-lattice" class="wave-lattice" aria-hidden="true"></div>
-          <div class="slab-controls" aria-label="Audio controls">
+          <div class="slab-controls" role="group" aria-label="Audio controls">
             <button id="previous-stop" class="slab-button" type="button" aria-label="Previous stop">‹</button>
             <audio id="audio-player" controls preload="metadata"></audio>
             <button id="next-stop" class="slab-button" type="button" aria-label="Next stop">›</button>
