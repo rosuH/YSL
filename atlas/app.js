@@ -5,24 +5,32 @@ const state = {
   selectedIndex: 0,
 };
 
+function getRequiredElement(selector) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    throw new Error(`Missing required atlas element: ${selector}`);
+  }
+  return element;
+}
+
 const elements = {
-  body: document.body,
-  navChapters: document.querySelector("#nav-chapters"),
-  heroBackdrop: document.querySelector("#hero-backdrop"),
-  heroMeta: document.querySelector("#hero-meta"),
-  chapter: document.querySelector("#current-chapter"),
-  title: document.querySelector("#current-title"),
-  description: document.querySelector("#current-description"),
-  summary: document.querySelector("#current-summary"),
-  zone: document.querySelector("#current-zone"),
-  credit: document.querySelector("#current-credit"),
-  specimenNote: document.querySelector("#current-specimen-note"),
-  waveLattice: document.querySelector("#wave-lattice"),
-  strataDeck: document.querySelector("#strata-deck"),
-  audio: document.querySelector("#audio-player"),
-  previous: document.querySelector("#previous-stop"),
-  next: document.querySelector("#next-stop"),
-  status: document.querySelector("#source-status"),
+  body: getRequiredElement("body"),
+  navChapters: getRequiredElement("#nav-chapters"),
+  heroBackdrop: getRequiredElement("#hero-backdrop"),
+  heroMeta: getRequiredElement("#hero-meta"),
+  chapter: getRequiredElement("#current-chapter"),
+  title: getRequiredElement("#current-title"),
+  description: getRequiredElement("#current-description"),
+  summary: getRequiredElement("#current-summary"),
+  zone: getRequiredElement("#current-zone"),
+  credit: getRequiredElement("#current-credit"),
+  specimenNote: getRequiredElement("#current-specimen-note"),
+  waveLattice: getRequiredElement("#wave-lattice"),
+  strataDeck: getRequiredElement("#strata-deck"),
+  audio: getRequiredElement("#audio-player"),
+  previous: getRequiredElement("#previous-stop"),
+  next: getRequiredElement("#next-stop"),
+  status: getRequiredElement("#source-status"),
 };
 
 const chapterTone = {
@@ -131,6 +139,7 @@ function renderCurrentStop() {
   elements.zone.textContent = stop.zoneLabel;
   elements.specimenNote.textContent = `${stop.zoneLabel}. ${stop.description}`;
   elements.credit.textContent = stop.credit;
+  setStatus(`${state.stops.length} sound specimens loaded`);
 
   elements.audio.disabled = false;
   elements.audio.src = encodeURI(`../${stop.audioPath}`);
@@ -151,11 +160,22 @@ function renderCurrentStop() {
   elements.next.disabled = state.selectedIndex === state.stops.length - 1;
 }
 
+function updateActiveNodes(container, activeStop) {
+  container.querySelectorAll("[data-stop-id]").forEach((node) => {
+    const isActive = node.dataset.stopId === activeStop.id;
+    node.classList.toggle("is-active", isActive);
+    if (isActive) {
+      node.setAttribute("aria-current", "true");
+    } else {
+      node.removeAttribute("aria-current");
+    }
+  });
+}
+
 function renderActiveState() {
   const activeStop = state.stops[state.selectedIndex];
-  document.querySelectorAll("[data-stop-id]").forEach((node) => {
-    node.classList.toggle("is-active", node.dataset.stopId === activeStop.id);
-  });
+  updateActiveNodes(elements.navChapters, activeStop);
+  updateActiveNodes(elements.strataDeck, activeStop);
 }
 
 function validateRoute(stops) {
@@ -227,6 +247,8 @@ elements.audio.addEventListener("error", () => {
   elements.audio.disabled = true;
   elements.audio.setAttribute("aria-disabled", "true");
   setStatus("Audio unavailable for this stop.", true);
+  elements.audio.removeAttribute("src");
+  elements.audio.load();
 });
 
 loadRoute();
