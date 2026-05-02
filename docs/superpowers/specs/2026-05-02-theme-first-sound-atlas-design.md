@@ -10,17 +10,18 @@ The new direction intentionally rejects the previous layout and the earlier exte
 
 Yellowstone is the interface.
 
-The page should feel like listening across a living landscape, not browsing a route database. The core structure is an A+C hybrid:
+The page should feel like listening across a living landscape, not browsing a route database. The core structure is an A+C hybrid pushed into a radical geomorphic component language:
 
-- **Topographic drift** provides the first-screen and primary interaction surface.
-- **Animal hours** provides the route structure and chapter model.
+- **Geomorphic rupture** provides the first-screen and primary interaction surface.
+- **Strata deck** provides the route structure and chapter model.
+- **Specimen fragments** provide detail, credit, and source surfaces.
 - **Technology flavor** appears only as a quiet enhancement, never as a dashboard, futuristic shell, or generic AI aesthetic.
 
 ## Goals
 
 - Fully replace the current `map panel + stop panel + cards` layout.
-- Build a theme-born design system rooted in Yellowstone materials and sound behavior.
-- Make the route feel like a habitat clock across dawn, morning, midday, afternoon, late afternoon, dusk, and night.
+- Build a theme-born design system rooted in Yellowstone materials, sound behavior, geological cuts, and habitat time.
+- Make the route feel like a habitat-time strata deck across dawn, morning, midday, afternoon, late afternoon, dusk, and night.
 - Keep audio central while preserving the native audio element for accessibility and reliability.
 - Preserve the existing route JSON contract and media assets where practical.
 - Keep the first implementation vanilla HTML/CSS/JavaScript.
@@ -65,43 +66,63 @@ Use a readable system stack with a serif display face fallback for large editori
 
 ### Surfaces
 
-Avoid generic cards as the core language. Use surfaces that feel like landscape layers:
+Avoid generic cards, rectangular panels, and ordinary route lists as the core language. Use surfaces that feel like landscape layers, ruptures, and field specimens:
 
-- Full-bleed terrain hero.
-- Field-note panels for detail and credits.
-- Habitat-hour tokens for route chapters.
-- Embedded listening station for the audio player.
-- Thin contour and signal lines instead of heavy borders.
+- Full-bleed rupture hero.
+- Fault-line SVG paths for the primary terrain graphic.
+- Acoustic fissure line as the active selected-stop trace.
+- Listening slab for the audio player.
+- Specimen fragment for detail and credits.
+- Strata deck pieces for route chapters.
+- Fracture, cut, and strata edges instead of generic rectangles.
+
+### Component Geometry
+
+The confirmed visual direction uses a single radical component grammar:
+
+- **Rupture nav:** a narrow vertical navigation rail with chapter labels and a geomorphic sigil.
+- **Fault lines:** irregular SVG paths that cross the hero like a geological section.
+- **Acoustic fissure:** a stronger signal path that marks the active selected route state.
+- **Listening slab:** a clipped, asymmetric audio surface containing title, context, waveform-like trace, native audio slot, previous, and next.
+- **Specimen fragment:** a torn/cut field-note surface for description, source, and validation/status copy.
+- **Strata deck:** bottom chapter navigation where each stop is a geological layer piece, with variable mass/height and active fracture trace.
+
+Every major component should share this fracture grammar. The UI should not mix this language with conventional cards, pills, or centered SaaS panels.
 
 ## Information Architecture
 
-The page becomes four major regions:
+The page becomes five major regions:
 
-1. **Terrain Hero**
+1. **Rupture Navigation**
+   - Vertical rail on desktop.
+   - Contains atlas mark, time chapter labels, and short location/system label.
+   - Collapses into a compact top treatment on mobile.
+
+2. **Rupture Hero**
    - Full-width first viewport.
    - Background uses selected stop imagery when available.
-   - Overlaid topographic contour system represents the route and selected stop.
+   - Overlaid fault-line system represents the route and selected stop.
    - Main copy introduces the current chapter and selected sound.
-   - The player is embedded as a listening station, not separated into a generic control block.
+   - The player is embedded as a listening slab, not separated into a generic control block.
 
-2. **Habitat Clock**
+3. **Strata Deck**
    - Replaces the old route-card list.
-   - Displays the seven stops as time-based habitat hours.
-   - Each chapter is a selectable token with time, sound title, theme, and short note.
+   - Displays the seven stops as time-based geological/habitat pieces.
+   - Each chapter is a selectable stratum with time, sound title, theme, and active trace.
    - The active chapter updates hero image, title, metadata, player source, source note, and terrain state.
 
-3. **Field Notes**
+4. **Specimen Fragment**
    - Replaces the old current-stop detail panel.
    - Shows description, zone label, credit, and a small source/specimen treatment.
    - Can include a subtle technology-flavor detail such as a generated sonogram thread or signal ticks.
 
-4. **Source Footer**
+5. **Source Footer**
    - Keeps National Park Service/source credit visible.
    - Provides a stable place for fallback/error messaging if route data or media fails.
 
 ## Components
 
-### Terrain Hero
+### Rupture Hero
 
 The hero is the visual anchor. It should contain:
 
@@ -109,32 +130,34 @@ The hero is the visual anchor. It should contain:
 - Current chapter label, such as `Late afternoon · Water`.
 - Large selected-stop title.
 - One sentence of contextual copy.
-- Terrain contours rendered with CSS/SVG-like divs or pseudo-elements.
-- Active signal dot for the selected stop.
-- Listening station with previous, native audio, next, and status.
+- Fault lines rendered with inline SVG.
+- Active acoustic fissure path for the selected stop.
+- Fracture nodes for a small number of route categories or chapter anchors.
+- Listening slab with previous, native audio, next, and status.
 
-The terrain should not be a literal map. It is a sound-landscape surface.
+The terrain should not be a literal map. It is a geological listening surface.
 
-### Habitat Clock
+### Strata Deck
 
-The route list becomes a horizontal habitat clock:
+The route list becomes a horizontal strata deck:
 
 - Seven selectable time chapters.
-- Variable-height stems or organic tokens to avoid identical cards.
-- Active chapter gets a natural selected state, such as lichen fill, ripple ring, or brighter mineral surface.
+- Variable-height geological masses to avoid identical cards.
+- Active chapter gets a fracture trace and darker living-terrain state.
 - On desktop, it can run horizontally below the hero.
 - On mobile, it becomes a horizontal scroll strip beneath the player.
 
-### Listening Station
+### Listening Slab
 
-The player should feel embedded in the landscape:
+The player should feel embedded in a cut piece of terrain:
 
 - Native audio remains present.
 - Previous/next buttons are compact and clear.
 - Audio error state disables playback and shows direct copy.
-- Optional CSS-only signal trace can animate when a stop is selected, without pretending to be real waveform data.
+- CSS-only waveform lattice can animate when a stop is selected, without pretending to be real waveform data.
+- The audio control container uses the same clipped fracture shape as the rest of the component system.
 
-### Field Note Panel
+### Specimen Fragment
 
 The detail area uses a field-note metaphor:
 
@@ -143,13 +166,14 @@ The detail area uses a field-note metaphor:
 - Credit/source.
 - Optional stop image thumbnail or text fallback.
 - No modal for basic details.
+- It should not look like a standard sidebar card.
 
 ### Technology Delight
 
 Technology is a flavor, not the structural style. Use only small touches:
 
-- Hover over a habitat hour reveals a thin sonogram-like thread.
-- Selecting or playing a stop sends a soft ripple through the terrain surface.
+- Hover over a strata piece reveals a thin sonogram-like thread.
+- Selecting or playing a stop intensifies the acoustic fissure and waveform lattice.
 - Listened-to stops can receive a small mineral mark in a later phase.
 - Night chapters can slightly darken the terrain and make signal dots feel more star-like.
 
@@ -163,13 +187,13 @@ The existing route-loading model can remain:
 2. Route data is validated in JS before rendering.
 3. The first stop becomes the default selected stop.
 4. Rendering creates:
-   - terrain hero state,
-   - habitat clock tokens,
-   - listening station,
-   - field note content,
+   - rupture hero state,
+   - strata deck pieces,
+   - listening slab,
+   - specimen fragment content,
    - footer/source status.
-5. Selecting a habitat hour, contour signal, previous, or next updates `selectedIndex`.
-6. Updating `selectedIndex` refreshes the hero, active state, field notes, and the single audio source.
+5. Selecting a strata piece, fracture node, previous, or next updates `selectedIndex`.
+6. Updating `selectedIndex` refreshes the rupture hero, active state, specimen fragment, and the single audio source.
 
 ## Error Handling
 
@@ -177,34 +201,35 @@ The existing route-loading model can remain:
 - If a stop image is missing, use a theme-colored terrain fallback with the stop title.
 - If audio fails, disable playback for that stop, keep previous/next usable, and show `Audio unavailable for this stop.`
 - If route data is malformed, avoid rendering partial broken controls.
-- Focus states must remain visible on all custom buttons and selectable habitat tokens.
+- Focus states must remain visible on all custom buttons and selectable strata pieces.
 
 ## Responsive Behavior
 
 Desktop:
 
-- Full-bleed terrain hero with listening station and selected-stop copy.
-- Habitat clock below hero, horizontally arranged.
-- Field notes below or beside the lower content depending on available width.
+- Vertical rupture navigation rail.
+- Full-bleed rupture hero with listening slab and selected-stop copy.
+- Strata deck anchored below the hero, horizontally arranged.
+- Specimen fragment sits beside or below the rupture hero depending on available width.
 
 Tablet:
 
-- Hero remains dominant, but player and field notes stack.
-- Habitat clock becomes horizontally scrollable.
+- Hero remains dominant, but player and specimen fragment stack.
+- Strata deck becomes horizontally scrollable.
 
 Mobile:
 
 - Hero becomes compact but still image/terrain-led.
 - Player appears immediately after selected title.
-- Habitat clock is a touch-friendly horizontal strip.
-- Field notes follow in a single column.
+- Strata deck is a touch-friendly horizontal strip.
+- Specimen fragment follows in a single column.
 - No text or controls may overlap at 360px width.
 
 ## Implementation Scope
 
 Expected product files:
 
-- `atlas/index.html`: rewrite page structure around terrain hero, habitat clock, listening station, field notes, source footer.
+- `atlas/index.html`: rewrite page structure around rupture nav, rupture hero, listening slab, strata deck, specimen fragment, source footer.
 - `atlas/styles.css`: replace the current design system and layout with theme-first tokens and components.
 - `atlas/app.js`: rewrite render functions around the new DOM structure while preserving route loading and selected-stop state.
 - `tests/test_atlas_static.py`: update static anchors to match the new required regions.
@@ -217,16 +242,17 @@ Automated checks:
 
 - Existing route-data tests must continue to pass.
 - Static tests must verify the new required regions:
-  - terrain hero,
-  - habitat clock,
-  - listening station/audio player,
-  - field notes,
+  - rupture nav,
+  - rupture hero,
+  - listening slab/audio player,
+  - strata deck,
+  - specimen fragment,
   - source/status area.
 
 Browser acceptance:
 
 - The first stop is selected by default.
-- Previous/next and habitat-hour selection update the same selected state.
+- Previous/next and strata-piece selection update the same selected state.
 - Audio source updates correctly for every stop.
 - Credit/source text remains visible.
 - Missing image fallback preserves layout.
@@ -235,7 +261,7 @@ Browser acceptance:
 
 ## Phase 1 Decisions
 
-- Terrain contours ship as CSS/pseudo-element geometry, not inline SVG.
+- Hero fault lines ship as inline SVG paths so the fracture language is controllable and cohesive.
 - Listened-to mineral marks remain a Phase 2 enhancement.
-- Hover sonogram threads ship as static CSS decorative traces, not generated audio analysis.
+- Hover sonogram/fissure threads ship as static CSS/SVG decorative traces, not generated audio analysis.
 - The implementation will not add new route-data fields unless required by responsive layout or accessibility copy.
