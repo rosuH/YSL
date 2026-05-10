@@ -1,6 +1,7 @@
 """Validation tests for the Dawn to Night sound atlas route data."""
 
 import json
+from collections import Counter
 from pathlib import Path
 
 
@@ -16,6 +17,15 @@ REQUIRED_FIELDS = {
     "description",
     "credit",
 }
+EXPECTED_THEME_COUNTS = {
+    "Thermal": 24,
+    "Birds": 21,
+    "Wildlife": 10,
+    "Human": 2,
+    "Weather": 2,
+    "Ambient": 1,
+    "Water": 1,
+}
 
 
 def load_route():
@@ -27,10 +37,15 @@ def test_route_file_exists():
     assert ROUTE_PATH.exists()
 
 
-def test_route_has_first_version_stop_count():
+def test_route_has_all_sound_library_stops():
     route = load_route()
     assert isinstance(route, list)
-    assert 6 <= len(route) <= 8
+    assert len(route) == 61
+
+
+def test_route_theme_counts_match_theme_navigation():
+    route = load_route()
+    assert Counter(stop["theme"] for stop in route) == EXPECTED_THEME_COUNTS
 
 
 def test_route_stops_have_required_fields_and_unique_ids():

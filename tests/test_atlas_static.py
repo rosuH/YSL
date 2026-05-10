@@ -17,57 +17,77 @@ def test_atlas_index_exists():
     assert INDEX_PATH.exists()
 
 
-def test_index_references_local_css_and_javascript():
+def test_index_references_split_css_and_javascript_assets():
     page = load_page()
 
     stylesheet_hrefs = [
-        stylesheet["href"] for stylesheet in page.find_all("link", rel="stylesheet")
+        stylesheet["href"].split("?", 1)[0]
+        for stylesheet in page.find_all("link", rel="stylesheet")
     ]
-    script_sources = [script["src"] for script in page.find_all("script", src=True)]
+    script_sources = [
+        script["src"].split("?", 1)[0]
+        for script in page.find_all("script", src=True)
+    ]
 
-    assert "styles.css" in stylesheet_hrefs
-    assert "app.js" in script_sources
+    assert "css/main.css" in stylesheet_hrefs
+    assert "js/app.js" in script_sources
 
 
-def test_index_contains_radical_geomorphic_regions():
+def test_index_preserves_player_runtime_ids():
     page = load_page()
 
-    for element_id in [
-        "rupture-nav",
-        "rupture-hero",
-        "fault-lines",
-        "listening-slab",
+    required_ids = [
+        "minimize-btn",
         "audio-player",
-        "strata-deck",
-        "specimen-fragment",
-        "source-status",
-    ]:
+        "play-btn",
+        "prev-btn",
+        "next-btn",
+        "progress-track",
+        "progress-fill",
+        "progress-thumb",
+        "time-current",
+        "time-total",
+        "waveform",
+        "scene-photo",
+        "status",
+        "track-title",
+        "track-meta",
+        "track-desc",
+        "track-credit",
+        "eyebrow",
+        "specimen-strip",
+        "keyboard-hints",
+    ]
+    for element_id in required_ids:
         assert page.find(id=element_id), element_id
 
 
-def test_index_contains_accessible_audio_navigation_buttons():
+def test_index_contains_stamp_player_structure():
     page = load_page()
 
-    previous_button = page.find("button", id="previous-stop")
-    next_button = page.find("button", id="next-stop")
+    player = page.find(class_="player-card")
+    assert player
+    assert "stamp-player" in player.get("class", [])
 
-    assert previous_button
-    assert previous_button.get("aria-label") == "Previous stop"
-    assert next_button
-    assert next_button.get("aria-label") == "Next stop"
+    expanded = page.find(class_="stamp-expanded")
+    mini = page.find(id="mini-stamp")
+
+    assert expanded
+    assert mini
+    assert mini.get("role") == "button"
+    assert mini.get("tabindex") == "0"
+    assert page.find(id="mini-play-btn")
 
 
-def test_strata_deck_and_specimen_fragment_are_labelled():
+def test_index_contains_theme_first_navigation_shell():
     page = load_page()
 
-    strata_deck = page.find(id="strata-deck")
-    specimen_fragment = page.find(id="specimen-fragment")
+    strip = page.find(id="specimen-strip")
+    theme_tabs = page.find(id="theme-tabs")
+    chip_carousel = page.find(id="chip-carousel")
 
-    assert strata_deck
-    assert strata_deck.get("aria-label") == "Dawn to Night strata deck"
-    assert specimen_fragment
-    assert specimen_fragment.get("aria-labelledby") == "specimen-heading"
-
-    specimen_heading = page.find(id=specimen_fragment["aria-labelledby"])
-    assert specimen_heading
-    assert specimen_heading.get_text(strip=True)
+    assert strip
+    assert strip.get("aria-label") == "Theme specimen navigation"
+    assert theme_tabs
+    assert theme_tabs.get("role") == "tablist"
+    assert chip_carousel
