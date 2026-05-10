@@ -1,6 +1,9 @@
 """Checks for the local atlas preview helper."""
 
+import sys
 from pathlib import Path
+
+from scripts import serve_atlas
 
 ROOT = Path(__file__).resolve().parents[1]
 SERVER_PATH = ROOT / "scripts" / "serve_atlas.py"
@@ -23,6 +26,51 @@ def test_preview_server_enables_address_reuse_before_binding():
     assert "allow_reuse_address = True" in script
     assert "server = QuietAtlasServer" in script
     assert "server.allow_reuse_address = True" not in script
+
+
+def test_preview_server_reports_root_url_when_serving_atlas_directory(tmp_path, monkeypatch, capsys):
+    atlas_dir = tmp_path / "atlas"
+    atlas_dir.mkdir()
+    (atlas_dir / "index.html").write_text("<!doctype html>", encoding="utf-8")
+
+    class FakeServer:
+        def __init__(self, address, handler):
+            self.address = address
+            self.handler = handler
+
+        def serve_forever(self):
+            raise KeyboardInterrupt
+
+    monkeypatch.setattr(serve_atlas, "QuietAtlasServer", FakeServer)
+    monkeypatch.setattr(sys, "argv", ["serve_atlas.py", "4321", "--directory", str(atlas_dir)])
+
+    serve_atlas.main()
+
+    output = capsys.readouterr().out
+    assert f"Serving atlas preview from {atlas_dir.resolve()} at http://localhost:4321/" in output
+    assert "http://localhost:4321/atlas/" not in output
+
+
+def test_preview_server_reports_atlas_url_when_serving_repo_root(tmp_path, monkeypatch, capsys):
+    atlas_dir = tmp_path / "atlas"
+    atlas_dir.mkdir()
+    (atlas_dir / "index.html").write_text("<!doctype html>", encoding="utf-8")
+
+    class FakeServer:
+        def __init__(self, address, handler):
+            self.address = address
+            self.handler = handler
+
+        def serve_forever(self):
+            raise KeyboardInterrupt
+
+    monkeypatch.setattr(serve_atlas, "QuietAtlasServer", FakeServer)
+    monkeypatch.setattr(sys, "argv", ["serve_atlas.py", "4321", "--directory", str(tmp_path)])
+
+    serve_atlas.main()
+
+    output = capsys.readouterr().out
+    assert f"Serving atlas preview from {tmp_path.resolve()} at http://localhost:4321/atlas/" in output
 
 
 def test_makefile_exposes_atlas_preview_target():

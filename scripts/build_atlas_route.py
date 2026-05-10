@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import os
 import re
 import shutil
 from pathlib import Path
@@ -136,10 +137,27 @@ def _image_for_audio(audio_path: Path) -> Path | None:
     return images[0] if images else None
 
 
+def _is_excluded_dir_name(name: str) -> bool:
+    return name.startswith(".") or name in EXCLUDED_DIRS
+
+
+def _iter_audio_paths(root: Path):
+    audio_paths: list[Path] = []
+    for current_dir, dirnames, filenames in os.walk(root):
+        dirnames[:] = sorted(name for name in dirnames if not _is_excluded_dir_name(name))
+        for filename in sorted(filenames):
+            if filename.startswith("."):
+                continue
+            audio_path = Path(current_dir) / filename
+            if audio_path.is_file() and audio_path.suffix.lower() in AUDIO_SUFFIXES:
+                audio_paths.append(audio_path)
+    yield from sorted(audio_paths)
+
+
 def discover_media(root: Path) -> list[dict[str, str]]:
     root = root.resolve()
     media: list[dict[str, str]] = []
-    for audio_path in sorted(path for path in root.rglob("*") if path.is_file() and path.suffix.lower() in AUDIO_SUFFIXES):
+    for audio_path in _iter_audio_paths(root):
         relative_audio = audio_path.relative_to(root)
         if not _is_sound_library_path(relative_audio):
             continue

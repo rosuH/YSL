@@ -30,6 +30,24 @@ def test_discover_media_pairs_audio_with_same_folder_image_and_ignores_site_file
     assert media[0]["title"] == "American Coots"
 
 
+def test_discover_media_prunes_hidden_and_excluded_directories_before_walk(tmp_path, monkeypatch):
+    (tmp_path / "American Coots").mkdir()
+    (tmp_path / "American Coots" / "American Coots.mp3").write_bytes(b"audio")
+    (tmp_path / ".git" / "objects").mkdir(parents=True)
+    (tmp_path / ".git" / "objects" / "ignored.mp3").write_bytes(b"not sound library media")
+    (tmp_path / "atlas").mkdir()
+    (tmp_path / "atlas" / "ignored.mp3").write_bytes(b"not sound library media")
+
+    def fail_rglob(self, pattern):
+        raise AssertionError("discover_media should prune excluded directories before walking")
+
+    monkeypatch.setattr(Path, "rglob", fail_rglob)
+
+    media = discover_media(tmp_path)
+
+    assert [entry["audioPath"] for entry in media] == ["American Coots/American Coots.mp3"]
+
+
 def test_merge_route_preserves_curated_stops_and_appends_publishable_entries(tmp_path):
     existing_route = [
         {

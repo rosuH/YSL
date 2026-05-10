@@ -25,6 +25,15 @@ class QuietAtlasServer(http.server.ThreadingHTTPServer):
     allow_reuse_address = True
 
 
+def preview_entry_path(directory: Path) -> str:
+    directory = directory.resolve()
+    if (directory / "atlas" / "index.html").exists():
+        return "/atlas/"
+    if (directory / "index.html").exists():
+        return "/"
+    return "/"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Serve the Yellowstone atlas locally.")
     parser.add_argument("port", nargs="?", type=int, default=4173)
@@ -36,10 +45,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    handler = functools.partial(QuietAtlasHandler, directory=str(args.directory))
+    directory = args.directory.resolve()
+    handler = functools.partial(QuietAtlasHandler, directory=str(directory))
     server = QuietAtlasServer(("", args.port), handler)
 
-    print(f"Serving atlas preview at http://localhost:{args.port}/atlas/")
+    print(f"Serving atlas preview from {directory} at http://localhost:{args.port}{preview_entry_path(directory)}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
