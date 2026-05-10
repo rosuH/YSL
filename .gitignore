@@ -218,6 +218,10 @@ env/
 venv/
 ENV/
 env.bak/
+
+# Local agent workspaces
+.worktrees/
+.superpowers/
 venv.bak/
 
 # Spyder project settings
@@ -262,3 +266,6 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm+all
+.gstack/
+.playwright-mcp/
+PRODUCT.md
