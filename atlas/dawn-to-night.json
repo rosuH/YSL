@@ -1,13 +1,162 @@
 [
   {
+    "id": "american-coots",
+    "title": "American Coots",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Wetland margin",
+    "audioPath": "American Coots/American Coots.mp3",
+    "description": "The call of American Coots echoes across wetland margin.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "American Coots/American Coots_NPS _ Neal Herbert_2016-09-14.jpg"
+  },
+  {
+    "id": "american-robin",
+    "title": "American Robin",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Forest edge",
+    "audioPath": "American Robin/Sound Library - American Robin.mp3",
+    "description": "The call of American Robin echoes across forest edge.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "American Robin/Sound Library - American Robin_NPS _ Neal Herbert_.jpg"
+  },
+  {
+    "id": "birds---bird-chorus",
+    "title": "Bird Chorus",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Morning chorus",
+    "audioPath": "Birds - Bird Chorus/Sound Library - Bird Chorus.mp3",
+    "description": "The call of Bird Chorus echoes across morning chorus.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "bird---common-yellowthroat",
+    "title": "Common Yellowthroat",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Shrub wetland",
+    "audioPath": "Bird - Common Yellowthroat/Sound Library - Common Yellowthroat.mp3",
+    "description": "The call of Common Yellowthroat echoes across shrub wetland.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
     "id": "dawn-chorus",
     "title": "Dawn Chorus",
     "timeOfDay": "Dawn",
     "theme": "Birds",
     "zoneLabel": "Morning soundscape",
     "audioPath": "Dawn Chorus/Sound Library - Dawn Chorus.mp3",
-    "imagePath": "Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert.jpg",
-    "description": "The route opens with layered birdsong as the park wakes up.",
+    "description": "The call of Dawn Chorus echoes across morning soundscape.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert.jpg"
+  },
+  {
+    "id": "red-fox",
+    "title": "Red Fox",
+    "timeOfDay": "Dawn",
+    "theme": "Wildlife",
+    "zoneLabel": "Forest edge",
+    "audioPath": "Red Fox/Sound Library - Red Fox.mp3",
+    "description": "Red Fox moves through forest edge, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Red Fox/Sound Library - Red Fox_NPS _ Jim Peaco_2008-03-07.jpg"
+  },
+  {
+    "id": "bird---red-winged-blackbird",
+    "title": "Red-Winged Blackbird",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Marshland",
+    "audioPath": "Bird - Red-Winged Blackbird/Sound Library - Red-Winged Blackbird.mp3",
+    "description": "The call of Red-Winged Blackbird echoes across marshland.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Bird - Red-Winged Blackbird/Sound Library - Red-Winged Blackbird_NPS _ Neal Herbert_2015-04-27.jpg"
+  },
+  {
+    "id": "sandhill-crane",
+    "title": "Sandhill Crane",
+    "timeOfDay": "Dawn",
+    "theme": "Birds",
+    "zoneLabel": "Wetland meadow",
+    "audioPath": "Sandhill Crane/Sound Library - Sandhill Crane.mp3",
+    "description": "The call of Sandhill Crane echoes across wetland meadow.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert.jpg"
+  },
+  {
+    "id": "soundscapes",
+    "title": "Soundscapes",
+    "timeOfDay": "Dawn",
+    "theme": "Ambient",
+    "zoneLabel": "Park-wide soundscape",
+    "audioPath": "Soundscapes/Soundscapes.mp3",
+    "description": "A layered soundscape capturing the full acoustic depth of park-wide soundscape.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "american-dipper",
+    "title": "American Dipper",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Mountain stream",
+    "audioPath": "American Dipper/Sound Library - American Dipper.mp3",
+    "description": "The call of American Dipper echoes across mountain stream.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "American Dipper/Sound Library - American Dipper_NPS _ Jacob W. Frank_.jpg"
+  },
+  {
+    "id": "bald-eagle",
+    "title": "Bald Eagle",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Riverside perch",
+    "audioPath": "Bald Eagle/Sound Library - Bald Eagle.mp3",
+    "description": "The call of Bald Eagle echoes across riverside perch.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_.jpg"
+  },
+  {
+    "id": "canada-goose",
+    "title": "Canada Goose",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Lake shore",
+    "audioPath": "Canada Goose/Canada Goose.mp3",
+    "description": "The call of Canada Goose echoes across lake shore.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "bird---clarks-nutcracker",
+    "title": "Clark's Nutcracker",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Pine forest",
+    "audioPath": "Bird - Clark's Nutcracker/Sound Library - Clark’s Nutcracker.mp3",
+    "description": "The call of Clark's Nutcracker echoes across pine forest.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Bird - Clark's Nutcracker/Sound Library - Clark’s Nutcracker_NPS _ Jim Peaco_2007-03-18.jpg"
+  },
+  {
+    "id": "common-raven",
+    "title": "Common Raven",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Canyon rim",
+    "audioPath": "Common Raven/Sound Library - Common Raven.mp3",
+    "description": "The call of Common Raven echoes across canyon rim.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Common Raven/Sound Library - Common Raven_NPS_Neal Herbert.jpg"
+  },
+  {
+    "id": "killdeer",
+    "title": "Killdeer",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Gravel bar",
+    "audioPath": "Killdeer/Sound Library - Killdeer.mp3",
+    "description": "The call of Killdeer echoes across gravel bar.",
     "credit": "Audio and image courtesy of National Park Service."
   },
   {
@@ -17,20 +166,303 @@
     "theme": "Birds",
     "zoneLabel": "Open meadow",
     "audioPath": "Mountain Bluebird/Sound Library - Mountain Bluebird.mp3",
-    "imagePath": "Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert.jpg",
-    "description": "A bright morning wildlife stop before the route reaches the thermal basins.",
+    "description": "The call of Mountain Bluebird echoes across open meadow.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert.jpg"
+  },
+  {
+    "id": "red-squirrel",
+    "title": "Red Squirrel",
+    "timeOfDay": "Morning",
+    "theme": "Wildlife",
+    "zoneLabel": "Pine forest",
+    "audioPath": "Red Squirrel/Sound Library - Red Squirrel.mp3",
+    "description": "Red Squirrel moves through pine forest, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Red Squirrel/Sound Library - Red Squirrel_NPS _ Neal Herbert_2004-03-20.jpg"
+  },
+  {
+    "id": "ruffed-grouse",
+    "title": "Ruffed Grouse",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Deciduous forest",
+    "audioPath": "Ruffed Grouse/Sound Library - Ruffed Grouse.mp3",
+    "description": "The call of Ruffed Grouse echoes across deciduous forest.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Ruffed Grouse/Sound Library - Ruffed Grouse_NPS_Neal Herbert.jpg"
+  },
+  {
+    "id": "bird---savannah-sparrow",
+    "title": "Savannah Sparrow",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Grassland",
+    "audioPath": "Bird - Savannah Sparrow/Sound Library - Savannah Sparrow.mp3",
+    "description": "The call of Savannah Sparrow echoes across grassland.",
     "credit": "Audio and image courtesy of National Park Service."
   },
   {
-    "id": "old-faithful",
-    "title": "Old Faithful",
+    "id": "snowmobile",
+    "title": "Snowmobile",
+    "timeOfDay": "Morning",
+    "theme": "Human",
+    "zoneLabel": "Winter trail",
+    "audioPath": "Snowmobile/Sound Library - Snowmobile.mp3",
+    "description": "Snowmobile traces the historic and modern human presence in the park.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Snowmobile/Sound Library - Snowmobile_NPS _ Neal Herbert_.jpg"
+  },
+  {
+    "id": "townsends-solitaire",
+    "title": "Townsend's Solitaire",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Sagebrush slope",
+    "audioPath": "Townsend's Solitaire/Townsend's Solitaire.mp3",
+    "description": "The call of Townsend's Solitaire echoes across sagebrush slope.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "uinta-ground-squirrel",
+    "title": "Uinta Ground Squirrel",
+    "timeOfDay": "Morning",
+    "theme": "Wildlife",
+    "zoneLabel": "Alpine meadow",
+    "audioPath": "Uinta Ground Squirrel/Sound Library - Uinta Ground Squirrel.mp3",
+    "description": "Uinta Ground Squirrel moves through alpine meadow, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Uinta Ground Squirrel/Sound Library - Uinta Ground Squirrel_NPS _ Neal Herbert_2016-06-01.jpg"
+  },
+  {
+    "id": "warbling-vireo",
+    "title": "Warbling Vireo",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Cottonwood canopy",
+    "audioPath": "Warbling Vireo/Warbling Vireos.mp3",
+    "description": "The call of Warbling Vireo echoes across cottonwood canopy.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Warbling Vireo/Warbling Vireos_NPS _ Neal Herbert.jpg"
+  },
+  {
+    "id": "western-meadow-lark",
+    "title": "Western Meadow Lark",
+    "timeOfDay": "Morning",
+    "theme": "Birds",
+    "zoneLabel": "Prairie grassland",
+    "audioPath": "Western Meadow Lark/Western Meadow Lark.mp3",
+    "description": "The call of Western Meadow Lark echoes across prairie grassland.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "geyser---anemone",
+    "title": "Anemone Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Anemone/Sound Library - Anemone Geysers.mp3",
+    "description": "Anemone Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "anemone-geysers",
+    "title": "Anemone Geysers",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Anemone Geysers/Sound Library - Anemone Geysers.mp3",
+    "description": "Anemone Geysers releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "artist-paint-pots",
+    "title": "Artist Paint Pots",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Gibbon Geyser Basin",
+    "audioPath": "Artist Paint Pots/Sound Library - Artist Paint Pots.mp3",
+    "description": "Artist Paint Pots releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Artist Paint Pots/Sound Library - Artist Paint Pots_NPS_Neal Herbert_2014-11-21.jpg"
+  },
+  {
+    "id": "beehive-geyser",
+    "title": "Beehive Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Beehive Geyser/Beehive Geyser.mp3",
+    "description": "Beehive Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "geyser---beehive",
+    "title": "Beehive Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Beehive/Beehive Geyser.mp3",
+    "description": "Beehive Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "beryl-spring",
+    "title": "Beryl Spring",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Gibbon Geyser Basin",
+    "audioPath": "Beryl Spring/Beryl Spring.mp3",
+    "description": "Beryl Spring releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "bison-eating",
+    "title": "Bison Eating",
+    "timeOfDay": "Midday",
+    "theme": "Wildlife",
+    "zoneLabel": "Grassland herd",
+    "audioPath": "Bison (eating)/Sound Library - Bison Eating.mp3",
+    "description": "Bison Eating moves through grassland herd, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Bison (eating)/Sound Library - Bison Eating_NPS_Neal Herbert_2015-03-13.jpg"
+  },
+  {
+    "id": "castle-geyser",
+    "title": "Castle Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Castle Geyser/Sound Library - Castle Geyser.mp3",
+    "description": "Castle Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Castle Geyser/Sound Library - Castle Geyser_NPS_Neal Herbert_.jpg"
+  },
+  {
+    "id": "geyser---cliff",
+    "title": "Cliff Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Cliff/Sound Library - Cliff Geyser.mp3",
+    "description": "Cliff Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Geyser - Cliff/Sound Library - Cliff Geyser_NPS_Neal Herbert_.jpg"
+  },
+  {
+    "id": "ear-spring",
+    "title": "Ear Spring",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Ear Spring/Sound Library - Ear Spring.mp3",
+    "description": "Ear Spring releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "fountain-paint-pot",
+    "title": "Fountain Paint Pot",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Lower Geyser Basin",
+    "audioPath": "Fountain Paint Pot/Sound Library - Fountain Paint Pot.mp3",
+    "description": "Fountain Paint Pot releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Fountain Paint Pot/Sound Library - Fountain Paint Pot_NPS_Neal Herbert_.jpg"
+  },
+  {
+    "id": "geyser---grand",
+    "title": "Grand Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Grand/Sound Library - Grand Geyser.mp3",
+    "description": "Grand Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "grand-geyser",
+    "title": "Grand Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Grand Geyser/Sound Library - Grand Geyser.mp3",
+    "description": "Grand Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "horse-drawn-wagon",
+    "title": "Horse-Drawn Wagon",
+    "timeOfDay": "Midday",
+    "theme": "Human",
+    "zoneLabel": "Historic trail",
+    "audioPath": "Horse-Drawn Wagon/Sound Library - Silver Tip Ranch Horse-Drawn Wagon.mp3",
+    "description": "Horse-Drawn Wagon traces the historic and modern human presence in the park.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "old-faithful-geyser",
+    "title": "Old Faithful Geyser",
     "timeOfDay": "Midday",
     "theme": "Thermal",
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Old Faithful Geyser/Sound Library - Old Faithful.mp3",
-    "imagePath": "Old Faithful Geyser/Sound Library - Old Faithful_NPS_Neal Herbert.jpg",
-    "description": "The route moves into Yellowstone's iconic geothermal soundscape.",
+    "description": "Old Faithful Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Old Faithful Geyser/Sound Library - Old Faithful_NPS_Neal Herbert.jpg"
+  },
+  {
+    "id": "puff-n-stuff-geyser",
+    "title": "Puff 'n Stuff Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Lower Geyser Basin",
+    "audioPath": "Puff 'n Stuff Geyser/Sound Library - Puff 'n Stuff Geyser.mp3",
+    "description": "Puff 'n Stuff Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Puff 'n Stuff Geyser/Sound Library - Puff 'n Stuff Geyser_NPS_Jim Peaco_2015-03-13.jpg"
+  },
+  {
+    "id": "geyser---sawmill",
+    "title": "Sawmill Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Sawmill/Sound Library - Sawmill Geyser.mp3",
+    "description": "Sawmill Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Geyser - Sawmill/Sound Library - Sawmill Geyser_NPS_Neal Herbert_.jpg"
+  },
+  {
+    "id": "spouter-geyser",
+    "title": "Spouter Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Black Sand Basin",
+    "audioPath": "Spouter Geyser/Sound Library - Spouter Geyser.mp3",
+    "description": "Spouter Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "geyser---veteran",
+    "title": "Veteran Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Geyser - Veteran/Sound Library - Veteran Geyser.mp3",
+    "description": "Veteran Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "vixen-geyser",
+    "title": "Vixen Geyser",
+    "timeOfDay": "Midday",
+    "theme": "Thermal",
+    "zoneLabel": "Norris Geyser Basin",
+    "audioPath": "Vixen Geyser/Sound Library - Vixen Geyser.mp3",
+    "description": "Vixen Geyser releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Vixen Geyser/Sound Library - Vixen Geyser_NPS_Neal Herbert.jpg"
   },
   {
     "id": "black-growler-steam-vent",
@@ -39,20 +471,126 @@
     "theme": "Thermal",
     "zoneLabel": "Norris Geyser Basin",
     "audioPath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent.mp3",
-    "imagePath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent_NPS_Neal Herbert_2014-01-31.jpg",
-    "description": "Steam and pressure add a harsher texture to the afternoon route.",
+    "description": "Black Growler Steam Vent releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent_NPS_Neal Herbert_2014-01-31.jpg"
+  },
+  {
+    "id": "black-sand-pool",
+    "title": "Black Sand Pool",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Upper Geyser Basin",
+    "audioPath": "Black Sand Pool/Sound Library - Black Sand Pool.mp3",
+    "description": "Black Sand Pool releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service."
   },
   {
-    "id": "singing-lake",
+    "id": "fire",
+    "title": "Fire",
+    "timeOfDay": "Afternoon",
+    "theme": "Weather",
+    "zoneLabel": "Forest fire zone",
+    "audioPath": "Fire/Sound Library - Fire.mp3",
+    "description": "Fire reshapes the acoustic landscape of the park.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Fire/Sound Library - Fire_NPS_Jennifer Jerrett_.jpg"
+  },
+  {
+    "id": "fumaroles",
+    "title": "Fumaroles",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Roaring Mountain",
+    "audioPath": "Fumaroles/Sound Library - Fumaroles.mp3",
+    "description": "Fumaroles releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Fumaroles/Sound Library - Fumaroles_NPS_Neal Herbert_2014-01-31.jpg"
+  },
+  {
+    "id": "hurricane-vent",
+    "title": "Hurricane Vent",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Norris Geyser Basin",
+    "audioPath": "Hurricane Vent/Sound Library - Hurricane Vent.mp3",
+    "description": "Hurricane Vent releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "scissors-springs",
+    "title": "Scissors Springs",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Norris Geyser Basin",
+    "audioPath": "Scissors Springs/Sound Library - Scissors Springs.mp3",
+    "description": "Scissors Springs releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "the-dragons-mouth",
+    "title": "The Dragon's Mouth",
+    "timeOfDay": "Afternoon",
+    "theme": "Thermal",
+    "zoneLabel": "Mammoth Hot Springs",
+    "audioPath": "The Dragon's Mouth/Sound Library - The Dragon's Mouth.mp3",
+    "description": "The Dragon's Mouth releases the deep pressure of the Yellowstone caldera.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "The Dragon's Mouth/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_.jpg"
+  },
+  {
+    "id": "thunder",
+    "title": "Thunder",
+    "timeOfDay": "Afternoon",
+    "theme": "Weather",
+    "zoneLabel": "Summer storm",
+    "audioPath": "Thunder/Sound Library - Thunder.mp3",
+    "description": "Thunder reshapes the acoustic landscape of the park.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Thunder/Sound Library - Thunder_NPS_Neal Herbert_2014-07-04.jpg"
+  },
+  {
+    "id": "bison-rut",
+    "title": "Bison Rut",
+    "timeOfDay": "Late Afternoon",
+    "theme": "Wildlife",
+    "zoneLabel": "Rutting ground",
+    "audioPath": "Bison (rut)/Sound Library - Bison.mp3",
+    "description": "Bison Rut moves through rutting ground, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Bison (rut)/Sound Library - Bison_NPS _ Neal Herbert_2014-08-07.jpg"
+  },
+  {
+    "id": "common-loon",
+    "title": "Common Loon",
+    "timeOfDay": "Late Afternoon",
+    "theme": "Birds",
+    "zoneLabel": "Lake surface",
+    "audioPath": "Common Loon/Common Loon.mp3",
+    "description": "The call of Common Loon echoes across lake surface.",
+    "credit": "Audio and image courtesy of National Park Service."
+  },
+  {
+    "id": "yellowstone-lake-singing",
     "title": "Singing Lake",
     "timeOfDay": "Late Afternoon",
     "theme": "Water",
     "zoneLabel": "Yellowstone Lake",
     "audioPath": "Yellowstone Lake (singing)/Sound Library - Singing Lake.mp3",
-    "imagePath": "Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_.jpg",
-    "description": "The route opens out from thermal noise into lake atmosphere.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "description": "The surface of Yellowstone Lake sings with shifting ice and wave resonance.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_.jpg"
+  },
+  {
+    "id": "boreal-chorus-frogs",
+    "title": "Boreal Chorus Frogs",
+    "timeOfDay": "Evening",
+    "theme": "Wildlife",
+    "zoneLabel": "Pond margin",
+    "audioPath": "Boreal Chorus Frogs/Sound Library - Chorus Frogs.mp3",
+    "description": "Boreal Chorus Frogs moves through pond margin, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Boreal Chorus Frogs/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2020-10-14 00:00:00.0.jpg"
   },
   {
     "id": "elk",
@@ -61,8 +599,40 @@
     "theme": "Wildlife",
     "zoneLabel": "Evening meadow",
     "audioPath": "Elk/Sound Library - Elk.mp3",
-    "imagePath": "Elk/Sound Library - Elk_NPS _ Neal Herbert_2016-09-13.jpg",
-    "description": "A dusk wildlife encounter shifts the route toward evening.",
+    "description": "Elk moves through evening meadow, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Elk/Sound Library - Elk_NPS _ Neal Herbert_2016-09-13.jpg"
+  },
+  {
+    "id": "wilsons-snipe",
+    "title": "Wilson's Snipe",
+    "timeOfDay": "Dusk",
+    "theme": "Birds",
+    "zoneLabel": "Wetland marsh",
+    "audioPath": "Wilson's Snipe/Sound Library - Wilson's Snipe.mp3",
+    "description": "The call of Wilson's Snipe echoes across wetland marsh.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Wilson's Snipe/Sound Library - Wilson's Snipe_NPS _ Neal Herbert.jpg"
+  },
+  {
+    "id": "coyotes",
+    "title": "Coyotes",
+    "timeOfDay": "Night",
+    "theme": "Wildlife",
+    "zoneLabel": "Valley floor",
+    "audioPath": "Coyotes/Sound Library - Coyote.mp3",
+    "description": "Coyotes moves through valley floor, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Coyotes/Sound Library - Coyote_NPS _ Neal Herbert_2016-05-05.jpg"
+  },
+  {
+    "id": "spadefoot-toad",
+    "title": "Spadefoot Toad",
+    "timeOfDay": "Night",
+    "theme": "Wildlife",
+    "zoneLabel": "Temporary pool",
+    "audioPath": "Spadefoot Toad/Spadefoot Toad.mp3",
+    "description": "Spadefoot Toad moves through temporary pool, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service."
   },
   {
@@ -72,8 +642,8 @@
     "theme": "Wildlife",
     "zoneLabel": "Night soundscape",
     "audioPath": "Wolves/Sound Library - Wolves.mp3",
-    "imagePath": "Wolves/Sound Library - Wolves_NPS _ Jacob Frank_2016-01-11.jpg",
-    "description": "The journey closes with distant night wildlife.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "description": "Wolves moves through night soundscape, marking territory or seeking mate.",
+    "credit": "Audio and image courtesy of National Park Service.",
+    "imagePath": "Wolves/Sound Library - Wolves_NPS _ Jacob Frank_2016-01-11.jpg"
   }
 ]

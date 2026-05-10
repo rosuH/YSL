@@ -1,0 +1,10 @@
+{
+  "name": "Yellowstone Sound Atlas",
+  "short_name": "YSA",
+  "description": "A theme-first specimen collection of Yellowstone National Park sound recordings.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eee6cf",
+  "theme_color": "#eee6cf",
+  "icons": []
+}
