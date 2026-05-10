@@ -451,7 +451,8 @@ figure {
 
 .progress-track {
   position: relative;
-  height: 18px;
+  min-height: 36px;
+  height: 36px;
   touch-action: none;
 }
 
@@ -543,28 +544,44 @@ figure {
 
 .mini-play-btn {
   position: absolute;
-  left: 5px;
-  bottom: 5px;
+  left: 0;
+  bottom: 0;
   z-index: 4;
-  width: 22px;
-  height: 22px;
-  display: grid;
-  place-items: center;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
+  background: transparent;
+  color: var(--bone);
+}
+
+.mini-play-btn::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background: var(--ink);
-  color: var(--bone);
   box-shadow: 0 2px 8px oklch(4% 0.02 85 / 0.35);
 }
 
 .mini-play-btn svg {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 1;
   width: 12px;
   height: 12px;
 }
 
 .mini-play-btn:disabled {
   opacity: 0.45;
+}
+
+.mini-play-btn:focus-visible {
+  outline-offset: -2px;
 }
 
 .mini-copy {
@@ -624,10 +641,10 @@ figure {
   bottom: 0;
   z-index: 10;
   display: grid;
-  grid-template-rows: 34px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-rows: 28px minmax(0, 1fr);
+  gap: 4px;
   height: var(--strip-height);
-  padding: 12px clamp(14px, 3vw, 32px);
+  padding: 6px clamp(14px, 3vw, 32px);
   border-top: 1px solid var(--reverse-line);
   background:
     linear-gradient(180deg, oklch(16% 0.028 88 / 0.94), oklch(11% 0.024 88 / 0.96)),
@@ -640,9 +657,12 @@ figure {
   align-items: end;
   gap: 14px;
   min-width: 0;
+  padding: 3px 4px;
+  margin-inline: -4px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
+  scroll-padding-inline: 4px;
 }
 
 .theme-tabs::-webkit-scrollbar {
@@ -650,12 +670,14 @@ figure {
 }
 
 .theme-tab {
-  flex: 0 0 auto;
+  flex: 0 0 clamp(78px, 11vw, 112px);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  height: 30px;
-  padding: 0 0 7px;
+  height: 22px;
+  min-width: 0;
+  padding: 0 2px 4px;
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
@@ -677,7 +699,7 @@ figure {
   color: var(--bone);
   border-bottom-color: var(--theme-color);
   font-family: var(--font-display);
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-style: italic;
   letter-spacing: 0;
   text-transform: none;
@@ -693,6 +715,9 @@ figure {
 
 .theme-name,
 .theme-count {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -707,8 +732,10 @@ figure {
   min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 2px 2px 12px;
+  padding: 8px 6px 4px;
+  margin-inline: -6px;
   scrollbar-color: var(--theme-color) transparent;
+  scroll-padding-inline: 6px;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
@@ -728,6 +755,7 @@ figure {
   width: 78px;
   min-height: 100px;
   padding: 6px;
+  scroll-margin: 8px 6px;
   box-shadow:
     0 1px 0 oklch(100% 0 0 / 0.32) inset,
     0 2px 8px oklch(4% 0.02 85 / 0.25);
@@ -872,10 +900,15 @@ figure {
 
 button:focus-visible,
 .stamp-mini:focus-visible,
-.progress-track:focus-visible,
-.stamp-chip:focus-visible {
+.progress-track:focus-visible {
   outline: 2px solid var(--theme-color);
   outline-offset: 3px;
+}
+
+.theme-tab:focus-visible,
+.stamp-chip:focus-visible {
+  outline: 2px solid var(--theme-color);
+  outline-offset: 2px;
 }
 
 .status {
@@ -1076,8 +1109,20 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .mini-play-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mini-play-btn::before {
     width: 21px;
     height: 21px;
+  }
+
+  .mini-play-btn svg {
+    left: 10px;
+    bottom: 10px;
+    width: 11px;
+    height: 11px;
   }
 
   #mini-track-title {
@@ -1089,27 +1134,30 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .specimen-strip {
-    grid-template-rows: 32px minmax(0, 1fr);
-    gap: 8px;
-    padding: 10px 10px 8px;
+    grid-template-rows: 26px minmax(0, 1fr);
+    gap: 4px;
+    padding: 6px 10px;
   }
 
   .theme-tabs {
-    gap: 11px;
+    gap: 9px;
+    padding-block: 2px;
   }
 
   .theme-tab {
-    height: 28px;
+    flex-basis: 74px;
+    height: 20px;
     font-size: 0.5rem;
   }
 
   .theme-tab.is-active {
-    font-size: 0.7rem;
+    font-size: 0.62rem;
   }
 
   .chip-carousel {
     gap: 7px;
-    padding-bottom: 10px;
+    padding-top: 7px;
+    padding-bottom: 3px;
   }
 
   .stamp-chip {
