@@ -1,4 +1,4 @@
-.PHONY: install lint test run preview-atlas clean
+.PHONY: install lint test run preview-atlas build-atlas-route check-atlas-route clean
 
 install:
 	pip install -r requirements.txt
@@ -20,6 +20,12 @@ run:
 
 preview-atlas:
 	python3 scripts/serve_atlas.py 4173
+
+build-atlas-route:
+	python3 scripts/build_atlas_route.py
+
+check-atlas-route:
+	python3 scripts/build_atlas_route.py --check
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +

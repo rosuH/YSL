@@ -2,10 +2,10 @@
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SERVER_PATH = ROOT / "scripts" / "serve_atlas.py"
 MAKEFILE_PATH = ROOT / "Makefile"
+WORKFLOW_PATH = ROOT / ".github" / "workflows" / "spider_action.yml"
 
 
 def test_preview_server_suppresses_cancelled_audio_tracebacks():
@@ -21,3 +21,22 @@ def test_makefile_exposes_atlas_preview_target():
 
     assert "preview-atlas:" in makefile
     assert "scripts/serve_atlas.py 4173" in makefile
+
+
+def test_makefile_exposes_atlas_route_builder_target():
+    makefile = MAKEFILE_PATH.read_text(encoding="utf-8")
+
+    assert "build-atlas-route:" in makefile
+    assert "scripts/build_atlas_route.py" in makefile
+
+
+def test_spider_action_updates_atlas_route_after_crawling_before_commit():
+    workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+
+    spider_step = workflow.index("name: Run Spider")
+    route_step = workflow.index("name: Update atlas route")
+    commit_step = workflow.index("name: Commit and push changes")
+
+    assert spider_step < route_step < commit_step
+    assert "make build-atlas-route" in workflow
+    assert "make check-atlas-route" in workflow

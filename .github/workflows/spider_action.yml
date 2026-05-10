@@ -54,6 +54,12 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
 
+      - name: Update atlas route
+        run: |
+          make build-atlas-route
+          make check-atlas-route
+          pytest tests/test_atlas_data.py -v
+
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

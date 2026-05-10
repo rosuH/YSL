@@ -29,6 +29,20 @@ python -m http.server 8000
 
 Then open <http://localhost:8000/atlas/>.
 
+The atlas page reads `atlas/dawn-to-night.json`; it does not scan folders in the browser. After running the crawler, update the route metadata from the downloaded MP3 files:
+
+```bash
+make build-atlas-route
+```
+
+This writes directly to `atlas/dawn-to-night.json`. Existing curated entries are preserved, and newly discovered audio files are added with generated theme, time-of-day, zone, credit, image, and field-note metadata. To verify that every downloaded MP3 is represented:
+
+```bash
+make check-atlas-route
+```
+
+The manual Spider Data Collection GitHub Action runs the same route update after `python spider.py` and commits the updated atlas metadata together with any newly downloaded assets.
+
 ## Inspiration
 
 [tonyq0802's tweet](https://twitter.com/tonyq0802/status/1084364955506290688)
@@ -81,6 +95,20 @@ python -m http.server 8000
 ```
 
 然后打开 <http://localhost:8000/atlas/>。
+
+网页读取的是 `atlas/dawn-to-night.json`，不会在浏览器里扫描资源目录。爬虫下载新 MP3 后，可以用下载到的 MP3 自动更新路线元数据：
+
+```bash
+make build-atlas-route
+```
+
+这会直接写入 `atlas/dawn-to-night.json`。已有的人工整理条目会被保留，新发现的音频会自动补上主题、时间、区域、署名、图片和 field note。要确认所有下载的 MP3 都已经进入图谱：
+
+```bash
+make check-atlas-route
+```
+
+手动触发的 Spider Data Collection GitHub Action 会在 `python spider.py` 之后运行同样的路线更新，并把更新后的图谱元数据和新下载资源一起提交。
 
 ## 启发
 

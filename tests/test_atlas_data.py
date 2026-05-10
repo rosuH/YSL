@@ -4,7 +4,6 @@ import json
 from collections import Counter
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 ROUTE_PATH = ROOT / "atlas" / "dawn-to-night.json"
 REQUIRED_FIELDS = {
@@ -17,7 +16,7 @@ REQUIRED_FIELDS = {
     "description",
     "credit",
 }
-EXPECTED_THEME_COUNTS = {
+BASELINE_THEME_COUNTS = {
     "Thermal": 24,
     "Birds": 21,
     "Wildlife": 10,
@@ -37,15 +36,17 @@ def test_route_file_exists():
     assert ROUTE_PATH.exists()
 
 
-def test_route_has_all_sound_library_stops():
+def test_route_keeps_the_current_curated_baseline():
     route = load_route()
     assert isinstance(route, list)
-    assert len(route) == 61
+    assert len(route) >= 61
 
 
-def test_route_theme_counts_match_theme_navigation():
+def test_route_theme_counts_cover_the_current_curated_baseline():
     route = load_route()
-    assert Counter(stop["theme"] for stop in route) == EXPECTED_THEME_COUNTS
+    counts = Counter(stop["theme"] for stop in route)
+    for theme, expected_count in BASELINE_THEME_COUNTS.items():
+        assert counts[theme] >= expected_count
 
 
 def test_route_stops_have_required_fields_and_unique_ids():
