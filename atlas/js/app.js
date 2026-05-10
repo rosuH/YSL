@@ -687,6 +687,7 @@ function isSpaceShortcutTarget(target) {
 }
 
 document.addEventListener("keydown", (e) => {
+  if (e.defaultPrevented) return;
   if (isTextEntryTarget(e.target)) return;
 
   if (e.code === "Space") {
