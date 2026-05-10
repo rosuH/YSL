@@ -144,6 +144,62 @@ def test_check_mode_does_not_write_output(tmp_path):
     assert not (tmp_path / "atlas" / "dawn-to-night.draft.json").exists()
 
 
+def test_check_mode_reports_absolute_route_outside_root(tmp_path):
+    root = tmp_path / "site"
+    root.mkdir()
+    route_path = tmp_path / "external-route.json"
+    route_path.write_text("[]\n", encoding="utf-8")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT_PATH),
+            "--root",
+            str(root),
+            "--route",
+            str(route_path),
+            "--check",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert str(route_path) in result.stdout
+    assert "ValueError" not in result.stderr
+
+
+def test_default_cli_reports_absolute_output_outside_root(tmp_path):
+    root = tmp_path / "site"
+    root.mkdir()
+    route_path = root / "atlas" / "dawn-to-night.json"
+    output_path = tmp_path / "external-route.json"
+    route_path.parent.mkdir()
+    route_path.write_text("[]\n", encoding="utf-8")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT_PATH),
+            "--root",
+            str(root),
+            "--route",
+            "atlas/dawn-to-night.json",
+            "--output",
+            str(output_path),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert output_path.exists()
+    assert str(output_path) in result.stdout
+    assert "ValueError" not in result.stderr
+
+
 def test_write_share_pages_creates_per_specimen_social_preview_and_redirect(tmp_path):
     stop = {
         "id": "american-coots",

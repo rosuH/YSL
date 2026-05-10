@@ -240,6 +240,13 @@ def _meta(content: str) -> str:
     return html.escape(content, quote=True)
 
 
+def _display_path(path: Path, root: Path) -> str:
+    try:
+        return path.relative_to(root).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
 def _share_page_url(site_url: str, stop_id: str) -> str:
     return f"{_normalize_site_url(site_url)}/atlas/share/{quote(stop_id, safe='-._~')}/"
 
@@ -397,9 +404,9 @@ def main() -> int:
 
     if args.check:
         if added_count:
-            print(f"{added_count} downloaded sound file(s) are missing from {route_path.relative_to(root)}.")
+            print(f"{added_count} downloaded sound file(s) are missing from {_display_path(route_path, root)}.")
             return 1
-        print(f"All {len(media)} downloaded sound file(s) are represented in {route_path.relative_to(root)}.")
+        print(f"All {len(media)} downloaded sound file(s) are represented in {_display_path(route_path, root)}.")
         return 0
 
     site_url = args.site_url or _site_url_from_cname(root)
@@ -407,7 +414,7 @@ def main() -> int:
     write_share_pages(root, merged, site_url)
     write_discovery_files(root, merged, site_url)
     print(
-        f"Wrote {len(merged)} atlas stop(s) to {output_path.relative_to(root)}; "
+        f"Wrote {len(merged)} atlas stop(s) to {_display_path(output_path, root)}; "
         f"{added_count} stop(s) added; generated {len(merged)} share page(s).",
     )
     return 0
