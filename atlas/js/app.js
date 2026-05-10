@@ -240,6 +240,7 @@ function buildThemeTabs() {
     button.id = `theme-tab-${meta.token}`;
     button.style.setProperty("--theme-color", meta.color);
     button.dataset.theme = meta.token;
+    button.dataset.themeName = theme;
     button.setAttribute("role", "tab");
     button.setAttribute("aria-controls", "chip-carousel");
     button.setAttribute("aria-selected", String(theme === state.activeTheme));
@@ -330,6 +331,38 @@ function updateThemeNav() {
       block: "nearest",
     });
   }
+}
+
+function focusActiveThemeTab() {
+  const activeTab = ui.themeTabs.querySelector(`#theme-tab-${getThemeMeta(state.activeTheme).token}`);
+  if (activeTab) activeTab.focus();
+}
+
+function onThemeTabsKeydown(e) {
+  if (!(e.target instanceof Element)) return;
+
+  const tab = e.target.closest("[role='tab']");
+  if (!tab || !ui.themeTabs.contains(tab)) return;
+
+  const currentIndex = THEME_ORDER.indexOf(tab.dataset.themeName);
+  if (currentIndex < 0) return;
+
+  let nextIndex;
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+    nextIndex = (currentIndex + 1) % THEME_ORDER.length;
+  } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+    nextIndex = (currentIndex - 1 + THEME_ORDER.length) % THEME_ORDER.length;
+  } else if (e.key === "Home") {
+    nextIndex = 0;
+  } else if (e.key === "End") {
+    nextIndex = THEME_ORDER.length - 1;
+  } else {
+    return;
+  }
+
+  e.preventDefault();
+  setActiveTheme(THEME_ORDER[nextIndex], true);
+  focusActiveThemeTab();
 }
 
 function setActiveTheme(theme, selectFirst = false) {
@@ -432,6 +465,11 @@ function resetProgress() {
   updateWaveform(0);
 }
 
+function setPlayDisabled(disabled) {
+  ui.play.disabled = disabled;
+  ui.miniPlay.disabled = disabled;
+}
+
 function selectStop(index, autoPlay = false, options = {}) {
   if (!state.stops[index]) return;
 
@@ -461,6 +499,7 @@ function selectStop(index, autoPlay = false, options = {}) {
 
   ui.audio.src = encodeURI(`../${stop.audioPath}`);
   ui.audio.load();
+  setPlayDisabled(false);
   resetProgress();
   buildWaveform(stop.id.length + index);
   updateWaveform(0);
@@ -489,6 +528,8 @@ function updateNav() {
 }
 
 function togglePlay() {
+  if (ui.play.disabled) return;
+
   if (ui.audio.paused) {
     ui.audio.play().catch(() => updatePlayIcon());
   } else {
@@ -508,9 +549,9 @@ function updatePlayIcon() {
   ui.waveform.classList.toggle("playing", playing);
 }
 
-function onTimeUpdate() {
-  if (state.isDragging || !ui.audio.duration) return;
-  const pct = (ui.audio.currentTime / ui.audio.duration) * 100;
+function paintProgressFromAudio() {
+  if (!ui.audio.duration) return;
+  const pct = Math.max(0, Math.min(100, (ui.audio.currentTime / ui.audio.duration) * 100));
   ui.fill.style.width = `${pct}%`;
   ui.thumb.style.left = `${pct}%`;
   ui.track.setAttribute("aria-valuenow", Math.round(pct));
@@ -518,11 +559,20 @@ function onTimeUpdate() {
   updateWaveform(pct);
 }
 
+function onTimeUpdate() {
+  if (state.isDragging) return;
+  paintProgressFromAudio();
+}
+
 function onLoadedMeta() {
+  setPlayDisabled(false);
   ui.timeTotal.textContent = fmtTime(ui.audio.duration || 0);
   if (state.autoPlayNext) {
     state.autoPlayNext = false;
-    ui.audio.play().catch(() => {});
+    ui.audio.play().catch(() => {
+      updatePlayIcon();
+      showStatus("Playback could not start automatically.");
+    });
   }
 }
 
@@ -541,6 +591,7 @@ function seekFromEvent(e) {
   const pct = Math.max(0, Math.min(1, x / rect.width));
   if (ui.audio.duration) {
     ui.audio.currentTime = pct * ui.audio.duration;
+    paintProgressFromAudio();
   }
 }
 
@@ -574,12 +625,14 @@ document.addEventListener("mouseup", () => {
   if (!state.isDragging) return;
   state.isDragging = false;
   ui.track.classList.remove("dragging");
+  paintProgressFromAudio();
 });
 
 document.addEventListener("touchend", () => {
   if (!state.isDragging) return;
   state.isDragging = false;
   ui.track.classList.remove("dragging");
+  paintProgressFromAudio();
 });
 
 ui.track.addEventListener("keydown", (e) => {
@@ -587,13 +640,16 @@ ui.track.addEventListener("keydown", (e) => {
   const step = ui.audio.duration * 0.05;
   if (e.key === "ArrowLeft") {
     ui.audio.currentTime = Math.max(0, ui.audio.currentTime - step);
+    paintProgressFromAudio();
     e.preventDefault();
   } else if (e.key === "ArrowRight") {
     ui.audio.currentTime = Math.min(ui.audio.duration, ui.audio.currentTime + step);
+    paintProgressFromAudio();
     e.preventDefault();
   }
 });
 
+ui.themeTabs.addEventListener("keydown", onThemeTabsKeydown);
 ui.play.addEventListener("click", togglePlay);
 ui.miniPlay.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -615,14 +671,26 @@ ui.audio.addEventListener("ended", onEnded);
 ui.audio.addEventListener("error", () => {
   state.autoPlayNext = false;
   ui.audio.pause();
+  setPlayDisabled(true);
   updatePlayIcon();
   showStatus("Audio unavailable for this specimen.", true);
 });
 
+function isTextEntryTarget(target) {
+  return target instanceof Element && Boolean(target.closest("input, textarea, select, [contenteditable]"));
+}
+
+function isSpaceShortcutTarget(target) {
+  return target instanceof Element && Boolean(target.closest(
+    "button, a[href], input, textarea, select, summary, [role='button'], [role='tab'], [role='slider'], .specimen-chip, [contenteditable]",
+  ));
+}
+
 document.addEventListener("keydown", (e) => {
-  if (e.target.matches("input, textarea, [contenteditable]")) return;
+  if (isTextEntryTarget(e.target)) return;
 
   if (e.code === "Space") {
+    if (isSpaceShortcutTarget(e.target)) return;
     e.preventDefault();
     togglePlay();
     showKeyboardHints();
