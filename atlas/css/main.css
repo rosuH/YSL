@@ -196,7 +196,8 @@ figure {
 }
 
 .stamp-expanded {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 13px;
   max-height: min(720px, calc(100dvh - var(--strip-height) - 48px));
   padding: clamp(18px, 2.8vw, 30px);
@@ -279,7 +280,8 @@ figure {
 }
 
 .stamp-photo-frame {
-  aspect-ratio: 1.45 / 1;
+  flex: 0 0 auto;
+  height: clamp(180px, 34dvh, 318px);
 }
 
 .scene-photo,
