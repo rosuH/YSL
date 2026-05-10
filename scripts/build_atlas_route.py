@@ -3,13 +3,19 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import re
+import shutil
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 AUDIO_SUFFIXES = {".mp3"}
 IMAGE_SUFFIXES = {".jpg", ".jpeg"}
+DEFAULT_SITE_URL = "https://ysl.rosuh.me"
+FALLBACK_SOCIAL_IMAGE = "docs/assets/banner.png"
+SITE_DESCRIPTION = "A quiet specimen archive of Yellowstone National Park sound recordings."
 EXCLUDED_DIRS = {
     "__pycache__",
     "atlas",
@@ -85,6 +91,22 @@ def _is_sound_library_path(path: Path) -> bool:
 
 def _relative(path: Path, root: Path) -> str:
     return path.relative_to(root).as_posix()
+
+
+def _site_url_from_cname(root: Path) -> str:
+    cname_path = root / "CNAME"
+    if not cname_path.exists():
+        return DEFAULT_SITE_URL
+    cname = next((line.strip() for line in cname_path.read_text(encoding="utf-8").splitlines() if line.strip()), "")
+    return f"https://{cname}" if cname else DEFAULT_SITE_URL
+
+
+def _normalize_site_url(site_url: str) -> str:
+    return site_url.rstrip("/")
+
+
+def _absolute_site_url(site_url: str, path: str) -> str:
+    return f"{_normalize_site_url(site_url)}/{quote(path.lstrip('/'), safe='/-._~')}"
 
 
 def _title_from_audio(audio_path: Path) -> str:
@@ -212,6 +234,131 @@ def write_route(path: Path, route: list[dict[str, Any]]) -> None:
     path.write_text(json.dumps(route, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _meta(content: str) -> str:
+    return html.escape(content, quote=True)
+
+
+def _share_page_url(site_url: str, stop_id: str) -> str:
+    return f"{_normalize_site_url(site_url)}/atlas/share/{quote(stop_id, safe='-._~')}/"
+
+
+def _target_page_url(site_url: str, stop_id: str) -> str:
+    return f"{_normalize_site_url(site_url)}/atlas/#{quote(stop_id, safe='-._~')}"
+
+
+def _social_image_url(site_url: str, stop: dict[str, Any]) -> str:
+    image_path = stop.get("imagePath") if isinstance(stop.get("imagePath"), str) else FALLBACK_SOCIAL_IMAGE
+    return _absolute_site_url(site_url, image_path)
+
+
+def _display_description(stop: dict[str, Any]) -> str:
+    field_note = stop.get("fieldNote")
+    if isinstance(field_note, str) and field_note.strip():
+        return field_note
+    description = stop.get("description")
+    if isinstance(description, str) and description.strip():
+        return description
+    return f"{stop['title']} is part of the Yellowstone Sound Atlas."
+
+
+def _local_atlas_target(stop_id: str) -> str:
+    return f"../../#{quote(stop_id, safe='-._~')}"
+
+
+def _share_page_html(stop: dict[str, Any], site_url: str) -> str:
+    title = f"{stop['title']} - Yellowstone Sound Atlas"
+    description = _display_description(stop)
+    share_url = _share_page_url(site_url, stop["id"])
+    target_url = _local_atlas_target(stop["id"])
+    image_url = _social_image_url(site_url, stop)
+    redirect_script = json.dumps(target_url)
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{_meta(title)}</title>
+  <meta name="description" content="{_meta(description)}">
+  <link rel="canonical" href="{_meta(share_url)}">
+  <meta property="og:site_name" content="YSL">
+  <meta property="og:title" content="{_meta(title)}">
+  <meta property="og:description" content="{_meta(description)}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{_meta(share_url)}">
+  <meta property="og:image" content="{_meta(image_url)}">
+  <meta property="og:image:alt" content="{_meta(stop['title'])} source image.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{_meta(title)}">
+  <meta name="twitter:description" content="{_meta(description)}">
+  <meta name="twitter:image" content="{_meta(image_url)}">
+  <script>
+    window.location.replace({redirect_script});
+  </script>
+</head>
+<body>
+  <main>
+    <h1>{_meta(title)}</h1>
+    <p>{_meta(description)}</p>
+    <p><a href="{_meta(target_url)}">Open this specimen in Yellowstone Sound Atlas</a></p>
+  </main>
+</body>
+</html>
+"""
+
+
+def _share_page_id(stop: dict[str, Any]) -> str:
+    stop_id = stop["id"]
+    if not isinstance(stop_id, str) or "/" in stop_id or stop_id.startswith("."):
+        raise ValueError(f"Invalid share page id: {stop_id}")
+    return stop_id
+
+
+def write_share_pages(root: Path, route: list[dict[str, Any]], site_url: str) -> None:
+    share_root = root / "atlas" / "share"
+    if share_root.exists():
+        shutil.rmtree(share_root)
+    share_root.mkdir(parents=True, exist_ok=True)
+
+    for stop in route:
+        stop_id = _share_page_id(stop)
+        page_dir = share_root / stop_id
+        page_dir.mkdir(parents=True, exist_ok=True)
+        (page_dir / "index.html").write_text(_share_page_html(stop, site_url), encoding="utf-8")
+
+
+def _sitemap_url(url: str) -> str:
+    return f"  <url>\n    <loc>{_meta(url)}</loc>\n  </url>"
+
+
+def write_discovery_files(root: Path, route: list[dict[str, Any]], site_url: str) -> None:
+    normalized_site = _normalize_site_url(site_url)
+    urls = [
+        f"{normalized_site}/",
+        f"{normalized_site}/atlas/",
+        *[_share_page_url(normalized_site, _share_page_id(stop)) for stop in route],
+    ]
+    sitemap = "\n".join(
+        [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+            *[_sitemap_url(url) for url in urls],
+            "</urlset>",
+            "",
+        ]
+    )
+    robots = "\n".join(
+        [
+            "User-agent: *",
+            "Allow: /",
+            f"Sitemap: {normalized_site}/sitemap.xml",
+            "",
+        ]
+    )
+    (root / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    (root / "robots.txt").write_text(robots, encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build the Yellowstone atlas route from downloaded media.")
     parser.add_argument("--root", type=Path, default=Path.cwd(), help="Repository root to scan.")
@@ -221,6 +368,11 @@ def main() -> int:
         type=Path,
         default=None,
         help="Route output path. Defaults to --route, updating the live atlas data.",
+    )
+    parser.add_argument(
+        "--site-url",
+        default=None,
+        help="Public site URL for generated social share pages. Defaults to CNAME or ysl.rosuh.me.",
     )
     parser.add_argument("--check", action="store_true", help="Exit non-zero when downloaded media is missing from the route.")
     args = parser.parse_args()
@@ -242,8 +394,14 @@ def main() -> int:
         print(f"All {len(media)} downloaded sound file(s) are represented in {route_path.relative_to(root)}.")
         return 0
 
+    site_url = args.site_url or _site_url_from_cname(root)
     write_route(output_path, merged)
-    print(f"Wrote {len(merged)} atlas stop(s) to {output_path.relative_to(root)}; {added_count} stop(s) added.")
+    write_share_pages(root, merged, site_url)
+    write_discovery_files(root, merged, site_url)
+    print(
+        f"Wrote {len(merged)} atlas stop(s) to {output_path.relative_to(root)}; "
+        f"{added_count} stop(s) added; generated {len(merged)} share page(s).",
+    )
     return 0
 
 

@@ -1,27 +1,24 @@
 # YSL
 
+![Yellowstone Sound Library banner](docs/assets/banner.png)
+
 [![Spider Data Collection](https://github.com/rosuH/YSL/actions/workflows/spider_action.yml/badge.svg)](https://github.com/rosuH/YSL/actions/workflows/spider_action.yml)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-### 🏞 Yellowstone Sound Library 🎵
+YSL collects the public Yellowstone National Park sound library and turns it into a browsable, shareable listening atlas. The repository contains the downloaded audio/image archive, the crawler that keeps it updated, and a static web experience for exploring the sounds as field specimens.
 
-This repository collects the public sound library of Yellowstone National Park. These sounds contain the natural environment and animals.
-You can use this audio as BGM for your work 👩‍💻, study 📖 or meditation 🙇‍♂️.
+## What Is Included
 
-## Download
-
-Since GitHub has a size limit on uploaded files, the full archive is also available on the [Web Archive](https://archive.org/details/YSL.7z).
-Or you can just clone this repository.
+- `spider.py` downloads and deduplicates Yellowstone Sound Library media.
+- Downloaded `.mp3` and `.jpg` files are stored as repository assets.
+- `atlas/` contains the static Yellowstone Sound Atlas web experience.
+- `atlas/dawn-to-night.json` is the route metadata used by the atlas.
+- Tests validate crawler behavior, route metadata, static assets, and the local preview helper.
 
 ## Sound Atlas
 
-The repository includes a static guided listening route:
-
-- `atlas/index.html` — Yellowstone Sound Atlas: Dawn to Night
-- `atlas/dawn-to-night.json` — curated route metadata
-
-To preview it locally, run a static server from the repository root:
+The atlas is a static listening interface built from this repository's media files.
 
 ```bash
 python -m http.server 8000
@@ -29,66 +26,82 @@ python -m http.server 8000
 
 Then open <http://localhost:8000/atlas/>.
 
-The atlas page reads `atlas/dawn-to-night.json`; it does not scan folders in the browser. After running the crawler, update the route metadata from the downloaded MP3 files:
+The browser reads `atlas/dawn-to-night.json`; it does not scan folders at runtime. Public share links use static per-specimen pages so social platforms can read the right preview metadata:
+
+```text
+https://ysl.rosuh.me/atlas/share/american-coots/
+```
+
+Opening a share page redirects to the matching player state, such as `https://ysl.rosuh.me/atlas/#american-coots`.
+
+## Updating The Archive
+
+The manual **Spider Data Collection** GitHub Action runs the crawler, updates the atlas route, verifies the route, and commits any changed media or metadata.
+
+For local updates:
 
 ```bash
+make run
 make build-atlas-route
-```
-
-This writes directly to `atlas/dawn-to-night.json`. Existing curated entries are preserved, and newly discovered audio files are added with generated theme, time-of-day, zone, credit, image, and field-note metadata. To verify that every downloaded MP3 is represented:
-
-```bash
 make check-atlas-route
+pytest -v
 ```
 
-The manual Spider Data Collection GitHub Action runs the same route update after `python spider.py` and commits the updated atlas metadata together with any newly downloaded assets.
+`make build-atlas-route` writes directly to `atlas/dawn-to-night.json`. Existing curated entries are preserved; newly discovered audio files are added with generated theme, time-of-day, zone, credit, image, and field-note metadata.
+
+## Download
+
+GitHub has a size limit on uploaded files, so the full archive is also available on the [Web Archive](https://archive.org/details/YSL.7z). You can also clone this repository directly.
+
+## Project Layout
+
+```text
+.
+├── atlas/                  # Static Yellowstone Sound Atlas
+├── docs/assets/            # README and documentation imagery
+├── scripts/                # Local preview and atlas route helpers
+├── tests/                  # Crawler, atlas, and static-site tests
+├── spider.py               # Yellowstone Sound Library crawler
+└── README.md
+```
+
+## Credit And Legal Notice
+
+This repository collects public sound libraries from [Yellowstone National Park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm).
+
+According to the Yellowstone Sound Library page, the provided audio files were recorded in the park, are in the public domain, and may be downloaded and used without limitation. Please credit the **National Park Service** where appropriate.
+
+### Compliance Statement
+
+**Copyright Status**: According to the [NPS Disclaimer](https://www.nps.gov/aboutus/disclaimer.htm), works created by U.S. federal government employees as part of their official duties are generally in the public domain under 17 U.S.C. §§ 101, 105. The Yellowstone Sound Library explicitly states that its audio files are in the public domain.
+
+**Web Crawling**: This project uses an automated crawler to download files. The crawler:
+
+- Respects the site's [`robots.txt`](https://www.nps.gov/robots.txt); the sound library path is not disallowed.
+- Identifies itself with a descriptive `User-Agent` including this repository's URL.
+- Uses a polite request delay, 2 seconds by default, to avoid overloading NPS servers.
+
+**Usage Risk**: While NPS labels these audio files as public domain, not all materials on NPS websites are guaranteed to be free of third-party rights. Users are responsible for determining whether their use case requires additional permissions. If any file in this repository is found to infringe on third-party rights, please [open an issue](https://github.com/rosuH/YSL/issues) and it will be removed.
 
 ## Inspiration
 
 [tonyq0802's tweet](https://twitter.com/tonyq0802/status/1084364955506290688)
 
-## Credit & Legal Notice
-
-This repository collects public sound libraries from [Yellowstone National Park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm).
-
-> Welcome to the Yellowstone sound library, where you can immerse yourself in the aural landscape of America's first national park. The files available here were recorded in the park and are in the public domain. They may be downloaded and used without limitation; however, please credit the "National Park Service" where appropriate.
-> — [National Park Service](https://www.nps.gov/index.htm)
-
-### ⚖️ Compliance Statement
-
-**Copyright Status**: According to the [NPS Disclaimer](https://www.nps.gov/aboutus/disclaimer.htm), works created by U.S. federal government employees as part of their official duties are generally in the public domain under 17 U.S.C. §§ 101, 105. The Yellowstone Sound Library explicitly states that its audio files are "in the public domain."
-
-**Web Crawling**: This project uses an automated crawler to download files. The crawler:
-- Respects the site's [`robots.txt`](https://www.nps.gov/robots.txt) (the sound library path is **not** disallowed).
-- Identifies itself with a descriptive `User-Agent` including this repository's URL.
-- Uses a polite request delay (2 seconds by default) to avoid overloading NPS servers.
-
-**Usage Risk**: While NPS explicitly labels these files as public domain, not all materials on NPS websites are guaranteed to be free of third-party rights. Users are responsible for determining whether their specific use case requires additional permissions. If any file in this repository is found to infringe on third-party rights, please [open an issue](https://github.com/rosuH/YSL/issues) immediately and it will be removed.
-
-> *If there is any infringement in this repo, please create an issue immediately and I will deal with it.*
-
 ---
 
-# YSL
+## 中文说明
 
-### 🏞 黄石公园声音库 🎵
+YSL 收集 Yellowstone National Park 的公开声音库，并把这些音频和图片整理成一个可以浏览、播放、分享的静态声音图谱。这个仓库既是声音素材归档，也是爬虫和前端展示的完整项目。
 
-这个仓库收集了黄石国家公园的公开声音库。这些声音包含了自然环境、动物产生的声音。
-您可以使用它们作为您工作 👩‍💻、学习 📖 或冥想的背景音乐 🙇‍♂️。
+### 包含内容
 
-## 下载
+- `spider.py`：下载并去重 Yellowstone Sound Library 素材。
+- 仓库内的 `.mp3` / `.jpg`：已采集的声音和图片资源。
+- `atlas/`：静态 Yellowstone Sound Atlas 页面。
+- `atlas/dawn-to-night.json`：图谱读取的路线元数据。
+- `tests/`：爬虫、图谱数据、静态页面和预览服务测试。
 
-因为 GitHub 对上传的文件有大小限制，完整的归档也上传到了 [Web Archive](https://archive.org/details/YSL.7z)。
-当然，您也可以直接 clone 本项目。
-
-## 声音图谱
-
-本仓库包含一个静态引导式聆听路线：
-
-- `atlas/index.html` — Yellowstone Sound Atlas: Dawn to Night
-- `atlas/dawn-to-night.json` — 路线元数据
-
-本地预览时，请在仓库根目录启动静态服务器：
+### 本地预览
 
 ```bash
 python -m http.server 8000
@@ -96,40 +109,35 @@ python -m http.server 8000
 
 然后打开 <http://localhost:8000/atlas/>。
 
-网页读取的是 `atlas/dawn-to-night.json`，不会在浏览器里扫描资源目录。爬虫下载新 MP3 后，可以用下载到的 MP3 自动更新路线元数据：
+网页读取的是 `atlas/dawn-to-night.json`，不会在浏览器里扫描资源目录。公开分享链接使用每个声音条目的静态分享页，这样社交平台可以读取对应的预览信息：
+
+```text
+https://ysl.rosuh.me/atlas/share/american-coots/
+```
+
+打开分享页后会跳转到对应播放器状态，例如 `https://ysl.rosuh.me/atlas/#american-coots`。
+
+### 更新资源
+
+手动触发的 **Spider Data Collection** GitHub Action 会运行爬虫、更新图谱元数据、检查 route，并把新增资源和元数据一起提交。
+
+本地更新可以运行：
 
 ```bash
+make run
 make build-atlas-route
-```
-
-这会直接写入 `atlas/dawn-to-night.json`。已有的人工整理条目会被保留，新发现的音频会自动补上主题、时间、区域、署名、图片和 field note。要确认所有下载的 MP3 都已经进入图谱：
-
-```bash
 make check-atlas-route
+pytest -v
 ```
 
-手动触发的 Spider Data Collection GitHub Action 会在 `python spider.py` 之后运行同样的路线更新，并把更新后的图谱元数据和新下载资源一起提交。
+`make build-atlas-route` 会直接写入 `atlas/dawn-to-night.json`。已有人工整理条目会被保留，新发现的音频会自动补上主题、时间、区域、署名、图片和 field note。
 
-## 启发
+### 下载
 
-[tonyq0802 的此条推特](https://twitter.com/tonyq0802/status/1084364955506290688)
+因为 GitHub 对上传文件大小有限制，完整归档也上传到了 [Web Archive](https://archive.org/details/YSL.7z)。当然，也可以直接 clone 本仓库。
 
-## 版权声明与法律说明
+### 版权与使用说明
 
-本库收集自 [Yellowstone National Park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm) 的公开声音库。
+本仓库素材来自 [Yellowstone National Park](https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm) 的公开声音库。NPS 声音库页面说明这些音频在公园内录制、属于公共领域，可以无限制下载和使用；请在合适的位置注明 **National Park Service**。
 
-> 欢迎来到黄石声音库，在这里您可以沉浸于美国第一个国家公园的听觉景观中。这里提供的文件是在公园内录制的，属于公共领域。它们可以无限制地下载和使用；但请在适当的地方注明 "National Park Service"。
-> — [National Park Service](https://www.nps.gov/index.htm)
-
-### ⚖️ 合规声明
-
-**版权状态**：根据 [NPS 免责声明](https://www.nps.gov/aboutus/disclaimer.htm)，美国联邦政府雇员在履行公务过程中创作的作品通常属于公共领域（依据 17 U.S.C. §§ 101, 105）。黄石声音库也明确声明其音频文件 "属于公共领域"。
-
-**网络爬虫**：本项目使用自动化爬虫下载文件。该爬虫：
-- 遵守网站的 [`robots.txt`](https://www.nps.gov/robots.txt)（声音库路径**未被**禁止）。
-- 使用包含本仓库 URL 的描述性 `User-Agent`。
-- 默认使用 2 秒的请求延迟，以避免对 NPS 服务器造成压力。
-
-**使用风险**：虽然 NPS 明确将这些文件标记为公共领域，但并非 NPS 网站上的所有材料都保证没有第三方权利。用户有责任确定其特定使用场景是否需要额外的许可。如果本仓库中的任何文件被发现侵犯了第三方权利，请立即[提交 issue](https://github.com/rosuH/YSL/issues)，我们将立即处理。
-
-> *如果此仓库有任何侵权行为，请您立刻发起一条 issue，我将会马上处理。*
+爬虫会遵守 `robots.txt`、使用带仓库 URL 的 `User-Agent`，并默认保持 2 秒请求间隔。如果本仓库中的任何文件被发现侵犯第三方权利，请立即[提交 issue](https://github.com/rosuH/YSL/issues)，我会处理并移除。

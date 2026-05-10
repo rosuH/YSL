@@ -6,5 +6,12 @@
   "display": "standalone",
   "background_color": "#eee6cf",
   "theme_color": "#eee6cf",
-  "icons": []
+  "icons": [
+    {
+      "src": "icons/ysa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

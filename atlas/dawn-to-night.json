@@ -8,7 +8,8 @@
     "audioPath": "American Coots/American Coots.mp3",
     "description": "The call of American Coots echoes across wetland margin.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "American Coots/American Coots_NPS _ Neal Herbert_2016-09-14.jpg"
+    "imagePath": "American Coots/American Coots_NPS _ Neal Herbert_2016-09-14.jpg",
+    "fieldNote": "American Coots skitter through the wetland margin, their sharp calls cutting through the morning mist."
   },
   {
     "id": "american-robin",
@@ -19,7 +20,8 @@
     "audioPath": "American Robin/Sound Library - American Robin.mp3",
     "description": "The call of American Robin echoes across forest edge.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "American Robin/Sound Library - American Robin_NPS _ Neal Herbert_.jpg"
+    "imagePath": "American Robin/Sound Library - American Robin_NPS _ Neal Herbert_.jpg",
+    "fieldNote": "The first light brings the robin to the forest edge, its song mapping the boundary between dark and day."
   },
   {
     "id": "birds---bird-chorus",
@@ -29,7 +31,8 @@
     "zoneLabel": "Morning chorus",
     "audioPath": "Birds - Bird Chorus/Sound Library - Bird Chorus.mp3",
     "description": "The call of Bird Chorus echoes across morning chorus.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Before the sun clears the ridge, the entire valley fills with layered song, each species staking its claim in the chorus."
   },
   {
     "id": "bird---common-yellowthroat",
@@ -39,7 +42,8 @@
     "zoneLabel": "Shrub wetland",
     "audioPath": "Bird - Common Yellowthroat/Sound Library - Common Yellowthroat.mp3",
     "description": "The call of Common Yellowthroat echoes across shrub wetland.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Hidden in dense shrub, the Common Yellowthroat delivers its witchity-witchity call with surprising force."
   },
   {
     "id": "dawn-chorus",
@@ -50,7 +54,8 @@
     "audioPath": "Dawn Chorus/Sound Library - Dawn Chorus.mp3",
     "description": "The call of Dawn Chorus echoes across morning soundscape.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert.jpg"
+    "imagePath": "Dawn Chorus/Sound Library - Dawn Chorus_NPS_Neal Herbert.jpg",
+    "fieldNote": "At first light, the soundscape swells: warblers, thrushes, and sparrows weaving a collective tapestry of territorial song."
   },
   {
     "id": "red-fox",
@@ -61,7 +66,8 @@
     "audioPath": "Red Fox/Sound Library - Red Fox.mp3",
     "description": "Red Fox moves through forest edge, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Red Fox/Sound Library - Red Fox_NPS _ Jim Peaco_2008-03-07.jpg"
+    "imagePath": "Red Fox/Sound Library - Red Fox_NPS _ Jim Peaco_2008-03-07.jpg",
+    "fieldNote": "A Red Fox moves through the forest edge, its sharp bark cutting through the stillness, a territorial signal in the half-light."
   },
   {
     "id": "bird---red-winged-blackbird",
@@ -72,7 +78,8 @@
     "audioPath": "Bird - Red-Winged Blackbird/Sound Library - Red-Winged Blackbird.mp3",
     "description": "The call of Red-Winged Blackbird echoes across marshland.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Bird - Red-Winged Blackbird/Sound Library - Red-Winged Blackbird_NPS _ Neal Herbert_2015-04-27.jpg"
+    "imagePath": "Bird - Red-Winged Blackbird/Sound Library - Red-Winged Blackbird_NPS _ Neal Herbert_2015-04-27.jpg",
+    "fieldNote": "Perched on cattails, the Red-Winged Blackbird flashes its epaulets while delivering a liquid konk-la-reee across the marsh."
   },
   {
     "id": "sandhill-crane",
@@ -83,7 +90,8 @@
     "audioPath": "Sandhill Crane/Sound Library - Sandhill Crane.mp3",
     "description": "The call of Sandhill Crane echoes across wetland meadow.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert.jpg"
+    "imagePath": "Sandhill Crane/Sound Library - Sandhill Crane_NPS_Neal Herbert.jpg",
+    "fieldNote": "Sandhill Cranes pass overhead in loose formation, their rolling bugle calls carrying for miles across the wetland meadow."
   },
   {
     "id": "soundscapes",
@@ -93,7 +101,8 @@
     "zoneLabel": "Park-wide soundscape",
     "audioPath": "Soundscapes/Soundscapes.mp3",
     "description": "A layered soundscape capturing the full acoustic depth of park-wide soundscape.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "This layered recording captures the full acoustic depth of the park: wind through lodgepole pines, distant water, and the continuous murmur of unseen life."
   },
   {
     "id": "american-dipper",
@@ -104,7 +113,8 @@
     "audioPath": "American Dipper/Sound Library - American Dipper.mp3",
     "description": "The call of American Dipper echoes across mountain stream.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "American Dipper/Sound Library - American Dipper_NPS _ Jacob W. Frank_.jpg"
+    "imagePath": "American Dipper/Sound Library - American Dipper_NPS _ Jacob W. Frank_.jpg",
+    "fieldNote": "The American Dipper stands on a streamside rock, its clear bubbling song rising above the rush of mountain water."
   },
   {
     "id": "bald-eagle",
@@ -115,7 +125,8 @@
     "audioPath": "Bald Eagle/Sound Library - Bald Eagle.mp3",
     "description": "The call of Bald Eagle echoes across riverside perch.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_.jpg"
+    "imagePath": "Bald Eagle/Sound Library - Bald Eagle_NPS _ Jim Peaco_.jpg",
+    "fieldNote": "From a riverside perch, the Bald Eagle emits a series of high-pitched whistles, far more delicate than its fierce appearance suggests."
   },
   {
     "id": "canada-goose",
@@ -125,7 +136,8 @@
     "zoneLabel": "Lake shore",
     "audioPath": "Canada Goose/Canada Goose.mp3",
     "description": "The call of Canada Goose echoes across lake shore.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Canada Geese trumpet across the lake shore, their honking calls echoing off the water in the still morning air."
   },
   {
     "id": "bird---clarks-nutcracker",
@@ -136,7 +148,8 @@
     "audioPath": "Bird - Clark's Nutcracker/Sound Library - Clark’s Nutcracker.mp3",
     "description": "The call of Clark's Nutcracker echoes across pine forest.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Bird - Clark's Nutcracker/Sound Library - Clark’s Nutcracker_NPS _ Jim Peaco_2007-03-18.jpg"
+    "imagePath": "Bird - Clark's Nutcracker/Sound Library - Clark’s Nutcracker_NPS _ Jim Peaco_2007-03-18.jpg",
+    "fieldNote": "In the pine forest, Clark's Nutcracker works through the cones with mechanical precision, its harsh kraaa calls bouncing between trunks."
   },
   {
     "id": "common-raven",
@@ -147,7 +160,8 @@
     "audioPath": "Common Raven/Sound Library - Common Raven.mp3",
     "description": "The call of Common Raven echoes across canyon rim.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Common Raven/Sound Library - Common Raven_NPS_Neal Herbert.jpg"
+    "imagePath": "Common Raven/Sound Library - Common Raven_NPS_Neal Herbert.jpg",
+    "fieldNote": "Ravens wheel above the canyon rim, their deep croaks and watery gurgles echoing off the basalt walls below."
   },
   {
     "id": "killdeer",
@@ -157,7 +171,8 @@
     "zoneLabel": "Gravel bar",
     "audioPath": "Killdeer/Sound Library - Killdeer.mp3",
     "description": "The call of Killdeer echoes across gravel bar.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "On the gravel bar, a Killdeer performs its broken-wing display while shouting its own name in sharp, insistent cries."
   },
   {
     "id": "mountain-bluebird",
@@ -168,7 +183,8 @@
     "audioPath": "Mountain Bluebird/Sound Library - Mountain Bluebird.mp3",
     "description": "The call of Mountain Bluebird echoes across open meadow.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert.jpg"
+    "imagePath": "Mountain Bluebird/Sound Library - Mountain Bluebird_NPS _ Neal Herbert.jpg",
+    "fieldNote": "The Mountain Bluebird's soft warble carries across the open meadow, a gentle counterpoint to the wind."
   },
   {
     "id": "red-squirrel",
@@ -179,7 +195,8 @@
     "audioPath": "Red Squirrel/Sound Library - Red Squirrel.mp3",
     "description": "Red Squirrel moves through pine forest, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Red Squirrel/Sound Library - Red Squirrel_NPS _ Neal Herbert_2004-03-20.jpg"
+    "imagePath": "Red Squirrel/Sound Library - Red Squirrel_NPS _ Neal Herbert_2004-03-20.jpg",
+    "fieldNote": "A Red Squirrel chatters from a pine branch, its staccato alarm calls warning the forest of intruders."
   },
   {
     "id": "ruffed-grouse",
@@ -190,7 +207,8 @@
     "audioPath": "Ruffed Grouse/Sound Library - Ruffed Grouse.mp3",
     "description": "The call of Ruffed Grouse echoes across deciduous forest.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Ruffed Grouse/Sound Library - Ruffed Grouse_NPS_Neal Herbert.jpg"
+    "imagePath": "Ruffed Grouse/Sound Library - Ruffed Grouse_NPS_Neal Herbert.jpg",
+    "fieldNote": "Deep in the deciduous forest, a Ruffed Grouse beats the air with its wings, producing a deep thumping that sounds like a distant engine starting."
   },
   {
     "id": "bird---savannah-sparrow",
@@ -200,7 +218,8 @@
     "zoneLabel": "Grassland",
     "audioPath": "Bird - Savannah Sparrow/Sound Library - Savannah Sparrow.mp3",
     "description": "The call of Savannah Sparrow echoes across grassland.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "From a grassland perch, the Savannah Sparrow delivers its thin, insect-like song with mechanical regularity."
   },
   {
     "id": "snowmobile",
@@ -211,7 +230,8 @@
     "audioPath": "Snowmobile/Sound Library - Snowmobile.mp3",
     "description": "Snowmobile traces the historic and modern human presence in the park.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Snowmobile/Sound Library - Snowmobile_NPS _ Neal Herbert_.jpg"
+    "imagePath": "Snowmobile/Sound Library - Snowmobile_NPS _ Neal Herbert_.jpg",
+    "fieldNote": "The two-stroke whine of a snowmobile cuts across the winter trail, a sharp reminder of human presence in the white silence."
   },
   {
     "id": "townsends-solitaire",
@@ -221,7 +241,8 @@
     "zoneLabel": "Sagebrush slope",
     "audioPath": "Townsend's Solitaire/Townsend's Solitaire.mp3",
     "description": "The call of Townsend's Solitaire echoes across sagebrush slope.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "On a sagebrush slope, Townsend's Solitaire pours out a long, flute-like song that seems to hang in the thin mountain air."
   },
   {
     "id": "uinta-ground-squirrel",
@@ -232,7 +253,8 @@
     "audioPath": "Uinta Ground Squirrel/Sound Library - Uinta Ground Squirrel.mp3",
     "description": "Uinta Ground Squirrel moves through alpine meadow, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Uinta Ground Squirrel/Sound Library - Uinta Ground Squirrel_NPS _ Neal Herbert_2016-06-01.jpg"
+    "imagePath": "Uinta Ground Squirrel/Sound Library - Uinta Ground Squirrel_NPS _ Neal Herbert_2016-06-01.jpg",
+    "fieldNote": "Uinta Ground Squirrels whistle from their burrows in the alpine meadow, a high-pitched alarm that sends the colony diving for cover."
   },
   {
     "id": "warbling-vireo",
@@ -243,7 +265,8 @@
     "audioPath": "Warbling Vireo/Warbling Vireos.mp3",
     "description": "The call of Warbling Vireo echoes across cottonwood canopy.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Warbling Vireo/Warbling Vireos_NPS _ Neal Herbert.jpg"
+    "imagePath": "Warbling Vireo/Warbling Vireos_NPS _ Neal Herbert.jpg",
+    "fieldNote": "Hidden in the cottonwood canopy, the Warbling Vireo delivers its endless, meandering song without apparent need for breath."
   },
   {
     "id": "western-meadow-lark",
@@ -253,7 +276,8 @@
     "zoneLabel": "Prairie grassland",
     "audioPath": "Western Meadow Lark/Western Meadow Lark.mp3",
     "description": "The call of Western Meadow Lark echoes across prairie grassland.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "The Western Meadowlark's rich, flute-like melody rises from the prairie grassland, one of the most complex songs in North America."
   },
   {
     "id": "geyser---anemone",
@@ -263,7 +287,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Geyser - Anemone/Sound Library - Anemone Geysers.mp3",
     "description": "Anemone Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Anemone Geyser erupts in the Upper Basin, sending a column of steam and water into the air with a deep, pressurized roar."
   },
   {
     "id": "anemone-geysers",
@@ -273,7 +298,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Anemone Geysers/Sound Library - Anemone Geysers.mp3",
     "description": "Anemone Geysers releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "The Anemone Geysers cycle through their eruption phases, each burst accompanied by a distinct change in pitch and intensity."
   },
   {
     "id": "artist-paint-pots",
@@ -284,7 +310,8 @@
     "audioPath": "Artist Paint Pots/Sound Library - Artist Paint Pots.mp3",
     "description": "Artist Paint Pots releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Artist Paint Pots/Sound Library - Artist Paint Pots_NPS_Neal Herbert_2014-11-21.jpg"
+    "imagePath": "Artist Paint Pots/Sound Library - Artist Paint Pots_NPS_Neal Herbert_2014-11-21.jpg",
+    "fieldNote": "At Artist Paint Pots, thick mud bubbles and pops with wet, organic sounds, like a giant cooking in a deep cauldron."
   },
   {
     "id": "beehive-geyser",
@@ -294,7 +321,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Beehive Geyser/Beehive Geyser.mp3",
     "description": "Beehive Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Beehive Geyser lives up to its name, sending a narrow, focused jet of water high into the air with a whistling shriek."
   },
   {
     "id": "geyser---beehive",
@@ -304,7 +332,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Geyser - Beehive/Beehive Geyser.mp3",
     "description": "Beehive Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "The cone of Beehive Geyser shapes its eruption into a focused column, the water cutting the air with a sharp hiss."
   },
   {
     "id": "beryl-spring",
@@ -314,7 +343,8 @@
     "zoneLabel": "Gibbon Geyser Basin",
     "audioPath": "Beryl Spring/Beryl Spring.mp3",
     "description": "Beryl Spring releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Beryl Spring boils continuously, its deep turquoise surface disturbed by constant bubbling and the low rumble of underground pressure."
   },
   {
     "id": "bison-eating",
@@ -325,7 +355,8 @@
     "audioPath": "Bison (eating)/Sound Library - Bison Eating.mp3",
     "description": "Bison Eating moves through grassland herd, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Bison (eating)/Sound Library - Bison Eating_NPS_Neal Herbert_2015-03-13.jpg"
+    "imagePath": "Bison (eating)/Sound Library - Bison Eating_NPS_Neal Herbert_2015-03-13.jpg",
+    "fieldNote": "A Bison herd grazes through the grassland, the sound of tearing grass and heavy breathing filling the air between grunts."
   },
   {
     "id": "castle-geyser",
@@ -336,7 +367,8 @@
     "audioPath": "Castle Geyser/Sound Library - Castle Geyser.mp3",
     "description": "Castle Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Castle Geyser/Sound Library - Castle Geyser_NPS_Neal Herbert_.jpg"
+    "imagePath": "Castle Geyser/Sound Library - Castle Geyser_NPS_Neal Herbert_.jpg",
+    "fieldNote": "Castle Geyser's cone directs its eruption into a fan-shaped spray, the water crashing back to earth with a continuous thunder."
   },
   {
     "id": "geyser---cliff",
@@ -347,7 +379,8 @@
     "audioPath": "Geyser - Cliff/Sound Library - Cliff Geyser.mp3",
     "description": "Cliff Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Geyser - Cliff/Sound Library - Cliff Geyser_NPS_Neal Herbert_.jpg"
+    "imagePath": "Geyser - Cliff/Sound Library - Cliff Geyser_NPS_Neal Herbert_.jpg",
+    "fieldNote": "Cliff Geyser erupts from the edge of the Firehole River, its steam mingling with the mist rising from the water below."
   },
   {
     "id": "ear-spring",
@@ -357,7 +390,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Ear Spring/Sound Library - Ear Spring.mp3",
     "description": "Ear Spring releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Ear Spring bubbles gently in the Upper Basin, its clear water percolating with a sound like a slowly boiling kettle."
   },
   {
     "id": "fountain-paint-pot",
@@ -368,7 +402,8 @@
     "audioPath": "Fountain Paint Pot/Sound Library - Fountain Paint Pot.mp3",
     "description": "Fountain Paint Pot releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Fountain Paint Pot/Sound Library - Fountain Paint Pot_NPS_Neal Herbert_.jpg"
+    "imagePath": "Fountain Paint Pot/Sound Library - Fountain Paint Pot_NPS_Neal Herbert_.jpg",
+    "fieldNote": "At Fountain Paint Pot, viscous clay mud burps and splatters, each burst producing a wet, satisfying plop."
   },
   {
     "id": "geyser---grand",
@@ -378,7 +413,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Geyser - Grand/Sound Library - Grand Geyser.mp3",
     "description": "Grand Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Grand Geyser erupts in towering bursts, the water reaching heights that seem impossible, each eruption accompanied by a deep, rolling thunder."
   },
   {
     "id": "grand-geyser",
@@ -388,7 +424,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Grand Geyser/Sound Library - Grand Geyser.mp3",
     "description": "Grand Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Grand Geyser's eruption is one of the tallest in the world, the water column collapsing back with a continuous roar."
   },
   {
     "id": "horse-drawn-wagon",
@@ -398,7 +435,8 @@
     "zoneLabel": "Historic trail",
     "audioPath": "Horse-Drawn Wagon/Sound Library - Silver Tip Ranch Horse-Drawn Wagon.mp3",
     "description": "Horse-Drawn Wagon traces the historic and modern human presence in the park.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "The creak of a horse-drawn wagon traces the historic trail, wood and leather sounds that have echoed here for over a century."
   },
   {
     "id": "old-faithful-geyser",
@@ -409,7 +447,8 @@
     "audioPath": "Old Faithful Geyser/Sound Library - Old Faithful.mp3",
     "description": "Old Faithful Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Old Faithful Geyser/Sound Library - Old Faithful_NPS_Neal Herbert.jpg"
+    "imagePath": "Old Faithful Geyser/Sound Library - Old Faithful_NPS_Neal Herbert.jpg",
+    "fieldNote": "Old Faithful delivers its predictable eruption, the water column rising with a steady, pressurized hiss before collapsing in a thunderous cascade."
   },
   {
     "id": "puff-n-stuff-geyser",
@@ -420,7 +459,8 @@
     "audioPath": "Puff 'n Stuff Geyser/Sound Library - Puff 'n Stuff Geyser.mp3",
     "description": "Puff 'n Stuff Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Puff 'n Stuff Geyser/Sound Library - Puff 'n Stuff Geyser_NPS_Jim Peaco_2015-03-13.jpg"
+    "imagePath": "Puff 'n Stuff Geyser/Sound Library - Puff 'n Stuff Geyser_NPS_Jim Peaco_2015-03-13.jpg",
+    "fieldNote": "Puff 'n Stuff Geyser lives up to its name, emitting short, energetic bursts of steam and water with each cycle."
   },
   {
     "id": "geyser---sawmill",
@@ -431,7 +471,8 @@
     "audioPath": "Geyser - Sawmill/Sound Library - Sawmill Geyser.mp3",
     "description": "Sawmill Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Geyser - Sawmill/Sound Library - Sawmill Geyser_NPS_Neal Herbert_.jpg"
+    "imagePath": "Geyser - Sawmill/Sound Library - Sawmill Geyser_NPS_Neal Herbert_.jpg",
+    "fieldNote": "Sawmill Geyser churns continuously, its pool boiling and surging with a sound like water about to break into a full eruption."
   },
   {
     "id": "spouter-geyser",
@@ -441,7 +482,8 @@
     "zoneLabel": "Black Sand Basin",
     "audioPath": "Spouter Geyser/Sound Library - Spouter Geyser.mp3",
     "description": "Spouter Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Spouter Geyser sends a constant stream of water from its vent in the Black Sand Basin, the sound a steady, rushing white noise."
   },
   {
     "id": "geyser---veteran",
@@ -451,7 +493,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Geyser - Veteran/Sound Library - Veteran Geyser.mp3",
     "description": "Veteran Geyser releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Veteran Geyser erupts with irregular timing, each burst a surprise after hours of quiet bubbling."
   },
   {
     "id": "vixen-geyser",
@@ -462,7 +505,8 @@
     "audioPath": "Vixen Geyser/Sound Library - Vixen Geyser.mp3",
     "description": "Vixen Geyser releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Vixen Geyser/Sound Library - Vixen Geyser_NPS_Neal Herbert.jpg"
+    "imagePath": "Vixen Geyser/Sound Library - Vixen Geyser_NPS_Neal Herbert.jpg",
+    "fieldNote": "Vixen Geyser's eruptions are small but frequent, the water dancing just above the vent with a playful, sputtering energy."
   },
   {
     "id": "black-growler-steam-vent",
@@ -473,7 +517,8 @@
     "audioPath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent.mp3",
     "description": "Black Growler Steam Vent releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent_NPS_Neal Herbert_2014-01-31.jpg"
+    "imagePath": "Black Growler Steam Vent/Sound Library - Black Growler Steam Vent_NPS_Neal Herbert_2014-01-31.jpg",
+    "fieldNote": "Black Growler Steam Vent roars continuously in the Norris Basin, a deep, guttural sound that seems to come from the earth itself."
   },
   {
     "id": "black-sand-pool",
@@ -483,7 +528,8 @@
     "zoneLabel": "Upper Geyser Basin",
     "audioPath": "Black Sand Pool/Sound Library - Black Sand Pool.mp3",
     "description": "Black Sand Pool releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Black Sand Pool steams quietly in the Upper Basin, its surface disturbed only by the occasional bubble breaking through."
   },
   {
     "id": "fire",
@@ -494,7 +540,8 @@
     "audioPath": "Fire/Sound Library - Fire.mp3",
     "description": "Fire reshapes the acoustic landscape of the park.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Fire/Sound Library - Fire_NPS_Jennifer Jerrett_.jpg"
+    "imagePath": "Fire/Sound Library - Fire_NPS_Jennifer Jerrett_.jpg",
+    "fieldNote": "A forest fire reshapes the acoustic landscape, the crackle and roar of burning timber replacing the usual birdsong with something primal."
   },
   {
     "id": "fumaroles",
@@ -505,7 +552,8 @@
     "audioPath": "Fumaroles/Sound Library - Fumaroles.mp3",
     "description": "Fumaroles releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Fumaroles/Sound Library - Fumaroles_NPS_Neal Herbert_2014-01-31.jpg"
+    "imagePath": "Fumaroles/Sound Library - Fumaroles_NPS_Neal Herbert_2014-01-31.jpg",
+    "fieldNote": "At Roaring Mountain, Fumaroles vent steam with a continuous hiss, the sound varying with the wind and the pressure below."
   },
   {
     "id": "hurricane-vent",
@@ -515,7 +563,8 @@
     "zoneLabel": "Norris Geyser Basin",
     "audioPath": "Hurricane Vent/Sound Library - Hurricane Vent.mp3",
     "description": "Hurricane Vent releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Hurricane Vent lives up to its name, emitting a continuous stream of steam with a force that sounds like a gale trapped underground."
   },
   {
     "id": "scissors-springs",
@@ -525,7 +574,8 @@
     "zoneLabel": "Norris Geyser Basin",
     "audioPath": "Scissors Springs/Sound Library - Scissors Springs.mp3",
     "description": "Scissors Springs releases the deep pressure of the Yellowstone caldera.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "Scissors Springs bubble and churn in the Norris Basin, the water shifting between pools with a sound of constant motion."
   },
   {
     "id": "the-dragons-mouth",
@@ -536,7 +586,8 @@
     "audioPath": "The Dragon's Mouth/Sound Library - The Dragon's Mouth.mp3",
     "description": "The Dragon's Mouth releases the deep pressure of the Yellowstone caldera.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "The Dragon's Mouth/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_.jpg"
+    "imagePath": "The Dragon's Mouth/Sound Library - The Dragon's Mouth_NPS_Neal Herbert_.jpg",
+    "fieldNote": "The Dragon's Mouth steams and hisses in Mammoth Hot Springs, the sound echoing from a cave-like opening that seems to breathe."
   },
   {
     "id": "thunder",
@@ -547,7 +598,8 @@
     "audioPath": "Thunder/Sound Library - Thunder.mp3",
     "description": "Thunder reshapes the acoustic landscape of the park.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Thunder/Sound Library - Thunder_NPS_Neal Herbert_2014-07-04.jpg"
+    "imagePath": "Thunder/Sound Library - Thunder_NPS_Neal Herbert_2014-07-04.jpg",
+    "fieldNote": "Summer thunder rolls across the park, the deep bass notes bouncing between canyon walls in a slow, reverberating cascade."
   },
   {
     "id": "bison-rut",
@@ -558,7 +610,8 @@
     "audioPath": "Bison (rut)/Sound Library - Bison.mp3",
     "description": "Bison Rut moves through rutting ground, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Bison (rut)/Sound Library - Bison_NPS _ Neal Herbert_2014-08-07.jpg"
+    "imagePath": "Bison (rut)/Sound Library - Bison_NPS _ Neal Herbert_2014-08-07.jpg",
+    "fieldNote": "During the rut, Bison bulls bellow across the rutting ground, their deep, resonant calls competing for the attention of cows."
   },
   {
     "id": "common-loon",
@@ -568,7 +621,8 @@
     "zoneLabel": "Lake surface",
     "audioPath": "Common Loon/Common Loon.mp3",
     "description": "The call of Common Loon echoes across lake surface.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "A Common Loon calls across the lake surface, its tremolo and wails carrying for miles in the still evening air."
   },
   {
     "id": "yellowstone-lake-singing",
@@ -579,7 +633,8 @@
     "audioPath": "Yellowstone Lake (singing)/Sound Library - Singing Lake.mp3",
     "description": "The surface of Yellowstone Lake sings with shifting ice and wave resonance.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_.jpg"
+    "imagePath": "Yellowstone Lake (singing)/Sound Library - Singing Lake_NPS _ Jim Peaco_.jpg",
+    "fieldNote": "The surface of Yellowstone Lake sings with shifting ice and wave resonance, a haunting, ethereal sound that seems to come from nowhere and everywhere."
   },
   {
     "id": "boreal-chorus-frogs",
@@ -590,7 +645,8 @@
     "audioPath": "Boreal Chorus Frogs/Sound Library - Chorus Frogs.mp3",
     "description": "Boreal Chorus Frogs moves through pond margin, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Boreal Chorus Frogs/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2020-10-14 00:00:00.0.jpg"
+    "imagePath": "Boreal Chorus Frogs/Sound Library - Chorus Frogs_NPS _ Neal Herbert_2020-10-14 00:00:00.0.jpg",
+    "fieldNote": "At dusk, Boreal Chorus Frogs fill the pond margin with a continuous, trilling chorus, each frog contributing to a collective wall of sound."
   },
   {
     "id": "elk",
@@ -601,7 +657,8 @@
     "audioPath": "Elk/Sound Library - Elk.mp3",
     "description": "Elk moves through evening meadow, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Elk/Sound Library - Elk_NPS _ Neal Herbert_2016-09-13.jpg"
+    "imagePath": "Elk/Sound Library - Elk_NPS _ Neal Herbert_2016-09-13.jpg",
+    "fieldNote": "An Elk bugles across the evening meadow, its high, whistling call carrying the raw tension of the rut through the cooling air."
   },
   {
     "id": "wilsons-snipe",
@@ -612,7 +669,8 @@
     "audioPath": "Wilson's Snipe/Sound Library - Wilson's Snipe.mp3",
     "description": "The call of Wilson's Snipe echoes across wetland marsh.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Wilson's Snipe/Sound Library - Wilson's Snipe_NPS _ Neal Herbert.jpg"
+    "imagePath": "Wilson's Snipe/Sound Library - Wilson's Snipe_NPS _ Neal Herbert.jpg",
+    "fieldNote": "Wilson's Snipe performs its winnowing display high above the wetland marsh, the sound of its tail feathers producing an eerie, descending bleat."
   },
   {
     "id": "coyotes",
@@ -623,7 +681,8 @@
     "audioPath": "Coyotes/Sound Library - Coyote.mp3",
     "description": "Coyotes moves through valley floor, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Coyotes/Sound Library - Coyote_NPS _ Neal Herbert_2016-05-05.jpg"
+    "imagePath": "Coyotes/Sound Library - Coyote_NPS _ Neal Herbert_2016-05-05.jpg",
+    "fieldNote": "Coyotes yip and howl across the valley floor, their calls weaving together in a chorus that fills the night with wild sound."
   },
   {
     "id": "spadefoot-toad",
@@ -633,7 +692,8 @@
     "zoneLabel": "Temporary pool",
     "audioPath": "Spadefoot Toad/Spadefoot Toad.mp3",
     "description": "Spadefoot Toad moves through temporary pool, marking territory or seeking mate.",
-    "credit": "Audio and image courtesy of National Park Service."
+    "credit": "Audio and image courtesy of National Park Service.",
+    "fieldNote": "After rain, Spadefoot Toads emerge from their burrows around temporary pools, their nasal calls forming a loud, monotonous chorus."
   },
   {
     "id": "wolves",
@@ -644,6 +704,7 @@
     "audioPath": "Wolves/Sound Library - Wolves.mp3",
     "description": "Wolves moves through night soundscape, marking territory or seeking mate.",
     "credit": "Audio and image courtesy of National Park Service.",
-    "imagePath": "Wolves/Sound Library - Wolves_NPS _ Jacob Frank_2016-01-11.jpg"
+    "imagePath": "Wolves/Sound Library - Wolves_NPS _ Jacob Frank_2016-01-11.jpg",
+    "fieldNote": "Wolves howl across the night soundscape, their long, mournful calls carrying for miles, each note bending and fading into the dark."
   }
 ]

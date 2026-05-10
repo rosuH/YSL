@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ysl.rosuh.me/sitemap.xml

@@ -21,70 +21,6 @@ const state = {
   isMinimized: false,
 };
 
-const descriptionOverrides = {
-  "american-coots": "American Coots skitter through the wetland margin, their sharp calls cutting through the morning mist.",
-  "american-robin": "The first light brings the robin to the forest edge, its song mapping the boundary between dark and day.",
-  "birds---bird-chorus": "Before the sun clears the ridge, the entire valley fills with layered song, each species staking its claim in the chorus.",
-  "bird---common-yellowthroat": "Hidden in dense shrub, the Common Yellowthroat delivers its witchity-witchity call with surprising force.",
-  "dawn-chorus": "At first light, the soundscape swells: warblers, thrushes, and sparrows weaving a collective tapestry of territorial song.",
-  "red-fox": "A Red Fox moves through the forest edge, its sharp bark cutting through the stillness, a territorial signal in the half-light.",
-  "bird---red-winged-blackbird": "Perched on cattails, the Red-Winged Blackbird flashes its epaulets while delivering a liquid konk-la-reee across the marsh.",
-  "sandhill-crane": "Sandhill Cranes pass overhead in loose formation, their rolling bugle calls carrying for miles across the wetland meadow.",
-  "soundscapes": "This layered recording captures the full acoustic depth of the park: wind through lodgepole pines, distant water, and the continuous murmur of unseen life.",
-  "american-dipper": "The American Dipper stands on a streamside rock, its clear bubbling song rising above the rush of mountain water.",
-  "bald-eagle": "From a riverside perch, the Bald Eagle emits a series of high-pitched whistles, far more delicate than its fierce appearance suggests.",
-  "canada-goose": "Canada Geese trumpet across the lake shore, their honking calls echoing off the water in the still morning air.",
-  "bird---clarks-nutcracker": "In the pine forest, Clark's Nutcracker works through the cones with mechanical precision, its harsh kraaa calls bouncing between trunks.",
-  "common-raven": "Ravens wheel above the canyon rim, their deep croaks and watery gurgles echoing off the basalt walls below.",
-  "killdeer": "On the gravel bar, a Killdeer performs its broken-wing display while shouting its own name in sharp, insistent cries.",
-  "mountain-bluebird": "The Mountain Bluebird's soft warble carries across the open meadow, a gentle counterpoint to the wind.",
-  "red-squirrel": "A Red Squirrel chatters from a pine branch, its staccato alarm calls warning the forest of intruders.",
-  "ruffed-grouse": "Deep in the deciduous forest, a Ruffed Grouse beats the air with its wings, producing a deep thumping that sounds like a distant engine starting.",
-  "bird---savannah-sparrow": "From a grassland perch, the Savannah Sparrow delivers its thin, insect-like song with mechanical regularity.",
-  "snowmobile": "The two-stroke whine of a snowmobile cuts across the winter trail, a sharp reminder of human presence in the white silence.",
-  "townsends-solitaire": "On a sagebrush slope, Townsend's Solitaire pours out a long, flute-like song that seems to hang in the thin mountain air.",
-  "uinta-ground-squirrel": "Uinta Ground Squirrels whistle from their burrows in the alpine meadow, a high-pitched alarm that sends the colony diving for cover.",
-  "warbling-vireo": "Hidden in the cottonwood canopy, the Warbling Vireo delivers its endless, meandering song without apparent need for breath.",
-  "western-meadow-lark": "The Western Meadowlark's rich, flute-like melody rises from the prairie grassland, one of the most complex songs in North America.",
-  "geyser---anemone": "Anemone Geyser erupts in the Upper Basin, sending a column of steam and water into the air with a deep, pressurized roar.",
-  "anemone-geysers": "The Anemone Geysers cycle through their eruption phases, each burst accompanied by a distinct change in pitch and intensity.",
-  "artist-paint-pots": "At Artist Paint Pots, thick mud bubbles and pops with wet, organic sounds, like a giant cooking in a deep cauldron.",
-  "beehive-geyser": "Beehive Geyser lives up to its name, sending a narrow, focused jet of water high into the air with a whistling shriek.",
-  "geyser---beehive": "The cone of Beehive Geyser shapes its eruption into a focused column, the water cutting the air with a sharp hiss.",
-  "beryl-spring": "Beryl Spring boils continuously, its deep turquoise surface disturbed by constant bubbling and the low rumble of underground pressure.",
-  "bison-eating": "A Bison herd grazes through the grassland, the sound of tearing grass and heavy breathing filling the air between grunts.",
-  "castle-geyser": "Castle Geyser's cone directs its eruption into a fan-shaped spray, the water crashing back to earth with a continuous thunder.",
-  "geyser---cliff": "Cliff Geyser erupts from the edge of the Firehole River, its steam mingling with the mist rising from the water below.",
-  "ear-spring": "Ear Spring bubbles gently in the Upper Basin, its clear water percolating with a sound like a slowly boiling kettle.",
-  "fountain-paint-pot": "At Fountain Paint Pot, viscous clay mud burps and splatters, each burst producing a wet, satisfying plop.",
-  "geyser---grand": "Grand Geyser erupts in towering bursts, the water reaching heights that seem impossible, each eruption accompanied by a deep, rolling thunder.",
-  "grand-geyser": "Grand Geyser's eruption is one of the tallest in the world, the water column collapsing back with a continuous roar.",
-  "horse-drawn-wagon": "The creak of a horse-drawn wagon traces the historic trail, wood and leather sounds that have echoed here for over a century.",
-  "old-faithful-geyser": "Old Faithful delivers its predictable eruption, the water column rising with a steady, pressurized hiss before collapsing in a thunderous cascade.",
-  "puff-n-stuff-geyser": "Puff 'n Stuff Geyser lives up to its name, emitting short, energetic bursts of steam and water with each cycle.",
-  "geyser---sawmill": "Sawmill Geyser churns continuously, its pool boiling and surging with a sound like water about to break into a full eruption.",
-  "spouter-geyser": "Spouter Geyser sends a constant stream of water from its vent in the Black Sand Basin, the sound a steady, rushing white noise.",
-  "geyser---veteran": "Veteran Geyser erupts with irregular timing, each burst a surprise after hours of quiet bubbling.",
-  "vixen-geyser": "Vixen Geyser's eruptions are small but frequent, the water dancing just above the vent with a playful, sputtering energy.",
-  "black-growler-steam-vent": "Black Growler Steam Vent roars continuously in the Norris Basin, a deep, guttural sound that seems to come from the earth itself.",
-  "black-sand-pool": "Black Sand Pool steams quietly in the Upper Basin, its surface disturbed only by the occasional bubble breaking through.",
-  "fire": "A forest fire reshapes the acoustic landscape, the crackle and roar of burning timber replacing the usual birdsong with something primal.",
-  "fumaroles": "At Roaring Mountain, Fumaroles vent steam with a continuous hiss, the sound varying with the wind and the pressure below.",
-  "hurricane-vent": "Hurricane Vent lives up to its name, emitting a continuous stream of steam with a force that sounds like a gale trapped underground.",
-  "scissors-springs": "Scissors Springs bubble and churn in the Norris Basin, the water shifting between pools with a sound of constant motion.",
-  "the-dragons-mouth": "The Dragon's Mouth steams and hisses in Mammoth Hot Springs, the sound echoing from a cave-like opening that seems to breathe.",
-  "thunder": "Summer thunder rolls across the park, the deep bass notes bouncing between canyon walls in a slow, reverberating cascade.",
-  "bison-rut": "During the rut, Bison bulls bellow across the rutting ground, their deep, resonant calls competing for the attention of cows.",
-  "common-loon": "A Common Loon calls across the lake surface, its tremolo and wails carrying for miles in the still evening air.",
-  "yellowstone-lake-singing": "The surface of Yellowstone Lake sings with shifting ice and wave resonance, a haunting, ethereal sound that seems to come from nowhere and everywhere.",
-  "boreal-chorus-frogs": "At dusk, Boreal Chorus Frogs fill the pond margin with a continuous, trilling chorus, each frog contributing to a collective wall of sound.",
-  "elk": "An Elk bugles across the evening meadow, its high, whistling call carrying the raw tension of the rut through the cooling air.",
-  "wilsons-snipe": "Wilson's Snipe performs its winnowing display high above the wetland marsh, the sound of its tail feathers producing an eerie, descending bleat.",
-  "coyotes": "Coyotes yip and howl across the valley floor, their calls weaving together in a chorus that fills the night with wild sound.",
-  "spadefoot-toad": "After rain, Spadefoot Toads emerge from their burrows around temporary pools, their nasal calls forming a loud, monotonous chorus.",
-  "wolves": "Wolves howl across the night soundscape, their long, mournful calls carrying for miles, each note bending and fading into the dark.",
-};
-
 const ui = {
   body: document.body,
   playerCard: document.querySelector(".player-card"),
@@ -358,7 +294,7 @@ function setBackdropImage(src, title) {
 }
 
 function descriptionForStop(stop) {
-  return descriptionOverrides[stop.id] || stop.description;
+  return stop.fieldNote || stop.description;
 }
 
 function currentStop() {
@@ -398,10 +334,20 @@ function setBackdropPrint(stop, src) {
   });
 }
 
-function shareUrlForStop(stop) {
+function atlasBaseUrl() {
   const url = new URL(window.location.href);
-  url.hash = stop.id;
-  return url.toString();
+  url.hash = "";
+  url.search = "";
+  if (url.pathname.endsWith("/index.html")) {
+    url.pathname = url.pathname.replace(/index\.html$/, "");
+  } else if (!url.pathname.endsWith("/")) {
+    url.pathname = `${url.pathname}/`;
+  }
+  return url;
+}
+
+function shareUrlForStop(stop) {
+  return new URL(`share/${encodeURIComponent(stop.id)}/`, atlasBaseUrl()).toString();
 }
 
 function shareTextForStop(stop) {

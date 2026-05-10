@@ -5,7 +5,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-from scripts.build_atlas_route import discover_media, merge_route
+from bs4 import BeautifulSoup
+
+from scripts.build_atlas_route import discover_media, merge_route, write_share_pages
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_PATH = ROOT / "scripts" / "build_atlas_route.py"
@@ -98,6 +100,9 @@ def test_default_cli_updates_the_live_route_without_a_draft_file(tmp_path):
     assert result.returncode == 0
     assert route[0]["audioPath"] == "New Spring/Sound Library - New Spring.mp3"
     assert "draft" not in route[0]
+    assert (tmp_path / "atlas" / "share" / "new-spring" / "index.html").exists()
+    assert (tmp_path / "robots.txt").exists()
+    assert (tmp_path / "sitemap.xml").exists()
     assert not (tmp_path / "atlas" / "dawn-to-night.draft.json").exists()
 
 
@@ -136,3 +141,58 @@ def test_check_mode_does_not_write_output(tmp_path):
 
     assert result.returncode == 0
     assert not (tmp_path / "atlas" / "dawn-to-night.draft.json").exists()
+
+
+def test_write_share_pages_creates_per_specimen_social_preview_and_redirect(tmp_path):
+    stop = {
+        "id": "american-coots",
+        "title": "American Coots",
+        "timeOfDay": "Dawn",
+        "theme": "Birds",
+        "zoneLabel": "Wetland Margin",
+        "audioPath": "American Coots/American Coots.mp3",
+        "description": "American Coots cut through morning mist.",
+        "fieldNote": "Curated field note for the public share preview.",
+        "credit": "Audio and image courtesy of National Park Service.",
+        "imagePath": "American Coots/American Coots_NPS.jpg",
+    }
+
+    write_share_pages(tmp_path, [stop], "https://ysl.rosuh.me")
+
+    share_page = tmp_path / "atlas" / "share" / "american-coots" / "index.html"
+    page = BeautifulSoup(share_page.read_text(encoding="utf-8"), "html.parser")
+    image_url = "https://ysl.rosuh.me/American%20Coots/American%20Coots_NPS.jpg"
+
+    assert page.title.string == "American Coots - Yellowstone Sound Atlas"
+    assert page.find("meta", attrs={"name": "description"}).get("content") == stop["fieldNote"]
+    assert page.find("link", rel="canonical").get("href") == "https://ysl.rosuh.me/atlas/share/american-coots/"
+    assert page.find("meta", property="og:title").get("content") == "American Coots - Yellowstone Sound Atlas"
+    assert page.find("meta", property="og:description").get("content") == stop["fieldNote"]
+    assert page.find("meta", property="og:type").get("content") == "article"
+    assert page.find("meta", property="og:image").get("content") == image_url
+    assert page.find("meta", attrs={"name": "twitter:card"}).get("content") == "summary_large_image"
+    assert page.find("meta", attrs={"name": "twitter:description"}).get("content") == stop["fieldNote"]
+    assert page.find("meta", attrs={"name": "twitter:image"}).get("content") == image_url
+    assert 'window.location.replace("../../#american-coots");' in page.decode()
+    assert page.find("a").get("href") == "../../#american-coots"
+
+
+def test_write_share_pages_uses_banner_when_stop_has_no_image(tmp_path):
+    stop = {
+        "id": "bird-chorus",
+        "title": "Bird Chorus",
+        "timeOfDay": "Dawn",
+        "theme": "Birds",
+        "zoneLabel": "Morning Chorus",
+        "audioPath": "Birds - Bird Chorus/Sound Library - Bird Chorus.mp3",
+        "description": "A dawn chorus opens the atlas.",
+        "credit": "Audio courtesy of National Park Service.",
+    }
+
+    write_share_pages(tmp_path, [stop], "https://ysl.rosuh.me")
+
+    share_page = tmp_path / "atlas" / "share" / "bird-chorus" / "index.html"
+    page = BeautifulSoup(share_page.read_text(encoding="utf-8"), "html.parser")
+
+    assert page.find("meta", property="og:image").get("content") == "https://ysl.rosuh.me/docs/assets/banner.png"
+    assert page.find("meta", attrs={"name": "twitter:image"}).get("content") == "https://ysl.rosuh.me/docs/assets/banner.png"

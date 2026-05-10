@@ -4,11 +4,14 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
-
 ROOT = Path(__file__).resolve().parents[1]
+ROOT_INDEX_PATH = ROOT / "index.html"
 INDEX_PATH = ROOT / "atlas" / "index.html"
 CSS_PATH = ROOT / "atlas" / "css" / "main.css"
 JS_PATH = ROOT / "atlas" / "js" / "app.js"
+MANIFEST_PATH = ROOT / "atlas" / "manifest.json"
+ROBOTS_PATH = ROOT / "robots.txt"
+SITEMAP_PATH = ROOT / "sitemap.xml"
 
 
 def load_page():
@@ -19,20 +22,70 @@ def test_atlas_index_exists():
     assert INDEX_PATH.exists()
 
 
+def test_root_index_exists_as_quiet_archive_entry_to_atlas():
+    assert ROOT_INDEX_PATH.exists()
+    page = BeautifulSoup(ROOT_INDEX_PATH.read_text(encoding="utf-8"), "html.parser")
+
+    assert page.title.string == "Yellowstone Sound Atlas"
+    assert page.find("link", rel="canonical").get("href") == "https://ysl.rosuh.me/"
+    assert page.find("meta", attrs={"http-equiv": "refresh"}).get("content") == "0; url=/atlas/"
+    assert page.find("a", href="/atlas/")
+    assert "archive entry" in page.get_text(" ", strip=True).lower()
+
+
+def test_root_discovery_files_reference_public_atlas_routes():
+    assert ROBOTS_PATH.exists()
+    assert SITEMAP_PATH.exists()
+
+    robots = ROBOTS_PATH.read_text(encoding="utf-8")
+    sitemap = SITEMAP_PATH.read_text(encoding="utf-8")
+
+    assert "User-agent: *" in robots
+    assert "Sitemap: https://ysl.rosuh.me/sitemap.xml" in robots
+    assert "<loc>https://ysl.rosuh.me/atlas/</loc>" in sitemap
+    assert "<loc>https://ysl.rosuh.me/atlas/share/american-coots/</loc>" in sitemap
+
+
+def test_manifest_declares_installable_atlas_icon():
+    manifest = MANIFEST_PATH.read_text(encoding="utf-8")
+
+    assert '"icons": [' in manifest
+    assert '"src": "icons/ysa-icon.svg"' in manifest
+    assert '"sizes": "any"' in manifest
+    assert (ROOT / "atlas" / "icons" / "ysa-icon.svg").exists()
+
+
 def test_index_references_split_css_and_javascript_assets():
     page = load_page()
 
-    stylesheet_hrefs = [
-        stylesheet["href"].split("?", 1)[0]
-        for stylesheet in page.find_all("link", rel="stylesheet")
-    ]
-    script_sources = [
-        script["src"].split("?", 1)[0]
-        for script in page.find_all("script", src=True)
-    ]
+    stylesheet_hrefs = [stylesheet["href"].split("?", 1)[0] for stylesheet in page.find_all("link", rel="stylesheet")]
+    script_sources = [script["src"].split("?", 1)[0] for script in page.find_all("script", src=True)]
 
     assert "css/main.css" in stylesheet_hrefs
     assert "js/app.js" in script_sources
+
+
+def test_index_exposes_site_level_social_preview_metadata():
+    page = load_page()
+
+    def meta_content(**attrs):
+        tag = page.find("meta", attrs=attrs)
+        assert tag, attrs
+        return tag.get("content")
+
+    canonical = page.find("link", rel="canonical")
+    assert canonical
+    assert canonical.get("href") == "https://ysl.rosuh.me/atlas/"
+
+    assert meta_content(property="og:title") == "Yellowstone Sound Atlas"
+    assert meta_content(property="og:type") == "website"
+    assert meta_content(property="og:url") == "https://ysl.rosuh.me/atlas/"
+    assert meta_content(property="og:image") == "https://ysl.rosuh.me/docs/assets/banner.png"
+    assert meta_content(property="og:image:width") == "3148"
+    assert meta_content(property="og:image:height") == "1673"
+    assert meta_content(name="twitter:card") == "summary_large_image"
+    assert meta_content(name="twitter:title") == "Yellowstone Sound Atlas"
+    assert meta_content(name="twitter:image") == "https://ysl.rosuh.me/docs/assets/banner.png"
 
 
 def test_index_preserves_player_runtime_ids():
@@ -229,7 +282,7 @@ def test_field_note_uses_postal_card_style_and_selectable_text():
     assert "-webkit-user-select: text" in css
     assert ".backdrop-note::before" in css
     assert ".backdrop-note::after" in css
-    assert "ui.backdropNote.setAttribute(\"aria-hidden\", String(!state.isMinimized));" in script
+    assert 'ui.backdropNote.setAttribute("aria-hidden", String(!state.isMinimized));' in script
     assert "linear-gradient(90deg, color-mix(in oklch, var(--backdrop-shadow) 52%, transparent), transparent)" not in css
 
 
@@ -261,6 +314,8 @@ def test_minimized_player_exposes_lightweight_share_controls():
     assert "https://twitter.com/intent/tweet" in script
     assert "navigator.clipboard.writeText" in script
     assert "shareUrlForStop" in script
+    assert "share/${encodeURIComponent(stop.id)}/" in script
+    assert "return new URL(`share/${encodeURIComponent(stop.id)}/`, atlasBaseUrl()).toString();" in script
     assert "updateShareTargets(stop);" in script
     assert "platform.twitter.com/widgets.js" not in page.decode()
 
@@ -293,7 +348,7 @@ def test_specimen_strip_exposes_colophon_archive_slip():
     assert "max-height: calc(100dvh - var(--strip-height) - 28px)" in css
     assert "archiveSlip" in script
     assert "syncArchiveSlipState" in script
-    assert "e.code === \"Escape\" && ui.archiveSlip.open" in script
+    assert 'e.code === "Escape" && ui.archiveSlip.open' in script
     assert "!ui.archiveSlip.contains(e.target)" in script
 
 
@@ -346,6 +401,18 @@ def test_mobile_minimized_deck_reserves_bottom_strip_safe_area():
     assert "grid-template-rows: 38px minmax(0, 1fr)" in css
 
 
+def test_mobile_theme_tabs_use_compact_full_labels_without_ellipsis():
+    css = CSS_PATH.read_text(encoding="utf-8")
+
+    assert "@media (max-width: 560px)" in css
+    assert ".theme-tab {\n    flex-basis: auto;" in css
+    assert "min-width: max-content;" in css
+    assert ".theme-name,\n  .theme-count" in css
+    assert "text-overflow: clip;" in css
+    assert "overflow: visible;" in css
+    assert "white-space: nowrap;" in css
+
+
 def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
     css = CSS_PATH.read_text(encoding="utf-8")
     script = JS_PATH.read_text(encoding="utf-8")
@@ -359,7 +426,7 @@ def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
     assert "function stopProgressAnimation()" in script
     assert "requestAnimationFrame(tickProgress)" in script
     assert "cancelAnimationFrame(progressFrame)" in script
-    assert "ui.audio.addEventListener(\"play\", () => {" in script
+    assert 'ui.audio.addEventListener("play", () => {' in script
     assert "startProgressAnimation();" in script
-    assert "ui.audio.addEventListener(\"pause\", () => {" in script
+    assert 'ui.audio.addEventListener("pause", () => {' in script
     assert "stopProgressAnimation();" in script

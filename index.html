@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yellowstone Sound Atlas</title>
+  <meta name="description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <link rel="canonical" href="https://ysl.rosuh.me/">
+  <meta property="og:title" content="Yellowstone Sound Atlas">
+  <meta property="og:description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ysl.rosuh.me/">
+  <meta property="og:image" content="https://ysl.rosuh.me/docs/assets/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yellowstone Sound Atlas">
+  <meta name="twitter:description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <meta name="twitter:image" content="https://ysl.rosuh.me/docs/assets/banner.png">
+  <meta http-equiv="refresh" content="0; url=/atlas/">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: oklch(15% 0.034 92);
+      --ink-soft: oklch(31% 0.046 82);
+      --bone: oklch(94% 0.03 88);
+      --bone-high: oklch(98% 0.02 88);
+      --field: oklch(13% 0.026 88);
+      --line: oklch(28% 0.05 80 / 0.46);
+      --thermal: oklch(58% 0.12 48);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100dvh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 24% 18%, color-mix(in oklch, var(--thermal) 22%, transparent), transparent 24rem),
+        linear-gradient(145deg, oklch(20% 0.035 90), var(--field));
+      color: var(--bone);
+      font-family: Charter, Georgia, serif;
+    }
+
+    main {
+      width: min(420px, 100%);
+      padding: 22px 24px 24px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 92% 10%, color-mix(in oklch, var(--thermal) 10%, transparent), transparent 5rem),
+        linear-gradient(180deg, var(--bone-high), var(--bone));
+      box-shadow: 0 28px 72px oklch(4% 0.02 85 / 0.34);
+      color: var(--ink);
+    }
+
+    p:first-child {
+      margin: 0 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid color-mix(in oklch, var(--thermal) 42%, var(--line));
+      color: color-mix(in oklch, var(--thermal) 58%, var(--ink));
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 9vw, 3.35rem);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 0.95;
+    }
+
+    p {
+      margin: 0 0 16px;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    a {
+      color: var(--ink);
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-underline-offset: 4px;
+    }
+  </style>
+  <script>
+    window.location.replace("/atlas/");
+  </script>
+</head>
+<body>
+  <main>
+    <p>Archive entry</p>
+    <h1>Yellowstone Sound Atlas</h1>
+    <p>A quiet route of public Yellowstone sound specimens, arranged as stamps and field notes.</p>
+    <a href="/atlas/">Open the atlas</a>
+  </main>
+</body>
+</html>

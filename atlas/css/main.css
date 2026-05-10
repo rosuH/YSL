@@ -645,26 +645,43 @@ figure {
   position: absolute;
   top: 50%;
   right: 0;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   padding: 0;
   transform: translateY(-50%);
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
   transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
+.minimize-btn::before {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: inherit;
+  background: transparent;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
 .minimize-btn:hover {
-  background: var(--ink);
   color: var(--bone);
   transform: translateY(-50%) scale(1.04);
 }
 
+.minimize-btn:hover::before {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
 .minimize-btn svg {
+  position: relative;
+  z-index: 1;
   width: 14px;
   height: 14px;
 }
@@ -1856,18 +1873,27 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .theme-tabs {
-    gap: 8px;
+    gap: 10px;
   }
 
   .theme-tab {
-    flex-basis: 70px;
-    min-height: 38px;
-    height: 38px;
+    flex-basis: auto;
+    min-width: max-content;
+    min-height: 40px;
+    height: 40px;
+    padding-inline: 8px;
     font-size: 0.5rem;
   }
 
   .theme-tab.is-active {
     font-size: 0.62rem;
+  }
+
+  .theme-name,
+  .theme-count {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
   }
 
   .chip-carousel {
