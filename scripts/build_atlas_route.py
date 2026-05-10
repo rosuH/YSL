@@ -251,6 +251,12 @@ def _social_image_url(site_url: str, stop: dict[str, Any]) -> str:
     return _absolute_site_url(site_url, image_path)
 
 
+def _social_image_alt(stop: dict[str, Any]) -> str:
+    if isinstance(stop.get("imagePath"), str):
+        return f"{stop['title']} source image."
+    return "Yellowstone Sound Atlas banner."
+
+
 def _display_description(stop: dict[str, Any]) -> str:
     field_note = stop.get("fieldNote")
     if isinstance(field_note, str) and field_note.strip():
@@ -287,7 +293,7 @@ def _share_page_html(stop: dict[str, Any], site_url: str) -> str:
   <meta property="og:type" content="article">
   <meta property="og:url" content="{_meta(share_url)}">
   <meta property="og:image" content="{_meta(image_url)}">
-  <meta property="og:image:alt" content="{_meta(stop['title'])} source image.">
+  <meta property="og:image:alt" content="{_meta(_social_image_alt(stop))}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{_meta(title)}">
   <meta name="twitter:description" content="{_meta(description)}">

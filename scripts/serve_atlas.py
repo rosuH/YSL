@@ -21,6 +21,10 @@ class QuietAtlasHandler(http.server.SimpleHTTPRequestHandler):
             pass
 
 
+class QuietAtlasServer(http.server.ThreadingHTTPServer):
+    allow_reuse_address = True
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Serve the Yellowstone atlas locally.")
     parser.add_argument("port", nargs="?", type=int, default=4173)
@@ -33,8 +37,7 @@ def main() -> None:
     args = parser.parse_args()
 
     handler = functools.partial(QuietAtlasHandler, directory=str(args.directory))
-    server = http.server.ThreadingHTTPServer(("", args.port), handler)
-    server.allow_reuse_address = True
+    server = QuietAtlasServer(("", args.port), handler)
 
     print(f"Serving atlas preview at http://localhost:{args.port}/atlas/")
     try:

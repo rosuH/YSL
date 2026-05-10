@@ -170,6 +170,7 @@ def test_write_share_pages_creates_per_specimen_social_preview_and_redirect(tmp_
     assert page.find("meta", property="og:description").get("content") == stop["fieldNote"]
     assert page.find("meta", property="og:type").get("content") == "article"
     assert page.find("meta", property="og:image").get("content") == image_url
+    assert page.find("meta", property="og:image:alt").get("content") == "American Coots source image."
     assert page.find("meta", attrs={"name": "twitter:card"}).get("content") == "summary_large_image"
     assert page.find("meta", attrs={"name": "twitter:description"}).get("content") == stop["fieldNote"]
     assert page.find("meta", attrs={"name": "twitter:image"}).get("content") == image_url
@@ -195,4 +196,5 @@ def test_write_share_pages_uses_banner_when_stop_has_no_image(tmp_path):
     page = BeautifulSoup(share_page.read_text(encoding="utf-8"), "html.parser")
 
     assert page.find("meta", property="og:image").get("content") == "https://ysl.rosuh.me/docs/assets/banner.png"
+    assert page.find("meta", property="og:image:alt").get("content") == "Yellowstone Sound Atlas banner."
     assert page.find("meta", attrs={"name": "twitter:image"}).get("content") == "https://ysl.rosuh.me/docs/assets/banner.png"

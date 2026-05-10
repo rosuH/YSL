@@ -16,11 +16,31 @@ def test_preview_server_suppresses_cancelled_audio_tracebacks():
     assert "copyfile" in script
 
 
+def test_preview_server_enables_address_reuse_before_binding():
+    script = SERVER_PATH.read_text(encoding="utf-8")
+
+    assert "class QuietAtlasServer(http.server.ThreadingHTTPServer):" in script
+    assert "allow_reuse_address = True" in script
+    assert "server = QuietAtlasServer" in script
+    assert "server.allow_reuse_address = True" not in script
+
+
 def test_makefile_exposes_atlas_preview_target():
     makefile = MAKEFILE_PATH.read_text(encoding="utf-8")
 
     assert "preview-atlas:" in makefile
     assert "scripts/serve_atlas.py 4173" in makefile
+
+
+def test_makefile_uses_one_python_interpreter_variable():
+    makefile = MAKEFILE_PATH.read_text(encoding="utf-8")
+
+    assert "PYTHON ?= python3" in makefile
+    assert "\t$(PYTHON) spider.py" in makefile
+    assert "\t$(PYTHON) scripts/serve_atlas.py 4173" in makefile
+    assert "\t$(PYTHON) scripts/build_atlas_route.py" in makefile
+    assert "\tpython " not in makefile
+    assert "\tpython3 " not in makefile
 
 
 def test_makefile_exposes_atlas_route_builder_target():
