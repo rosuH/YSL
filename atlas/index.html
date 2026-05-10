@@ -1,99 +1,146 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Yellowstone Sound Atlas: Dawn to Night</title>
-    <meta
-      name="description"
-      content="A radical Yellowstone listening terrain from dawn birdsong to night wildlife."
-    >
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <a class="skip-link" href="#rupture-hero">Skip to listening terrain</a>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yellowstone Sound Atlas - Specimen Stamps</title>
+  <meta name="description" content="A theme-first specimen collection of Yellowstone National Park sound recordings.">
+  <meta name="theme-color" content="#eee6cf">
+  <meta name="color-scheme" content="light">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preload" href="css/main.css" as="style">
+  <link rel="preload" href="js/app.js" as="script">
+  <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css?v=6">
+</head>
+<body>
+  <main class="stage" id="stage" aria-label="Yellowstone Sound Atlas">
+    <article class="player-card stamp-player" aria-live="polite">
+      <section class="stamp-face stamp-expanded" aria-label="Active sound specimen">
+        <header class="stamp-rule stamp-rule-top">
+          <p class="eyebrow" id="eyebrow">YELLOWSTONE - 01</p>
+          <p class="volume-mark">VOL 61</p>
+          <button id="minimize-btn" class="minimize-btn" type="button" aria-label="Minimize player">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 10l5 5 5-5"></path>
+            </svg>
+          </button>
+        </header>
 
-    <main class="geomorphic-atlas" aria-labelledby="atlas-title">
-      <aside id="rupture-nav" class="rupture-nav" aria-label="Route chapters">
-        <div class="nav-sigil" aria-hidden="true"></div>
-        <div class="nav-chapters" id="nav-chapters"></div>
-        <div class="nav-location">Yellowstone acoustic terrain</div>
-      </aside>
+        <figure class="stamp-photo-frame">
+          <img id="scene-photo" class="scene-photo" alt="" decoding="async">
+        </figure>
 
-      <section id="rupture-hero" class="rupture-hero" tabindex="-1">
-        <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
-        <div class="hero-topline">
-          <p class="site-label">not a map, a listening fault line</p>
-          <p class="coordinate-block hero-meta" id="hero-meta">Loading route...</p>
+        <section class="stamp-copy">
+          <h1 class="track-title" id="track-title">Loading...</h1>
+          <p class="track-meta" id="track-meta">Route specimen</p>
+          <p class="track-desc" id="track-desc">Loading the first Yellowstone sound specimen.</p>
+          <p class="track-credit" id="track-credit"></p>
+        </section>
+
+        <div class="waveform" id="waveform" aria-hidden="true"></div>
+
+        <div class="controls" role="group" aria-label="Audio controls">
+          <button id="prev-btn" class="ctrl-btn" type="button" aria-label="Previous stop">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 6l-6 6 6 6"></path>
+            </svg>
+          </button>
+
+          <button id="play-btn" class="ctrl-btn play-btn" type="button" aria-label="Play">
+            <svg id="icon-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <svg id="icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
+            </svg>
+          </button>
+
+          <button id="next-btn" class="ctrl-btn" type="button" aria-label="Next stop">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 6l6 6-6 6"></path>
+            </svg>
+          </button>
         </div>
 
-        <div class="hero-title">
-          <p class="chapter-kicker" id="current-chapter">Dawn to Night</p>
-          <h1 id="atlas-title">The day cracks open in sound.</h1>
-          <p id="current-description">
-            Yellowstone is treated as a living cross-section.
-          </p>
-        </div>
-
-        <div class="crack-field" aria-hidden="true">
-          <svg
-            id="fault-lines"
-            class="fault-lines"
-            viewBox="0 0 1080 620"
+        <div class="progress-area">
+          <div class="time-row">
+            <span id="time-current">0:00</span>
+            <span id="time-total">0:00</span>
+          </div>
+          <div
+            class="progress-track"
+            id="progress-track"
+            role="slider"
+            aria-label="Playback position"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            tabindex="0"
           >
-            <path class="fault strong" d="M48 346 C124 178 290 125 452 198 C596 263 682 69 858 124 C1008 171 1035 382 868 482 C710 577 562 464 420 532 C264 606 93 516 48 346 Z"></path>
-            <path class="fault" d="M130 352 C196 225 314 186 444 239 C560 286 650 141 802 178 C914 205 943 357 824 421 C691 492 564 398 442 463 C318 530 180 470 130 352 Z"></path>
-            <path class="fault" d="M222 354 C281 270 358 239 452 274 C548 310 633 219 733 232 C815 243 835 339 750 380 C648 429 566 358 462 410 C370 455 259 424 222 354 Z"></path>
-            <path class="fault faint" d="M31 178 C184 115 300 178 436 128 C574 77 720 89 1016 34"></path>
-            <path class="fault faint" d="M94 530 C272 438 432 548 599 472 C753 402 868 440 1038 348"></path>
-            <path class="sound-fissure" d="M15 431 C144 372 214 441 353 388 C486 338 527 233 661 263 C775 289 831 214 1062 248"></path>
-          </svg>
-          <div class="fracture-node bird">Bird</div>
-          <div class="fracture-node heat">Heat</div>
-          <div class="fracture-node lake">Lake</div>
+            <div class="progress-fill" id="progress-fill"></div>
+            <div class="progress-thumb" id="progress-thumb"></div>
+          </div>
         </div>
 
-        <article id="listening-slab" class="listening-slab" aria-live="polite">
-          <div class="slab-meta">
-            <span>Now sounding</span>
-            <span id="current-zone">Route specimen</span>
-          </div>
-          <h2 id="current-title">Loading...</h2>
-          <p id="current-summary">Loading the first Yellowstone sound specimen.</p>
-          <div id="wave-lattice" class="wave-lattice" aria-hidden="true"></div>
-          <div class="slab-controls" role="group" aria-label="Audio controls">
-            <button id="previous-stop" class="slab-button" type="button" aria-label="Previous stop">‹</button>
-            <audio id="audio-player" controls preload="metadata"></audio>
-            <button id="next-stop" class="slab-button" type="button" aria-label="Next stop">›</button>
-          </div>
-        </article>
-      </section>
-
-      <section class="specimen-section">
-        <h2 id="specimen-heading">Specimen notes interrupt the terrain.</h2>
-        <article
-          id="specimen-fragment"
-          class="specimen-fragment"
-          aria-labelledby="specimen-heading"
-        >
-          <p id="current-specimen-note">
-            Source details and habitat notes will appear after the route loads.
-          </p>
-          <p class="credit" id="current-credit"></p>
-        </article>
+        <footer class="stamp-rule stamp-rule-bottom">
+          <span>National Park Service source</span>
+          <span>Specimen archive</span>
+        </footer>
       </section>
 
       <section
-        id="strata-deck"
-        class="strata-deck"
-        aria-label="Dawn to Night strata deck"
-      ></section>
+        class="stamp-face stamp-mini"
+        id="mini-stamp"
+        role="button"
+        tabindex="0"
+        aria-label="Expand player"
+      >
+        <div class="mini-rule">
+          <span id="mini-eyebrow">YELLOWSTONE - 01</span>
+          <span>VOL 61</span>
+        </div>
+        <figure class="mini-photo-frame">
+          <img id="mini-scene-photo" alt="" decoding="async">
+          <button id="mini-play-btn" class="mini-play-btn" type="button" aria-label="Play">
+            <svg id="mini-icon-play" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <svg id="mini-icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
+            </svg>
+          </button>
+        </figure>
+        <div class="mini-copy">
+          <p id="mini-track-title">Loading...</p>
+          <p id="mini-track-meta">Route specimen</p>
+        </div>
+      </section>
 
-      <footer class="source-footer">
-        <p id="source-status" role="status">Loading route...</p>
-      </footer>
-    </main>
+      <audio id="audio-player" preload="metadata"></audio>
+    </article>
+  </main>
 
-    <script src="app.js"></script>
-  </body>
+  <nav class="specimen-strip" id="specimen-strip" aria-label="Theme specimen navigation">
+    <div class="theme-tabs" id="theme-tabs" role="tablist" aria-label="Specimen themes"></div>
+    <div class="chip-carousel" id="chip-carousel" aria-label="Theme specimens"></div>
+  </nav>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <div class="keyboard-hints" id="keyboard-hints" aria-hidden="true">
+    <kbd>Space <span>Play/Pause</span></kbd>
+    <kbd>Alt + Left <span>Prev</span></kbd>
+    <kbd>Alt + Right <span>Next</span></kbd>
+    <kbd>M <span>Minimize</span></kbd>
+  </div>
+
+  <noscript>
+    <div class="noscript-notice">
+      <p>This experience requires JavaScript to load the sound specimens.</p>
+    </div>
+  </noscript>
+
+  <script src="js/app.js?v=6" type="module"></script>
+</body>
 </html>
