@@ -89,6 +89,17 @@ const ui = {
   body: document.body,
   playerCard: document.querySelector(".player-card"),
   itemBackdrop: getEl("#item-backdrop"),
+  backdropDeck: getEl("#backdrop-deck"),
+  backdropPrint: getEl("#backdrop-print"),
+  backdropPrintPhoto: getEl("#backdrop-print-photo"),
+  backdropPrintCaption: getEl("#backdrop-print-caption"),
+  backdropNote: getEl("#backdrop-note"),
+  backdropNoteTitle: getEl("#backdrop-note-title"),
+  backdropNoteMeta: getEl("#backdrop-note-meta"),
+  backdropNoteBody: getEl("#backdrop-note-body"),
+  shareInstagram: getEl("#share-instagram-btn"),
+  shareX: getEl("#share-x-link"),
+  shareCopy: getEl("#share-copy-btn"),
   stage: getEl("#stage"),
   expandedFace: document.querySelector(".stamp-expanded"),
   miniStamp: getEl("#mini-stamp"),
@@ -168,6 +179,8 @@ function preloadImage(src) {
 }
 
 let keyboardHintTimer;
+let progressFrame = 0;
+
 function showKeyboardHints() {
   ui.keyboardHints.classList.add("visible");
   clearTimeout(keyboardHintTimer);
@@ -342,6 +355,158 @@ function setBackdropImage(src, title) {
   }
 }
 
+function descriptionForStop(stop) {
+  return descriptionOverrides[stop.id] || stop.description;
+}
+
+function currentStop() {
+  return state.stops[state.index] || null;
+}
+
+function setBackdropNote(stop) {
+  ui.backdropNoteTitle.textContent = stop.title;
+  ui.backdropNoteMeta.textContent = `${stop.theme} - ${stop.zoneLabel} - ${stop.timeOfDay}`;
+  ui.backdropNoteBody.textContent = descriptionForStop(stop);
+}
+
+function setBackdropPrint(stop, src) {
+  const expectedId = stop.id;
+  const caption = `${stop.title} - ${stop.theme} - ${stop.timeOfDay}`;
+
+  ui.backdropPrintCaption.textContent = caption;
+  ui.backdropPrintPhoto.alt = "";
+  ui.backdropDeck.classList.remove("has-print");
+
+  if (!src) {
+    ui.backdropPrintPhoto.removeAttribute("src");
+    return;
+  }
+
+  preloadImage(src).then((loaded) => {
+    const selected = state.stops[state.index];
+    if (!selected || selected.id !== expectedId) return;
+
+    if (loaded) {
+      ui.backdropPrintPhoto.src = loaded;
+      ui.backdropDeck.classList.add("has-print");
+    } else {
+      ui.backdropPrintPhoto.removeAttribute("src");
+      ui.backdropDeck.classList.remove("has-print");
+    }
+  });
+}
+
+function shareUrlForStop(stop) {
+  const url = new URL(window.location.href);
+  url.hash = stop.id;
+  return url.toString();
+}
+
+function shareTextForStop(stop) {
+  return `Yellowstone Sound Atlas: ${stop.title} - ${stop.theme}, ${stop.timeOfDay}.`;
+}
+
+function sharePayloadForStop(stop) {
+  return {
+    title: `${stop.title} - Yellowstone Sound Atlas`,
+    text: shareTextForStop(stop),
+    url: shareUrlForStop(stop),
+  };
+}
+
+function xIntentForStop(stop) {
+  const intent = new URL("https://twitter.com/intent/tweet");
+  intent.searchParams.set("text", shareTextForStop(stop));
+  intent.searchParams.set("url", shareUrlForStop(stop));
+  intent.searchParams.set("hashtags", "Yellowstone,Soundscape");
+  return intent.toString();
+}
+
+function updateShareTargets(stop) {
+  ui.shareX.href = xIntentForStop(stop);
+}
+
+function confirmShareButton(button) {
+  button.classList.add("is-confirming");
+  clearTimeout(confirmShareButton._timer);
+  confirmShareButton._timer = setTimeout(() => {
+    button.classList.remove("is-confirming");
+  }, 850);
+}
+
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Fall through to the textarea path for stricter browser permissions.
+    }
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand("copy");
+  textarea.remove();
+  if (!copied) throw new Error("Copy command failed.");
+}
+
+async function copyShareLink(message = "Specimen link copied.") {
+  const stop = currentStop();
+  if (!stop) return;
+
+  try {
+    await copyText(shareUrlForStop(stop));
+    confirmShareButton(ui.shareCopy);
+    showStatus(message);
+  } catch {
+    showStatus("Copy unavailable in this browser.", true);
+  }
+}
+
+async function shareToInstalledApps() {
+  const stop = currentStop();
+  if (!stop) return;
+
+  const payload = sharePayloadForStop(stop);
+  if (!navigator.share) {
+    await copyShareLink("Link copied for Instagram.");
+    return;
+  }
+
+  try {
+    await navigator.share(payload);
+    confirmShareButton(ui.shareInstagram);
+  } catch (err) {
+    if (!err || err.name !== "AbortError") {
+      await copyShareLink("Share unavailable. Link copied.");
+    }
+  }
+}
+
+function syncLocationHash(stop) {
+  if (!window.history || typeof window.history.replaceState !== "function") return;
+
+  const url = new URL(window.location.href);
+  if (url.hash === `#${stop.id}`) return;
+
+  url.hash = stop.id;
+  window.history.replaceState(null, "", url);
+}
+
+function initialStopIndex(stops) {
+  const requestedId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+  if (!requestedId) return 0;
+
+  const index = stops.findIndex((stop) => stop.id === requestedId);
+  return index >= 0 ? index : 0;
+}
+
 function updateAtmosphere(stop) {
   const fallbackPalette = semanticPaletteForStop(stop);
   const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
@@ -349,6 +514,8 @@ function updateAtmosphere(stop) {
 
   applyDerivedPalette(fallbackPalette);
   setBackdropImage(imageSrc, stop.title);
+  setBackdropNote(stop);
+  setBackdropPrint(stop, imageSrc);
 
   derivePaletteFromImage(imageSrc, fallbackPalette).then((palette) => {
     const selected = state.stops[state.index];
@@ -379,6 +546,38 @@ function themeStops(theme) {
   return state.stops
     .map((stop, index) => ({ ...stop, index }))
     .filter((stop) => stop.theme === theme);
+}
+
+function activePlaybackTheme() {
+  const stop = currentStop();
+  if (stop && stop.theme !== state.activeTheme) return stop.theme;
+  return state.activeTheme;
+}
+
+function activePlaybackStops() {
+  return themeStops(activePlaybackTheme());
+}
+
+function activePlaybackPosition() {
+  return activePlaybackStops().findIndex((stop) => stop.index === state.index);
+}
+
+function adjacentPlaybackStopIndex(direction) {
+  const stops = activePlaybackStops();
+  const position = activePlaybackPosition();
+  if (position < 0) return null;
+
+  const adjacent = stops[position + direction];
+  return adjacent ? adjacent.index : null;
+}
+
+function selectAdjacentStop(direction, autoPlay) {
+  const index = adjacentPlaybackStopIndex(direction);
+  if (index === null) return false;
+
+  state.activeTheme = activePlaybackTheme();
+  selectStop(index, autoPlay, { keepActiveTheme: true });
+  return true;
 }
 
 function themeCount(theme) {
@@ -599,6 +798,10 @@ function applyMinimized(nextValue) {
   state.isMinimized = Boolean(nextValue);
   ui.playerCard.classList.toggle("is-minimized", state.isMinimized);
   ui.body.classList.toggle("player-is-minimized", state.isMinimized);
+  ui.backdropNote.setAttribute("aria-hidden", String(!state.isMinimized));
+  ui.shareInstagram.tabIndex = state.isMinimized ? 0 : -1;
+  ui.shareX.tabIndex = state.isMinimized ? 0 : -1;
+  ui.shareCopy.tabIndex = state.isMinimized ? 0 : -1;
   ui.minimizeBtn.setAttribute(
     "aria-label",
     state.isMinimized ? "Expand player" : "Minimize player",
@@ -628,8 +831,7 @@ function toggleMinimize() {
 function resetProgress() {
   ui.timeCurrent.textContent = "0:00";
   ui.timeTotal.textContent = "0:00";
-  ui.fill.style.width = "0%";
-  ui.thumb.style.left = "0%";
+  setProgressVisual(0);
   ui.track.setAttribute("aria-valuenow", "0");
   updateWaveform(0);
 }
@@ -662,8 +864,10 @@ function selectStop(index, autoPlay = false, options = {}) {
   ui.miniTitle.textContent = stop.title;
   ui.meta.textContent = `${stop.theme} - ${stop.zoneLabel} - ${stop.timeOfDay}`;
   ui.miniMeta.textContent = `${stop.theme} - ${stop.timeOfDay}`;
-  ui.desc.textContent = descriptionOverrides[stop.id] || stop.description;
+  ui.desc.textContent = descriptionForStop(stop);
   ui.credit.textContent = creditForStop(stop);
+  updateShareTargets(stop);
+  syncLocationHash(stop);
 
   updateAtmosphere(stop);
   ui.audio.src = encodeURI(`../${stop.audioPath}`);
@@ -696,8 +900,10 @@ function selectStop(index, autoPlay = false, options = {}) {
 }
 
 function updateNav() {
-  ui.prev.disabled = state.index === 0;
-  ui.next.disabled = state.index === state.stops.length - 1;
+  const stops = activePlaybackStops();
+  const position = activePlaybackPosition();
+  ui.prev.disabled = position <= 0;
+  ui.next.disabled = position < 0 || position >= stops.length - 1;
 }
 
 function togglePlay() {
@@ -722,14 +928,39 @@ function updatePlayIcon() {
   ui.waveform.classList.toggle("playing", playing);
 }
 
+function setProgressVisual(ratio) {
+  const normalized = Math.max(0, Math.min(1, ratio || 0));
+  const trackWidth = ui.track.getBoundingClientRect().width || 0;
+  ui.track.style.setProperty("--progress-ratio", normalized.toFixed(4));
+  ui.track.style.setProperty("--progress-x", `${normalized * trackWidth}px`);
+}
+
 function paintProgressFromAudio() {
   if (!ui.audio.duration) return;
-  const pct = Math.max(0, Math.min(100, (ui.audio.currentTime / ui.audio.duration) * 100));
-  ui.fill.style.width = `${pct}%`;
-  ui.thumb.style.left = `${pct}%`;
+  const ratio = Math.max(0, Math.min(1, ui.audio.currentTime / ui.audio.duration));
+  const pct = ratio * 100;
+  setProgressVisual(ratio);
   ui.track.setAttribute("aria-valuenow", Math.round(pct));
   ui.timeCurrent.textContent = fmtTime(ui.audio.currentTime);
   updateWaveform(pct);
+}
+
+function tickProgress() {
+  progressFrame = 0;
+  if (ui.audio.paused || ui.audio.ended) return;
+  if (!state.isDragging) paintProgressFromAudio();
+  progressFrame = requestAnimationFrame(tickProgress);
+}
+
+function startProgressAnimation() {
+  if (progressFrame) return;
+  progressFrame = requestAnimationFrame(tickProgress);
+}
+
+function stopProgressAnimation() {
+  if (!progressFrame) return;
+  cancelAnimationFrame(progressFrame);
+  progressFrame = 0;
 }
 
 function onTimeUpdate() {
@@ -743,9 +974,8 @@ function onLoadedMeta() {
 }
 
 function onEnded() {
-  if (state.index < state.stops.length - 1) {
-    selectStop(state.index + 1, true);
-  } else {
+  stopProgressAnimation();
+  if (!selectAdjacentStop(1, true)) {
     updatePlayIcon();
   }
 }
@@ -825,17 +1055,33 @@ ui.miniExpand.addEventListener("click", (e) => {
   e.stopPropagation();
   setMinimized(false);
 });
-ui.prev.addEventListener("click", () => selectStop(Math.max(0, state.index - 1), !ui.audio.paused));
-ui.next.addEventListener("click", () => selectStop(Math.min(state.stops.length - 1, state.index + 1), !ui.audio.paused));
+ui.shareInstagram.addEventListener("click", () => {
+  shareToInstalledApps();
+});
+ui.shareX.addEventListener("click", () => {
+  confirmShareButton(ui.shareX);
+});
+ui.shareCopy.addEventListener("click", () => {
+  copyShareLink();
+});
+ui.prev.addEventListener("click", () => selectAdjacentStop(-1, !ui.audio.paused));
+ui.next.addEventListener("click", () => selectAdjacentStop(1, !ui.audio.paused));
 ui.minimizeBtn.addEventListener("click", toggleMinimize);
 
-ui.audio.addEventListener("play", updatePlayIcon);
-ui.audio.addEventListener("pause", updatePlayIcon);
+ui.audio.addEventListener("play", () => {
+  updatePlayIcon();
+  startProgressAnimation();
+});
+ui.audio.addEventListener("pause", () => {
+  updatePlayIcon();
+  stopProgressAnimation();
+});
 ui.audio.addEventListener("timeupdate", onTimeUpdate);
 ui.audio.addEventListener("loadedmetadata", onLoadedMeta);
 ui.audio.addEventListener("ended", onEnded);
 ui.audio.addEventListener("error", () => {
   ui.audio.pause();
+  stopProgressAnimation();
   setPlayDisabled(true);
   updatePlayIcon();
   showStatus("Audio unavailable for this specimen.", true);
@@ -862,11 +1108,11 @@ document.addEventListener("keydown", (e) => {
     showKeyboardHints();
   } else if (e.code === "ArrowLeft" && e.altKey) {
     e.preventDefault();
-    selectStop(Math.max(0, state.index - 1), !ui.audio.paused);
+    selectAdjacentStop(-1, !ui.audio.paused);
     showKeyboardHints();
   } else if (e.code === "ArrowRight" && e.altKey) {
     e.preventDefault();
-    selectStop(Math.min(state.stops.length - 1, state.index + 1), !ui.audio.paused);
+    selectAdjacentStop(1, !ui.audio.paused);
     showKeyboardHints();
   } else if (e.code === "KeyM") {
     e.preventDefault();
@@ -908,12 +1154,13 @@ async function loadRoute() {
     validateStops(stops);
 
     state.stops = stops;
-    state.activeTheme = "Thermal";
+    const startingIndex = initialStopIndex(stops);
+    state.activeTheme = stops[startingIndex].theme;
     applyTheme(state.activeTheme);
     buildThemeTabs();
     buildChipCarousel();
     setMinimized(false);
-    selectStop(0);
+    selectStop(startingIndex);
     showStatus(`${stops.length} sound specimens loaded`);
   } catch (err) {
     showStatus(err.message, true);

@@ -60,6 +60,18 @@ def test_index_preserves_player_runtime_ids():
         "specimen-strip",
         "keyboard-hints",
         "item-backdrop",
+        "backdrop-deck",
+        "backdrop-print",
+        "backdrop-print-photo",
+        "backdrop-print-caption",
+        "backdrop-note",
+        "backdrop-note-title",
+        "backdrop-note-meta",
+        "backdrop-note-body",
+        "share-dock",
+        "share-instagram-btn",
+        "share-x-link",
+        "share-copy-btn",
         "scene-photo-frame",
         "mini-photo-frame",
     ]
@@ -148,13 +160,155 @@ def test_minimized_player_reveals_clearer_animated_backdrop():
     assert "--backdrop-image-blur" in css
     assert "--backdrop-overlay-opacity" in css
     assert "body.player-is-minimized" in css
-    assert "--backdrop-image-blur: 0px" in css
-    assert "--backdrop-image-scale: 1" in css
-    assert "--backdrop-image-saturation: 1" in css
-    assert "--backdrop-image-contrast: 1" in css
-    assert "--backdrop-image-opacity: 1" in css
-    assert "--backdrop-overlay-opacity: 0.38" in css
+    assert "--backdrop-image-blur: 18px" in css
+    assert "--backdrop-image-opacity: 0.34" in css
+    assert "--backdrop-overlay-opacity: 0.74" in css
     assert "transition: opacity 520ms" in css
     assert "filter: blur(var(--backdrop-image-blur))" in css
     assert "repeating-linear-gradient(0deg" not in css
     assert "repeating-linear-gradient(90deg" not in css
+
+
+def test_minimized_player_uses_bounded_polaroid_backdrop_print():
+    page = load_page()
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    print_layer = page.find(id="backdrop-print")
+    assert print_layer
+    assert page.find(id="backdrop-print-photo")
+    assert page.find(id="backdrop-print-caption")
+
+    assert "--backdrop-print-opacity" in css
+    assert ".backdrop-print" in css
+    assert "body.player-is-minimized .backdrop-print" in css
+    assert "opacity: 1" in css
+    assert "width: min(42vw, 520px)" in css
+    assert "object-fit: cover" in css
+    assert "box-shadow:" in css
+    assert "backdropPrintPhoto" in script
+    assert "setBackdropPrint" in script
+
+
+def test_minimized_player_shows_curated_field_note_next_to_print():
+    page = load_page()
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert page.find(id="backdrop-note")
+    assert page.find(id="backdrop-note-title")
+    assert page.find(id="backdrop-note-meta")
+    assert page.find(id="backdrop-note-body")
+
+    assert ".backdrop-note" in css
+    assert "body.player-is-minimized .backdrop-note" in css
+    assert "left: calc(" in css
+    assert "max-width: min(28vw, 360px)" in css
+    assert page.find(class_="backdrop-note-kicker").get_text(strip=True) == "FIELD NOTE"
+    assert "descriptionForStop" in script
+    assert "ui.backdropNoteBody.textContent = descriptionForStop(stop);" in script
+    assert "ui.desc.textContent = descriptionForStop(stop);" in script
+
+
+def test_field_note_uses_postal_card_style_and_selectable_text():
+    page = load_page()
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert page.find(id="item-backdrop").get("aria-hidden") is None
+    assert page.find(id="backdrop-print").get("aria-hidden") == "true"
+    assert page.find(id="backdrop-note").get("aria-hidden") == "true"
+
+    assert ".backdrop-deck" in css
+    assert ".stage {\n  pointer-events: none;" in css
+    assert ".stamp-player {\n  --hole: 1.6px;" in css
+    assert "pointer-events: auto" in css
+    assert "user-select: text" in css
+    assert "-webkit-user-select: text" in css
+    assert ".backdrop-note::before" in css
+    assert ".backdrop-note::after" in css
+    assert "ui.backdropNote.setAttribute(\"aria-hidden\", String(!state.isMinimized));" in script
+    assert "linear-gradient(90deg, color-mix(in oklch, var(--backdrop-shadow) 52%, transparent), transparent)" not in css
+
+
+def test_minimized_player_exposes_lightweight_share_controls():
+    page = load_page()
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    share_dock = page.find(id="share-dock")
+    share_ig = page.find(id="share-instagram-btn")
+    share_x = page.find(id="share-x-link")
+    share_copy = page.find(id="share-copy-btn")
+
+    assert share_dock
+    assert share_dock.get("role") == "group"
+    assert share_ig
+    assert share_ig.get("type") == "button"
+    assert "Instagram" in share_ig.get("aria-label")
+    assert share_x
+    assert share_x.get("target") == "_blank"
+    assert share_x.get("rel") == ["noopener"]
+    assert share_copy
+    assert share_copy.get("type") == "button"
+
+    assert ".share-dock" in css
+    assert ".share-btn" in css
+    assert "body.player-is-minimized .share-btn" in css
+    assert "navigator.share" in script
+    assert "https://twitter.com/intent/tweet" in script
+    assert "navigator.clipboard.writeText" in script
+    assert "shareUrlForStop" in script
+    assert "updateShareTargets(stop);" in script
+    assert "platform.twitter.com/widgets.js" not in page.decode()
+
+
+def test_player_previous_next_and_autoplay_follow_active_theme_queue():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "function activePlaybackStops()" in script
+    assert "function activePlaybackPosition()" in script
+    assert "function adjacentPlaybackStopIndex(direction)" in script
+    assert "function selectAdjacentStop(direction, autoPlay)" in script
+    assert "ui.prev.disabled = position <= 0;" in script
+    assert "ui.next.disabled = position < 0 || position >= stops.length - 1;" in script
+    assert "if (!selectAdjacentStop(1, true))" in script
+    assert "selectAdjacentStop(-1, !ui.audio.paused)" in script
+    assert "selectAdjacentStop(1, !ui.audio.paused)" in script
+    assert "selectStop(state.index + 1" not in script
+    assert "selectStop(Math.min(state.stops.length - 1, state.index + 1)" not in script
+
+
+def test_minimized_backdrop_has_quiet_hover_delight_with_reduced_motion_guard():
+    css = CSS_PATH.read_text(encoding="utf-8")
+
+    assert ".backdrop-print {" in css
+    assert "pointer-events: auto;" in css
+    assert ".backdrop-print-frame" in css
+    assert "body.player-is-minimized .backdrop-print:hover .backdrop-print-frame" in css
+    assert "body.player-is-minimized .backdrop-print:hover #backdrop-print-photo" in css
+    assert "body.player-is-minimized .backdrop-note:hover" in css
+    assert "body.player-is-minimized .backdrop-note:hover::before" in css
+    assert "transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1)" in css
+    assert "@media (prefers-reduced-motion: reduce)" in css
+    assert ".backdrop-print:hover .backdrop-print-frame" in css
+    assert ".backdrop-note:hover::before" in css
+
+
+def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "--progress-ratio" in css
+    assert "--progress-x" in css
+    assert "scaleX(var(--progress-ratio, 0))" in css
+    assert "translate(calc(var(--progress-x, 0px) - 50%), -50%) rotate(45deg)" in css
+    assert "let progressFrame = 0;" in script
+    assert "function startProgressAnimation()" in script
+    assert "function stopProgressAnimation()" in script
+    assert "requestAnimationFrame(tickProgress)" in script
+    assert "cancelAnimationFrame(progressFrame)" in script
+    assert "ui.audio.addEventListener(\"play\", () => {" in script
+    assert "startProgressAnimation();" in script
+    assert "ui.audio.addEventListener(\"pause\", () => {" in script
+    assert "stopProgressAnimation();" in script

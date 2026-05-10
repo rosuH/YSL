@@ -9,13 +9,68 @@
   <meta name="color-scheme" content="light">
   <link rel="icon" href="data:,">
   <link rel="manifest" href="manifest.json">
-  <link rel="preload" href="css/main.css?v=11" as="style">
-  <link rel="modulepreload" href="js/app.js?v=11">
+  <link rel="preload" href="css/main.css?v=14" as="style">
+  <link rel="modulepreload" href="js/app.js?v=14">
   <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/main.css?v=11">
+  <link rel="stylesheet" href="css/main.css?v=14">
 </head>
 <body>
-  <div class="item-backdrop" id="item-backdrop" aria-hidden="true"></div>
+  <div class="item-backdrop" id="item-backdrop"></div>
+  <div class="backdrop-deck" id="backdrop-deck">
+    <figure class="backdrop-print" id="backdrop-print" aria-hidden="true">
+      <div class="backdrop-print-frame">
+        <img id="backdrop-print-photo" alt="" decoding="async">
+      </div>
+      <figcaption id="backdrop-print-caption"></figcaption>
+    </figure>
+    <aside class="backdrop-note" id="backdrop-note" aria-hidden="true">
+      <p class="backdrop-note-kicker">FIELD NOTE</p>
+      <h2 id="backdrop-note-title">Loading...</h2>
+      <p id="backdrop-note-meta">Curated route note</p>
+      <p id="backdrop-note-body"></p>
+      <div class="share-dock" id="share-dock" role="group" aria-label="Share current field note">
+        <button
+          class="share-btn"
+          id="share-instagram-btn"
+          type="button"
+          aria-label="Share through device sheet for Instagram"
+          title="Instagram / system share"
+          tabindex="-1"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6" y="6" width="12" height="12" rx="3"></rect>
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M16 8h.01"></path>
+          </svg>
+        </button>
+        <a
+          class="share-btn"
+          id="share-x-link"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          aria-label="Post this specimen to X"
+          title="Post to X"
+          tabindex="-1"
+        >
+          <span aria-hidden="true">X</span>
+        </a>
+        <button
+          class="share-btn"
+          id="share-copy-btn"
+          type="button"
+          aria-label="Copy specimen link"
+          title="Copy link"
+          tabindex="-1"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 9h8v8H9z"></path>
+            <path d="M7 15H5V5h10v2"></path>
+          </svg>
+        </button>
+      </div>
+    </aside>
+  </div>
 
   <main class="stage" id="stage" aria-label="Yellowstone Sound Atlas">
     <article class="player-card stamp-player">
@@ -142,6 +197,6 @@
     </div>
   </noscript>
 
-  <script src="js/app.js?v=11" type="module"></script>
+  <script src="js/app.js?v=14" type="module"></script>
 </body>
 </html>

@@ -46,6 +46,14 @@
   --backdrop-image-contrast: 0.86;
   --backdrop-image-opacity: 0.58;
   --backdrop-overlay-opacity: 1;
+  --backdrop-print-opacity: 0;
+  --backdrop-print-scale: 0.96;
+  --backdrop-print-y: 18px;
+  --backdrop-print-rotate: -1.8deg;
+  --backdrop-note-opacity: 0;
+  --backdrop-note-y: 14px;
+  --share-dock-opacity: 0;
+  --share-dock-y: 8px;
   --font-display: "Iowan Old Style", Charter, Georgia, serif;
   --font-mono: ui-monospace, "JetBrains Mono", Menlo, monospace;
   --font-body: Charter, Georgia, serif;
@@ -121,12 +129,20 @@ body::before {
 
 body.player-is-minimized {
   --backdrop-grid-opacity: 0;
-  --backdrop-image-blur: 0px;
-  --backdrop-image-scale: 1;
-  --backdrop-image-saturation: 1;
-  --backdrop-image-contrast: 1;
-  --backdrop-image-opacity: 1;
-  --backdrop-overlay-opacity: 0.38;
+  --backdrop-image-blur: 18px;
+  --backdrop-image-scale: 1.035;
+  --backdrop-image-saturation: 0.9;
+  --backdrop-image-contrast: 0.82;
+  --backdrop-image-opacity: 0.34;
+  --backdrop-overlay-opacity: 0.74;
+  --backdrop-print-opacity: 1;
+  --backdrop-print-scale: 1;
+  --backdrop-print-y: 0px;
+  --backdrop-print-rotate: -1.4deg;
+  --backdrop-note-opacity: 1;
+  --backdrop-note-y: 0px;
+  --share-dock-opacity: 1;
+  --share-dock-y: 0px;
 }
 
 .item-backdrop {
@@ -148,6 +164,7 @@ body.player-is-minimized {
 }
 
 .item-backdrop::before {
+  z-index: 0;
   opacity: 0;
   background-image: inherit;
   background-position: center;
@@ -165,6 +182,7 @@ body.player-is-minimized {
 }
 
 .item-backdrop::after {
+  z-index: 1;
   opacity: var(--backdrop-overlay-opacity);
   background:
     radial-gradient(circle at 24% 18%, color-mix(in oklch, var(--theme-color) 40%, transparent), transparent 24rem),
@@ -184,6 +202,297 @@ body.player-is-minimized .item-backdrop:not(.has-image) {
     radial-gradient(ellipse at 72% 72%, color-mix(in oklch, var(--backdrop-color) 44%, transparent), transparent 28rem),
     conic-gradient(from 210deg at 50% 48%, oklch(100% 0 0 / 0.1), transparent 18%, oklch(0% 0 0 / 0.25) 42%, transparent 68%, oklch(100% 0 0 / 0.08)),
     linear-gradient(180deg, color-mix(in oklch, var(--backdrop-shadow) 78%, transparent), var(--field-dark));
+}
+
+.backdrop-deck {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backdrop-print {
+  position: absolute;
+  left: clamp(24px, 8vw, 148px);
+  top: clamp(32px, 8dvh, 92px);
+  z-index: 2;
+  width: min(42vw, 520px);
+  max-width: calc(100vw - 220px);
+  min-width: 280px;
+  padding: clamp(10px, 1.2vw, 16px) clamp(10px, 1.2vw, 16px) clamp(42px, 4vw, 58px);
+  opacity: var(--backdrop-print-opacity);
+  pointer-events: auto;
+  transform: translate3d(0, var(--backdrop-print-y), 0) rotate(var(--backdrop-print-rotate)) scale(var(--backdrop-print-scale));
+  transform-origin: 46% 52%;
+  border: 1px solid oklch(64% 0.04 82 / 0.58);
+  background:
+    radial-gradient(circle at 16% 10%, oklch(100% 0 0 / 0.66), transparent 34%),
+    linear-gradient(180deg, var(--bone-high), var(--bone) 68%, var(--bone-deep));
+  box-shadow:
+    0 1px 0 oklch(100% 0 0 / 0.62) inset,
+    0 32px 86px oklch(3% 0.02 85 / 0.38);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.player-is-minimized .backdrop-print {
+  opacity: 1;
+}
+
+.backdrop-deck:not(.has-print) .backdrop-print {
+  opacity: 0;
+}
+
+.backdrop-print-frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 36% 28%, color-mix(in oklch, var(--theme-color) 26%, transparent), transparent 38%),
+    linear-gradient(135deg, oklch(38% 0.04 86), oklch(19% 0.026 82));
+  transform-origin: center;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), border-color 260ms ease;
+}
+
+#backdrop-print-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.96) contrast(1.02);
+  transform: scale(1);
+  transition: filter 260ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#backdrop-print-caption {
+  position: absolute;
+  left: clamp(12px, 1.4vw, 18px);
+  right: clamp(12px, 1.4vw, 18px);
+  bottom: clamp(12px, 1.4vw, 18px);
+  overflow: hidden;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: clamp(0.54rem, 0.8vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 220ms ease, letter-spacing 260ms ease;
+}
+
+body.player-is-minimized .backdrop-print:hover {
+  box-shadow:
+    0 1px 0 oklch(100% 0 0 / 0.68) inset,
+    0 38px 96px oklch(3% 0.02 85 / 0.42);
+}
+
+body.player-is-minimized .backdrop-print:hover .backdrop-print-frame {
+  border-color: color-mix(in oklch, var(--theme-color) 46%, var(--line));
+  transform: translate3d(0, -3px, 0) rotate(0.35deg);
+}
+
+body.player-is-minimized .backdrop-print:hover #backdrop-print-photo {
+  filter: saturate(1.04) contrast(1.04);
+  transform: scale(1.018);
+}
+
+body.player-is-minimized .backdrop-print:hover #backdrop-print-caption {
+  color: color-mix(in oklch, var(--theme-color) 42%, var(--ink-soft));
+  letter-spacing: 0.1em;
+}
+
+.backdrop-note {
+  position: absolute;
+  left: calc(clamp(24px, 8vw, 148px) + min(42vw, 520px) + clamp(24px, 3vw, 46px));
+  top: clamp(62px, 12dvh, 142px);
+  z-index: 2;
+  max-width: min(28vw, 360px);
+  padding: 18px 20px 16px;
+  opacity: var(--backdrop-note-opacity);
+  pointer-events: none;
+  transform: translate3d(0, var(--backdrop-note-y), 0);
+  border: 1px solid oklch(36% 0.05 82 / 0.45);
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in oklch, var(--theme-color) 10%, transparent), transparent 5rem),
+    linear-gradient(180deg, var(--bone-high), var(--bone) 62%, var(--bone-deep));
+  box-shadow:
+    0 1px 0 oklch(100% 0 0 / 0.62) inset,
+    0 22px 54px oklch(4% 0.02 85 / 0.28);
+  color: var(--ink);
+  user-select: text;
+  -webkit-user-select: text;
+  transition:
+    opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.player-is-minimized .backdrop-note {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.player-is-minimized .backdrop-note:hover {
+  border-color: color-mix(in oklch, var(--theme-color) 36%, oklch(36% 0.05 82 / 0.7));
+  box-shadow:
+    0 1px 0 oklch(100% 0 0 / 0.68) inset,
+    0 28px 66px oklch(4% 0.02 85 / 0.32);
+}
+
+.backdrop-note::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  right: 16px;
+  width: 62px;
+  height: 62px;
+  border: 1px solid color-mix(in oklch, var(--theme-color) 62%, var(--ink-soft));
+  border-radius: 999px;
+  opacity: 0.32;
+  transform: rotate(-9deg);
+  pointer-events: none;
+  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.backdrop-note::after {
+  content: "YNP";
+  position: absolute;
+  top: 33px;
+  right: 34px;
+  color: color-mix(in oklch, var(--theme-color) 72%, var(--ink-soft));
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  opacity: 0.42;
+  transform: rotate(-9deg);
+  pointer-events: none;
+  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.player-is-minimized .backdrop-note:hover::before {
+  opacity: 0.48;
+  transform: rotate(-5deg) scale(1.04);
+}
+
+body.player-is-minimized .backdrop-note:hover::after {
+  opacity: 0.62;
+  transform: rotate(-5deg) scale(1.03);
+}
+
+.backdrop-note-kicker,
+#backdrop-note-meta {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.backdrop-note-kicker {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid color-mix(in oklch, var(--theme-color) 46%, var(--line-soft));
+  color: color-mix(in oklch, var(--theme-color) 62%, var(--ink));
+}
+
+#backdrop-note-title {
+  margin: 0 0 8px;
+  max-width: 8.8em;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.5vw, 2.35rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+#backdrop-note-meta {
+  margin-bottom: 14px;
+  color: var(--ink-faint);
+}
+
+#backdrop-note-body {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 34ch;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.backdrop-note ::selection {
+  background: color-mix(in oklch, var(--theme-color) 28%, var(--bone-high));
+  color: var(--ink);
+}
+
+.share-dock {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed color-mix(in oklch, var(--theme-color) 34%, var(--line-soft));
+  opacity: var(--share-dock-opacity);
+  transform: translate3d(0, var(--share-dock-y), 0);
+  transition:
+    opacity 260ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.share-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid color-mix(in oklch, var(--ink-soft) 72%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+body.player-is-minimized .share-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.share-btn:hover,
+.share-btn:focus-visible,
+.share-btn.is-confirming {
+  border-color: color-mix(in oklch, var(--theme-color) 72%, var(--ink));
+  background: color-mix(in oklch, var(--theme-color) 16%, var(--bone-high));
+  color: var(--ink);
+}
+
+.share-btn svg {
+  width: 15px;
+  height: 15px;
 }
 
 button,
@@ -230,6 +539,7 @@ figure {
 }
 
 .stage {
+  pointer-events: none;
   position: relative;
   z-index: 2;
   display: grid;
@@ -249,6 +559,7 @@ figure {
   width: min(560px, 92vw);
   height: var(--player-available-height);
   color: var(--ink);
+  pointer-events: auto;
   view-transition-name: player;
 }
 
@@ -568,6 +879,8 @@ figure {
 }
 
 .progress-track {
+  --progress-ratio: 0;
+  --progress-x: 0px;
   position: relative;
   min-height: 36px;
   height: 36px;
@@ -589,20 +902,23 @@ figure {
   position: absolute;
   left: 0;
   top: 50%;
-  width: 0%;
+  width: 100%;
   height: 1px;
   background: var(--ink);
-  transform: translateY(-50%);
+  transform: translateY(-50%) scaleX(var(--progress-ratio, 0));
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .progress-thumb {
   position: absolute;
-  left: 0%;
+  left: 0;
   top: 50%;
   width: 10px;
   height: 10px;
   background: var(--ink);
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(calc(var(--progress-x, 0px) - 50%), -50%) rotate(45deg);
+  will-change: transform;
 }
 
 .progress-track.dragging .progress-thumb {
@@ -1173,6 +1489,45 @@ body.player-is-minimized .keyboard-hints {
 }
 
 @media (max-width: 700px) {
+  .backdrop-print {
+    left: 50%;
+    top: 64px;
+    width: min(68vw, 300px);
+    min-width: 0;
+    max-width: calc(100vw - 28px);
+    transform: translate3d(-50%, var(--backdrop-print-y), 0) rotate(var(--backdrop-print-rotate)) scale(var(--backdrop-print-scale));
+  }
+
+  .backdrop-note {
+    left: 50%;
+    top: 320px;
+    width: min(82vw, 340px);
+    max-width: calc(100vw - 28px);
+    padding: 12px 14px 14px;
+    transform: translate3d(-50%, var(--backdrop-note-y), 0);
+  }
+
+  .backdrop-note-kicker {
+    margin-bottom: 7px;
+  }
+
+  #backdrop-note-title {
+    margin-bottom: 5px;
+    font-size: 1.25rem;
+  }
+
+  #backdrop-note-meta {
+    margin-bottom: 8px;
+    font-size: 0.48rem;
+  }
+
+  #backdrop-note-body {
+    max-width: none;
+    font-size: 0.82rem;
+    line-height: 1.28;
+    -webkit-line-clamp: 3;
+  }
+
   .track-title {
     font-size: 2.6rem;
   }
@@ -1331,5 +1686,12 @@ body.player-is-minimized .keyboard-hints {
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+
+  .backdrop-print:hover .backdrop-print-frame,
+  .backdrop-print:hover #backdrop-print-photo,
+  .backdrop-note:hover::before,
+  .backdrop-note:hover::after {
+    transform: none !important;
   }
 }
