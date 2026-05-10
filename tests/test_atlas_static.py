@@ -295,6 +295,23 @@ def test_minimized_backdrop_has_quiet_hover_delight_with_reduced_motion_guard():
     assert ".backdrop-note:hover::before" in css
 
 
+def test_mobile_minimized_deck_reserves_bottom_strip_safe_area():
+    css = CSS_PATH.read_text(encoding="utf-8")
+
+    assert "@media (max-width: 700px)" in css
+    assert "body.player-is-minimized .backdrop-deck" in css
+    assert "--mobile-deck-gap" in css
+    assert "grid-template-rows: auto minmax(0, auto)" in css
+    assert "calc(var(--strip-height) + 14px + env(safe-area-inset-bottom))" in css
+    assert "max-height: calc(100dvh - var(--strip-height)" in css
+    assert "overscroll-behavior: contain" in css
+    assert "--strip-height: clamp(126px, 19dvh, 142px)" in css
+    assert "body.player-is-minimized .stage" in css
+    assert ".player-card.is-minimized .mini-rule,\n  .player-card.is-minimized .mini-copy" in css
+    assert ".player-card.is-minimized .mini-play-btn" in css
+    assert "grid-template-rows: 38px minmax(0, 1fr)" in css
+
+
 def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
     css = CSS_PATH.read_text(encoding="utf-8")
     script = JS_PATH.read_text(encoding="utf-8")

@@ -242,6 +242,10 @@ body.player-is-minimized .backdrop-print {
   opacity: 1;
 }
 
+body.player-is-minimized .stage {
+  z-index: 4;
+}
+
 .backdrop-deck:not(.has-print) .backdrop-print {
   opacity: 0;
 }
@@ -1489,22 +1493,41 @@ body.player-is-minimized .keyboard-hints {
 }
 
 @media (max-width: 700px) {
+  body.player-is-minimized .backdrop-deck {
+    --mobile-deck-gap: clamp(10px, 1.8dvh, 18px);
+    display: grid;
+    grid-template-rows: auto minmax(0, auto);
+    justify-items: center;
+    align-content: start;
+    gap: var(--mobile-deck-gap);
+    padding:
+      max(28px, env(safe-area-inset-top))
+      14px
+      calc(var(--strip-height) + 14px + env(safe-area-inset-bottom));
+  }
+
   .backdrop-print {
-    left: 50%;
-    top: 64px;
-    width: min(68vw, 300px);
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(70vw, 310px);
     min-width: 0;
     max-width: calc(100vw - 28px);
-    transform: translate3d(-50%, var(--backdrop-print-y), 0) rotate(var(--backdrop-print-rotate)) scale(var(--backdrop-print-scale));
+    transform: translate3d(0, var(--backdrop-print-y), 0) rotate(var(--backdrop-print-rotate)) scale(var(--backdrop-print-scale));
   }
 
   .backdrop-note {
-    left: 50%;
-    top: 320px;
-    width: min(82vw, 340px);
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(84vw, 360px);
     max-width: calc(100vw - 28px);
+    max-height: calc(100dvh - var(--strip-height) - clamp(224px, 72vw, 302px) - var(--mobile-deck-gap) - 42px);
     padding: 12px 14px 14px;
-    transform: translate3d(-50%, var(--backdrop-note-y), 0);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translate3d(0, var(--backdrop-note-y), 0);
+    scrollbar-width: thin;
   }
 
   .backdrop-note-kicker {
@@ -1547,7 +1570,7 @@ body.player-is-minimized .keyboard-hints {
 
 @media (max-width: 560px) {
   :root {
-    --strip-height: 148px;
+    --strip-height: clamp(126px, 19dvh, 142px);
     --player-max-height: 580px;
     --player-available-height: min(var(--player-max-height), calc(100dvh - var(--strip-height) - 20px));
   }
@@ -1595,59 +1618,64 @@ body.player-is-minimized .keyboard-hints {
 
   .player-card.is-minimized {
     right: 12px;
-    bottom: calc(var(--strip-height) + 12px);
-    width: 96px;
+    bottom: calc(var(--strip-height) + 10px);
+    width: 46px;
   }
 
   .player-card.is-minimized .stamp-mini {
-    width: 96px;
-    min-height: 120px;
-    padding: 7px;
+    width: 46px;
+    min-height: 46px;
+    gap: 0;
+    padding: 3px;
   }
 
-  .mini-rule {
-    font-size: 0.36rem;
+  .player-card.is-minimized .mini-rule,
+  .player-card.is-minimized .mini-copy {
+    display: none;
   }
 
-  .mini-play-btn {
-    width: 34px;
-    height: 34px;
+  .player-card.is-minimized .mini-photo-frame {
+    aspect-ratio: 1;
   }
 
-  .mini-play-btn::before {
-    width: 21px;
-    height: 21px;
+  .player-card.is-minimized .mini-play-btn {
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .mini-play-btn svg {
-    left: 10px;
-    bottom: 10px;
-    width: 11px;
-    height: 11px;
+  .player-card.is-minimized .mini-play-btn::before {
+    left: 50%;
+    bottom: auto;
+    top: 50%;
+    width: 29px;
+    height: 29px;
+    transform: translate(-50%, -50%);
   }
 
-  #mini-track-title {
-    font-size: 0.56rem;
-  }
-
-  #mini-track-meta {
-    font-size: 0.38rem;
+  .player-card.is-minimized .mini-play-btn svg {
+    left: 50%;
+    bottom: auto;
+    top: 50%;
+    width: 13px;
+    height: 13px;
+    transform: translate(-50%, -50%);
   }
 
   .specimen-strip {
-    grid-template-rows: 44px minmax(0, 1fr);
+    grid-template-rows: 38px minmax(0, 1fr);
     gap: 0;
-    padding: 2px 10px;
+    padding: 2px 10px calc(4px + env(safe-area-inset-bottom));
   }
 
   .theme-tabs {
-    gap: 9px;
+    gap: 8px;
   }
 
   .theme-tab {
-    flex-basis: 74px;
-    min-height: 44px;
-    height: 44px;
+    flex-basis: 70px;
+    min-height: 38px;
+    height: 38px;
     font-size: 0.5rem;
   }
 
@@ -1656,16 +1684,17 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .chip-carousel {
-    gap: 7px;
-    padding-top: 3px;
+    gap: 6px;
+    padding-top: 2px;
     padding-bottom: 1px;
   }
 
   .stamp-chip {
-    flex-basis: 72px;
-    grid-template-rows: 39px auto auto;
-    width: 72px;
-    min-height: 96px;
+    flex-basis: 68px;
+    grid-template-rows: 35px auto auto;
+    width: 68px;
+    min-height: 86px;
+    padding: 5px;
   }
 
   .status {
