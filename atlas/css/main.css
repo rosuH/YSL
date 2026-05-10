@@ -641,10 +641,10 @@ figure {
   bottom: 0;
   z-index: 10;
   display: grid;
-  grid-template-rows: 28px minmax(0, 1fr);
-  gap: 4px;
+  grid-template-rows: 44px minmax(0, 1fr);
+  gap: 0;
   height: var(--strip-height);
-  padding: 6px clamp(14px, 3vw, 32px);
+  padding: 4px clamp(14px, 3vw, 32px);
   border-top: 1px solid var(--reverse-line);
   background:
     linear-gradient(180deg, oklch(16% 0.028 88 / 0.94), oklch(11% 0.024 88 / 0.96)),
@@ -654,13 +654,13 @@ figure {
 
 .theme-tabs {
   display: flex;
-  align-items: end;
+  align-items: stretch;
   gap: 14px;
   min-width: 0;
-  padding: 3px 4px;
+  padding: 0 4px;
   margin-inline: -4px;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: visible;
   scrollbar-width: none;
   scroll-padding-inline: 4px;
 }
@@ -675,9 +675,10 @@ figure {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 22px;
+  min-height: 44px;
+  height: 44px;
   min-width: 0;
-  padding: 0 2px 4px;
+  padding: 10px 2px 8px;
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
@@ -732,7 +733,7 @@ figure {
   min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 8px 6px 4px;
+  padding: 4px 6px 0;
   margin-inline: -6px;
   scrollbar-color: var(--theme-color) transparent;
   scroll-padding-inline: 6px;
@@ -908,7 +909,7 @@ button:focus-visible,
 .theme-tab:focus-visible,
 .stamp-chip:focus-visible {
   outline: 2px solid var(--theme-color);
-  outline-offset: 2px;
+  outline-offset: -3px;
 }
 
 .status {
@@ -1134,19 +1135,19 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .specimen-strip {
-    grid-template-rows: 26px minmax(0, 1fr);
-    gap: 4px;
-    padding: 6px 10px;
+    grid-template-rows: 44px minmax(0, 1fr);
+    gap: 0;
+    padding: 2px 10px;
   }
 
   .theme-tabs {
     gap: 9px;
-    padding-block: 2px;
   }
 
   .theme-tab {
     flex-basis: 74px;
-    height: 20px;
+    min-height: 44px;
+    height: 44px;
     font-size: 0.5rem;
   }
 
@@ -1156,8 +1157,8 @@ body.player-is-minimized .keyboard-hints {
 
   .chip-carousel {
     gap: 7px;
-    padding-top: 7px;
-    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-bottom: 1px;
   }
 
   .stamp-chip {
