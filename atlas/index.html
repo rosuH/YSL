@@ -15,7 +15,7 @@
 </head>
 <body>
   <main class="stage" id="stage" aria-label="Yellowstone Sound Atlas">
-    <article class="player-card stamp-player" aria-live="polite">
+    <article class="player-card stamp-player">
       <section class="stamp-face stamp-expanded" aria-label="Active sound specimen">
         <header class="stamp-rule stamp-rule-top">
           <p class="eyebrow" id="eyebrow">YELLOWSTONE - 01</p>
@@ -92,9 +92,6 @@
       <section
         class="stamp-face stamp-mini"
         id="mini-stamp"
-        role="button"
-        tabindex="0"
-        aria-label="Expand player"
       >
         <div class="mini-rule">
           <span id="mini-eyebrow">YELLOWSTONE - 01</span>
@@ -115,6 +112,7 @@
           <p id="mini-track-title">Loading...</p>
           <p id="mini-track-meta">Route specimen</p>
         </div>
+        <button id="mini-expand-btn" class="mini-expand-btn" type="button" aria-label="Expand player"></button>
       </section>
 
       <audio id="audio-player" preload="metadata"></audio>

@@ -74,9 +74,8 @@ def test_index_contains_stamp_player_structure():
 
     assert expanded
     assert mini
-    assert mini.get("role") == "button"
-    assert mini.get("tabindex") == "0"
     assert page.find(id="mini-play-btn")
+    assert page.find(id="mini-expand-btn")
 
 
 def test_index_contains_theme_first_navigation_shell():
