@@ -1,5 +1,6 @@
 """Static checks for the Dawn to Night atlas page."""
 
+import re
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -16,6 +17,19 @@ SITEMAP_PATH = ROOT / "sitemap.xml"
 
 def load_page():
     return BeautifulSoup(INDEX_PATH.read_text(encoding="utf-8"), "html.parser")
+
+
+def assert_css_rule(css: str, selector: str, *declarations: str) -> None:
+    target = re.sub(r"\s+", " ", selector).strip()
+    normalized_declarations = [re.sub(r"\s+", " ", declaration).strip() for declaration in declarations]
+    for match in re.finditer(r"(?P<selectors>[^{}]+)\{(?P<body>[^{}]*)\}", css, re.DOTALL):
+        selectors = re.sub(r"\s+", " ", match.group("selectors")).strip()
+        if selectors != target:
+            continue
+        body = re.sub(r"\s+", " ", match.group("body"))
+        if all(declaration in body for declaration in normalized_declarations):
+            return
+    assert False, f"{selector} missing declarations: {declarations}"
 
 
 def test_atlas_index_exists():
@@ -275,8 +289,8 @@ def test_field_note_uses_postal_card_style_and_selectable_text():
     assert page.find(id="backdrop-note").get("aria-hidden") == "true"
 
     assert ".backdrop-deck" in css
-    assert ".stage {\n  pointer-events: none;" in css
-    assert ".stamp-player {\n  --hole: 1.6px;" in css
+    assert_css_rule(css, ".stage", "pointer-events: none;")
+    assert_css_rule(css, ".stamp-player", "--hole: 1.6px;")
     assert "pointer-events: auto" in css
     assert "user-select: text" in css
     assert "-webkit-user-select: text" in css
@@ -396,7 +410,8 @@ def test_mobile_minimized_deck_reserves_bottom_strip_safe_area():
     assert "overscroll-behavior: contain" in css
     assert "--strip-height: clamp(126px, 19dvh, 142px)" in css
     assert "body.player-is-minimized .stage" in css
-    assert ".player-card.is-minimized .mini-rule,\n  .player-card.is-minimized .mini-copy" in css
+    assert ".player-card.is-minimized .mini-rule" in css
+    assert ".player-card.is-minimized .mini-copy" in css
     assert ".player-card.is-minimized .mini-play-btn" in css
     assert "grid-template-rows: 38px minmax(0, 1fr)" in css
 
@@ -405,12 +420,21 @@ def test_mobile_theme_tabs_use_compact_full_labels_without_ellipsis():
     css = CSS_PATH.read_text(encoding="utf-8")
 
     assert "@media (max-width: 560px)" in css
-    assert ".theme-tab {\n    flex-basis: auto;" in css
-    assert "min-width: max-content;" in css
-    assert ".theme-name,\n  .theme-count" in css
-    assert "text-overflow: clip;" in css
-    assert "overflow: visible;" in css
-    assert "white-space: nowrap;" in css
+    assert_css_rule(
+        css,
+        ".theme-tab",
+        "flex-basis: auto;",
+        "min-width: max-content;",
+    )
+    assert ".theme-name" in css
+    assert ".theme-count" in css
+    assert_css_rule(
+        css,
+        ".theme-name,\n  .theme-count",
+        "text-overflow: clip;",
+        "overflow: visible;",
+        "white-space: nowrap;",
+    )
 
 
 def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():

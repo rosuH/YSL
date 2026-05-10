@@ -190,6 +190,7 @@ def _description_for(media_entry: dict[str, str], theme: str) -> str:
 
 def _generated_stop(media_entry: dict[str, str], used_ids: set[str]) -> dict[str, Any]:
     theme = _infer_theme(media_entry)
+    description = _description_for(media_entry, theme)
     stop: dict[str, Any] = {
         "id": _unique_id(media_entry["title"], used_ids),
         "title": media_entry["title"],
@@ -197,7 +198,8 @@ def _generated_stop(media_entry: dict[str, str], used_ids: set[str]) -> dict[str
         "theme": theme,
         "zoneLabel": "Sound library specimen",
         "audioPath": media_entry["audioPath"],
-        "description": _description_for(media_entry, theme),
+        "description": description,
+        "fieldNote": description,
         "credit": "Audio courtesy of National Park Service.",
     }
     if "imagePath" in media_entry:

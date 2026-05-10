@@ -62,6 +62,7 @@ def test_merge_route_preserves_curated_stops_and_appends_publishable_entries(tmp
     assert generated["zoneLabel"] == "Sound library specimen"
     assert generated["audioPath"] == "New Spring/Sound Library - New Spring.mp3"
     assert generated["imagePath"] == "New Spring/Sound Library - New Spring_NPS.jpg"
+    assert generated["fieldNote"] == generated["description"]
     assert "draft" not in generated
     assert "review" not in generated["description"].lower()
 
