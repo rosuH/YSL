@@ -9,12 +9,14 @@
   <meta name="color-scheme" content="light">
   <link rel="icon" href="data:,">
   <link rel="manifest" href="manifest.json">
-  <link rel="preload" href="css/main.css" as="style">
-  <link rel="preload" href="js/app.js" as="script">
+  <link rel="preload" href="css/main.css?v=11" as="style">
+  <link rel="modulepreload" href="js/app.js?v=11">
   <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/main.css?v=6">
+  <link rel="stylesheet" href="css/main.css?v=11">
 </head>
 <body>
+  <div class="item-backdrop" id="item-backdrop" aria-hidden="true"></div>
+
   <main class="stage" id="stage" aria-label="Yellowstone Sound Atlas">
     <article class="player-card stamp-player">
       <section class="stamp-face stamp-expanded" aria-label="Active sound specimen">
@@ -28,7 +30,7 @@
           </button>
         </header>
 
-        <figure class="stamp-photo-frame">
+        <figure class="stamp-photo-frame" id="scene-photo-frame">
           <img id="scene-photo" class="scene-photo" alt="" decoding="async">
         </figure>
 
@@ -98,7 +100,7 @@
           <span id="mini-eyebrow">YELLOWSTONE - 01</span>
           <span>VOL 61</span>
         </div>
-        <figure class="mini-photo-frame">
+        <figure class="mini-photo-frame" id="mini-photo-frame">
           <img id="mini-scene-photo" alt="" decoding="async">
           <button id="mini-play-btn" class="mini-play-btn" type="button" aria-label="Play">
             <svg id="mini-icon-play" viewBox="0 0 24 24" aria-hidden="true">
@@ -116,7 +118,7 @@
         <button id="mini-expand-btn" class="mini-expand-btn" type="button" aria-label="Expand player"></button>
       </section>
 
-      <audio id="audio-player" preload="metadata"></audio>
+      <audio id="audio-player" preload="none"></audio>
     </article>
   </main>
 
@@ -140,6 +142,6 @@
     </div>
   </noscript>
 
-  <script src="js/app.js?v=6" type="module"></script>
+  <script src="js/app.js?v=11" type="module"></script>
 </body>
 </html>

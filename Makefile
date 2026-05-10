@@ -1,4 +1,4 @@
-.PHONY: install lint test run clean
+.PHONY: install lint test run preview-atlas clean
 
 install:
 	pip install -r requirements.txt
@@ -17,6 +17,9 @@ test:
 
 run:
 	python spider.py
+
+preview-atlas:
+	python3 scripts/serve_atlas.py 4173
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +

@@ -33,6 +33,19 @@
   --theme-color: var(--t-thermal);
   --photo-tint: var(--theme-color);
   --strip-height: 156px;
+  --player-max-height: 660px;
+  --player-available-height: min(var(--player-max-height), calc(100dvh - var(--strip-height) - 36px));
+  --stamp-transition-blur: 5px;
+  --backdrop-color: oklch(22% 0.05 70);
+  --backdrop-shadow: oklch(10% 0.03 88);
+  --backdrop-grid-opacity: 0.18;
+  --backdrop-image-blur: 30px;
+  --backdrop-image-scale: 1.05;
+  --backdrop-image-rotation: 0deg;
+  --backdrop-image-saturation: 1.35;
+  --backdrop-image-contrast: 0.86;
+  --backdrop-image-opacity: 0.58;
+  --backdrop-overlay-opacity: 1;
   --font-display: "Iowan Old Style", Charter, Georgia, serif;
   --font-mono: ui-monospace, "JetBrains Mono", Menlo, monospace;
   --font-body: Charter, Georgia, serif;
@@ -84,10 +97,7 @@ body {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 16% 12%, color-mix(in oklch, var(--theme-color) 24%, transparent), transparent 25rem),
-    radial-gradient(circle at 86% 74%, oklch(54% 0.10 200 / 0.18), transparent 26rem),
-    linear-gradient(180deg, oklch(20% 0.035 92), var(--field-dark));
+  background: var(--field-dark);
   color: var(--bone);
   font-family: var(--font-body);
   line-height: 1.42;
@@ -100,11 +110,80 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: var(--backdrop-grid-opacity);
   background:
-    repeating-linear-gradient(0deg, transparent 0 31px, oklch(94% 0.03 88 / 0.08) 31px 32px),
-    repeating-linear-gradient(90deg, transparent 0 43px, oklch(94% 0.03 88 / 0.05) 43px 44px);
+    radial-gradient(circle at 18% 14%, color-mix(in oklch, var(--theme-color) 26%, transparent), transparent 24rem);
+  mix-blend-mode: screen;
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.player-is-minimized {
+  --backdrop-grid-opacity: 0;
+  --backdrop-image-blur: 0px;
+  --backdrop-image-scale: 1;
+  --backdrop-image-saturation: 1;
+  --backdrop-image-contrast: 1;
+  --backdrop-image-opacity: 1;
+  --backdrop-overlay-opacity: 0.38;
+}
+
+.item-backdrop {
+  position: fixed;
+  inset: -44px;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--field-dark);
+  background-position: center;
+  background-size: cover;
+}
+
+.item-backdrop::before,
+.item-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.item-backdrop::before {
+  opacity: 0;
+  background-image: inherit;
+  background-position: center;
+  background-size: cover;
+  filter: blur(var(--backdrop-image-blur)) saturate(var(--backdrop-image-saturation)) contrast(var(--backdrop-image-contrast));
+  transform: scale(var(--backdrop-image-scale)) rotate(var(--backdrop-image-rotation));
+  transition:
+    opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item-backdrop.has-image::before {
+  opacity: var(--backdrop-image-opacity);
+}
+
+.item-backdrop::after {
+  opacity: var(--backdrop-overlay-opacity);
+  background:
+    radial-gradient(circle at 24% 18%, color-mix(in oklch, var(--theme-color) 40%, transparent), transparent 24rem),
+    radial-gradient(circle at 74% 66%, color-mix(in oklch, var(--backdrop-color) 34%, transparent), transparent 28rem),
+    linear-gradient(115deg, oklch(100% 0 0 / 0.05), transparent 34% 60%, oklch(0% 0 0 / 0.34)),
+    linear-gradient(180deg, color-mix(in oklch, var(--backdrop-shadow) 72%, transparent), var(--field-dark));
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.player-is-minimized .item-backdrop:not(.has-image) {
+  --backdrop-overlay-opacity: 0.88;
+}
+
+.item-backdrop:not(.has-image)::after {
+  background:
+    radial-gradient(ellipse at 34% 18%, color-mix(in oklch, var(--theme-color) 46%, transparent), transparent 22rem),
+    radial-gradient(ellipse at 72% 72%, color-mix(in oklch, var(--backdrop-color) 44%, transparent), transparent 28rem),
+    conic-gradient(from 210deg at 50% 48%, oklch(100% 0 0 / 0.1), transparent 18%, oklch(0% 0 0 / 0.25) 42%, transparent 68%, oklch(100% 0 0 / 0.08)),
+    linear-gradient(180deg, color-mix(in oklch, var(--backdrop-shadow) 78%, transparent), var(--field-dark));
 }
 
 button,
@@ -152,11 +231,14 @@ figure {
 
 .stage {
   position: relative;
+  z-index: 2;
   display: grid;
   place-items: center;
+  height: 100dvh;
   min-height: 0;
   padding: 18px clamp(14px, 3vw, 32px) calc(var(--strip-height) + 18px);
   isolation: isolate;
+  overflow: hidden;
 }
 
 .stamp-player {
@@ -165,6 +247,7 @@ figure {
   position: relative;
   z-index: 2;
   width: min(560px, 92vw);
+  height: var(--player-available-height);
   color: var(--ink);
   view-transition-name: player;
 }
@@ -196,14 +279,13 @@ figure {
 }
 
 .stamp-expanded {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  max-height: min(720px, calc(100dvh - var(--strip-height) - 48px));
-  padding: clamp(18px, 2.8vw, 30px);
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--theme-color) transparent;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto auto;
+  gap: 10px;
+  height: var(--player-available-height);
+  max-height: 100%;
+  padding: clamp(14px, 2.1dvh, 22px);
+  overflow: hidden;
 }
 
 .stamp-mini {
@@ -274,14 +356,15 @@ figure {
 
 .stamp-photo-frame,
 .mini-photo-frame {
+  position: relative;
   background: oklch(20% 0.025 82);
   border: 1px solid var(--line);
   overflow: hidden;
 }
 
 .stamp-photo-frame {
-  flex: 0 0 auto;
-  height: clamp(180px, 34dvh, 318px);
+  min-height: 0;
+  height: 100%;
 }
 
 .scene-photo,
@@ -311,7 +394,40 @@ figure {
 
 .scene-photo.is-fallback,
 #mini-scene-photo.is-fallback {
+  visibility: hidden;
+  opacity: 0;
   filter: saturate(0.7) contrast(1.05);
+}
+
+.stamp-photo-frame.has-fallback::before,
+.mini-photo-frame.has-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 34% 22%, color-mix(in oklch, var(--theme-color) 34%, transparent), transparent 34%),
+    radial-gradient(circle at 76% 78%, oklch(100% 0 0 / 0.14), transparent 30%),
+    repeating-linear-gradient(132deg, transparent 0 12px, oklch(15% 0.034 92 / 0.08) 12px 13px);
+}
+
+.stamp-photo-frame.has-fallback::after,
+.mini-photo-frame.has-fallback::after {
+  content: attr(data-fallback-label);
+  position: absolute;
+  inset: auto 14px 12px;
+  z-index: 2;
+  color: oklch(94% 0.03 88 / 0.88);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.4dvh, 1.45rem);
+  font-style: italic;
+  line-height: 0.95;
+  text-shadow: 0 2px 14px oklch(0% 0 0 / 0.55);
+}
+
+.mini-photo-frame.has-fallback::after {
+  inset: auto 6px 6px;
+  font-size: 0.62rem;
 }
 
 .stamp-copy {
@@ -322,10 +438,10 @@ figure {
 .track-title {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-style: italic;
   font-weight: 400;
-  line-height: 0.92;
+  line-height: 0.94;
   letter-spacing: 0;
   overflow-wrap: anywhere;
   text-wrap: balance;
@@ -344,19 +460,19 @@ figure {
 }
 
 .track-desc {
-  margin-top: 6px;
+  margin-top: 4px;
   max-width: 58ch;
   color: var(--ink);
-  font-size: 1rem;
-  line-height: 1.42;
+  font-size: 0.94rem;
+  line-height: 1.34;
 }
 
 .waveform {
   display: flex;
   align-items: center;
   gap: 3px;
-  height: 52px;
-  padding-block: 8px;
+  height: 42px;
+  padding-block: 6px;
   border-block: 1px solid var(--line-soft);
 }
 
@@ -392,7 +508,7 @@ figure {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .ctrl-btn {
@@ -418,8 +534,8 @@ figure {
 }
 
 .play-btn {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   background: var(--ink);
   color: var(--bone);
   border-color: var(--ink);
@@ -442,7 +558,7 @@ figure {
 
 .progress-area {
   display: grid;
-  gap: 7px;
+  gap: 5px;
 }
 
 .time-row {
@@ -498,6 +614,7 @@ figure {
   right: 18px;
   bottom: calc(var(--strip-height) + 16px);
   width: 116px;
+  height: auto;
   z-index: 20;
 }
 
@@ -839,12 +956,24 @@ figure {
 ::view-transition-group(player) {
   animation-duration: 720ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  clip-path: inset(0 round 2px);
+  contain: paint;
+  overflow: clip;
+}
+
+::view-transition-image-pair(player) {
+  clip-path: inset(0 round 2px);
+  isolation: isolate;
+  overflow: clip;
 }
 
 ::view-transition-old(player),
 ::view-transition-new(player) {
   animation-duration: 720ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  clip-path: inset(0 round 2px);
+  overflow: clip;
+  transform-origin: center;
 }
 
 ::view-transition-old(player) {
@@ -869,29 +998,29 @@ figure {
   }
 
   50% {
-    opacity: 0.45;
-    filter: blur(8px);
-    transform: scale(0.98, 1.025);
+    opacity: 0.46;
+    filter: blur(var(--stamp-transition-blur));
+    transform: scale(0.985);
   }
 
   to {
     opacity: 0;
-    filter: blur(8px);
-    transform: scale(0.55);
+    filter: blur(var(--stamp-transition-blur));
+    transform: scale(0.94);
   }
 }
 
 @keyframes stamp-new {
   from {
     opacity: 0;
-    filter: blur(8px);
-    transform: scale(0.5);
+    filter: blur(var(--stamp-transition-blur));
+    transform: scale(1.035);
   }
 
   50% {
-    opacity: 0.55;
-    filter: blur(8px);
-    transform: scale(1.025, 0.98);
+    opacity: 0.72;
+    filter: blur(var(--stamp-transition-blur));
+    transform: scale(1.012);
   }
 
   to {
@@ -1004,30 +1133,42 @@ body.player-is-minimized .keyboard-hints {
 }
 
 @media (max-height: 760px) {
+  :root {
+    --player-max-height: 590px;
+    --player-available-height: min(var(--player-max-height), calc(100dvh - var(--strip-height) - 22px));
+  }
+
   .stage {
     padding-top: 10px;
     padding-bottom: calc(var(--strip-height) + 10px);
   }
 
   .stamp-expanded {
-    gap: 9px;
-    max-height: calc(100dvh - var(--strip-height) - 24px);
-  }
-
-  .stamp-photo-frame {
-    aspect-ratio: 1.7 / 1;
+    gap: 7px;
+    padding: 12px;
   }
 
   .track-title {
-    font-size: 2.8rem;
+    font-size: 2.24rem;
   }
 
   .track-desc {
-    font-size: 0.94rem;
+    font-size: 0.86rem;
+    line-height: 1.28;
   }
 
   .waveform {
-    height: 42px;
+    height: 34px;
+  }
+
+  .ctrl-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .play-btn {
+    width: 48px;
+    height: 48px;
   }
 }
 
@@ -1052,6 +1193,8 @@ body.player-is-minimized .keyboard-hints {
 @media (max-width: 560px) {
   :root {
     --strip-height: 148px;
+    --player-max-height: 580px;
+    --player-available-height: min(var(--player-max-height), calc(100dvh - var(--strip-height) - 20px));
   }
 
   .stage {
@@ -1059,7 +1202,7 @@ body.player-is-minimized .keyboard-hints {
   }
 
   .stamp-expanded {
-    gap: 9px;
+    gap: 7px;
     padding: 14px;
   }
 

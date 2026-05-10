@@ -18,7 +18,6 @@ const state = {
   activeTheme: "Thermal",
   isPlaying: false,
   isDragging: false,
-  autoPlayNext: false,
   isMinimized: false,
 };
 
@@ -89,6 +88,7 @@ const descriptionOverrides = {
 const ui = {
   body: document.body,
   playerCard: document.querySelector(".player-card"),
+  itemBackdrop: getEl("#item-backdrop"),
   stage: getEl("#stage"),
   expandedFace: document.querySelector(".stamp-expanded"),
   miniStamp: getEl("#mini-stamp"),
@@ -111,7 +111,9 @@ const ui = {
   timeCurrent: getEl("#time-current"),
   timeTotal: getEl("#time-total"),
   status: getEl("#status"),
+  sceneFrame: getEl("#scene-photo-frame"),
   scenePhoto: getEl("#scene-photo"),
+  miniFrame: getEl("#mini-photo-frame"),
   keyboardHints: getEl("#keyboard-hints"),
   minimizeBtn: getEl("#minimize-btn"),
   miniEyebrow: getEl("#mini-eyebrow"),
@@ -199,6 +201,160 @@ function updateWaveform(percent) {
 
 function getThemeMeta(theme) {
   return THEME_META[theme] || THEME_META.Thermal;
+}
+
+function hashString(value) {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
+    hash = ((hash << 5) - hash + value.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function semanticPaletteForStop(stop) {
+  const seed = hashString(`${stop.title}|${stop.theme}|${stop.zoneLabel}`);
+  const hue = seed % 360;
+  const saturation = stop.theme === "Weather" || stop.theme === "Water" ? 64 : 56;
+
+  return {
+    accent: `hsl(${hue} ${saturation}% 45%)`,
+    backdrop: `hsl(${hue} ${Math.max(42, saturation - 12)}% 27%)`,
+    shadow: `hsl(${hue} 34% 11%)`,
+  };
+}
+
+function rgbToHsl(r, g, b) {
+  const rn = r / 255;
+  const gn = g / 255;
+  const bn = b / 255;
+  const max = Math.max(rn, gn, bn);
+  const min = Math.min(rn, gn, bn);
+  const lightness = (max + min) / 2;
+
+  if (max === min) {
+    return [0, 0, lightness];
+  }
+
+  const delta = max - min;
+  const saturation = lightness > 0.5
+    ? delta / (2 - max - min)
+    : delta / (max + min);
+  let hue;
+
+  if (max === rn) {
+    hue = (gn - bn) / delta + (gn < bn ? 6 : 0);
+  } else if (max === gn) {
+    hue = (bn - rn) / delta + 2;
+  } else {
+    hue = (rn - gn) / delta + 4;
+  }
+
+  return [hue * 60, saturation, lightness];
+}
+
+function hslPalette(hue, saturation, lightness) {
+  const sat = Math.round(Math.max(34, Math.min(78, saturation * 100)));
+  const light = Math.round(Math.max(34, Math.min(54, lightness * 100)));
+  const backdropLight = Math.max(18, light - 18);
+
+  return {
+    accent: `hsl(${Math.round(hue)} ${sat}% ${light}%)`,
+    backdrop: `hsl(${Math.round(hue)} ${Math.max(32, sat - 12)}% ${backdropLight}%)`,
+    shadow: `hsl(${Math.round(hue)} 34% 10%)`,
+  };
+}
+
+function derivePaletteFromImage(src, fallbackPalette) {
+  return new Promise((resolve) => {
+    if (!src) {
+      resolve(fallbackPalette);
+      return;
+    }
+
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        const size = 48;
+        canvas.width = size;
+        canvas.height = size;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        context.drawImage(image, 0, 0, size, size);
+        const pixels = context.getImageData(0, 0, size, size).data;
+        let x = 0;
+        let y = 0;
+        let weightTotal = 0;
+        let saturationTotal = 0;
+        let lightnessTotal = 0;
+
+        for (let i = 0; i < pixels.length; i += 16) {
+          const alpha = pixels[i + 3] / 255;
+          if (alpha < 0.6) continue;
+
+          const [hue, saturation, lightness] = rgbToHsl(pixels[i], pixels[i + 1], pixels[i + 2]);
+          if (lightness < 0.16 || lightness > 0.86) continue;
+
+          const weight = alpha * (0.22 + saturation) * (1 - Math.abs(lightness - 0.48));
+          const radians = (hue * Math.PI) / 180;
+          x += Math.cos(radians) * weight;
+          y += Math.sin(radians) * weight;
+          saturationTotal += saturation * weight;
+          lightnessTotal += lightness * weight;
+          weightTotal += weight;
+        }
+
+        if (!weightTotal) {
+          resolve(fallbackPalette);
+          return;
+        }
+
+        const hue = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+        resolve(hslPalette(hue, saturationTotal / weightTotal, lightnessTotal / weightTotal));
+      } catch {
+        resolve(fallbackPalette);
+      }
+    };
+    image.onerror = () => resolve(fallbackPalette);
+    image.src = src;
+  });
+}
+
+function applyDerivedPalette(palette) {
+  [ui.body, ui.playerCard, ui.strip].forEach((node) => {
+    node.style.setProperty("--theme-color", palette.accent);
+    node.style.setProperty("--photo-tint", palette.accent);
+    node.style.setProperty("--backdrop-color", palette.backdrop);
+    node.style.setProperty("--backdrop-shadow", palette.shadow);
+  });
+  ui.itemBackdrop.style.setProperty("--theme-color", palette.accent);
+  ui.itemBackdrop.style.setProperty("--backdrop-color", palette.backdrop);
+  ui.itemBackdrop.style.setProperty("--backdrop-shadow", palette.shadow);
+}
+
+function setBackdropImage(src, title) {
+  ui.itemBackdrop.dataset.fallbackLabel = title || "";
+  ui.itemBackdrop.classList.toggle("has-image", Boolean(src));
+  if (src) {
+    ui.itemBackdrop.style.backgroundImage = `url("${src.replace(/"/g, '\\"')}")`;
+  } else {
+    ui.itemBackdrop.style.removeProperty("background-image");
+  }
+}
+
+function updateAtmosphere(stop) {
+  const fallbackPalette = semanticPaletteForStop(stop);
+  const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
+  const expectedId = stop.id;
+
+  applyDerivedPalette(fallbackPalette);
+  setBackdropImage(imageSrc, stop.title);
+
+  derivePaletteFromImage(imageSrc, fallbackPalette).then((palette) => {
+    const selected = state.stops[state.index];
+    if (!selected || selected.id !== expectedId) return;
+    applyDerivedPalette(palette);
+  });
 }
 
 function getStopNumber(index) {
@@ -387,7 +543,7 @@ function setActiveTheme(theme, selectFirst = false) {
   });
 }
 
-function setPhoto(img, imagePath, title) {
+function setPhoto(img, frame, imagePath, title) {
   const expectedPath = imagePath || "";
   const matchesSelectedStop = () => {
     const selected = state.stops[state.index];
@@ -395,17 +551,21 @@ function setPhoto(img, imagePath, title) {
   };
 
   img.alt = title || "";
+  frame.dataset.fallbackLabel = title || "Sound specimen";
   img.classList.remove("is-loaded");
 
   if (!imagePath) {
     if (matchesSelectedStop()) {
       img.removeAttribute("src");
+      img.alt = "";
       img.classList.add("is-fallback");
+      frame.classList.add("has-fallback");
     }
     return;
   }
 
   img.classList.remove("is-fallback");
+  frame.classList.remove("has-fallback");
   const src = encodeURI(`../${imagePath}`);
   preloadImage(src).then((loaded) => {
     if (!matchesSelectedStop()) return;
@@ -414,17 +574,25 @@ function setPhoto(img, imagePath, title) {
       img.src = loaded;
       img.classList.remove("is-fallback");
       img.classList.add("is-loaded");
+      frame.classList.remove("has-fallback");
     } else {
       img.removeAttribute("src");
+      img.alt = "";
       img.classList.remove("is-loaded");
       img.classList.add("is-fallback");
+      frame.classList.add("has-fallback");
     }
   });
 }
 
 function updateScenePhoto(stop) {
-  setPhoto(ui.scenePhoto, stop.imagePath, stop.title);
-  setPhoto(ui.miniScenePhoto, stop.imagePath, stop.title);
+  setPhoto(ui.scenePhoto, ui.sceneFrame, stop.imagePath, stop.title);
+  setPhoto(ui.miniScenePhoto, ui.miniFrame, stop.imagePath, stop.title);
+}
+
+function creditForStop(stop) {
+  if (stop.imagePath) return stop.credit;
+  return stop.credit.replace("Audio and image", "Audio");
 }
 
 function applyMinimized(nextValue) {
@@ -445,11 +613,12 @@ function setMinimized(nextValue) {
     return;
   }
 
-  if (!isReducedMotion() && typeof document.startViewTransition === "function") {
-    document.startViewTransition(() => applyMinimized(nextState));
-  } else {
+  if (isReducedMotion() || typeof document.startViewTransition !== "function") {
     applyMinimized(nextState);
+    return;
   }
+
+  document.startViewTransition(() => applyMinimized(nextState));
 }
 
 function toggleMinimize() {
@@ -478,7 +647,6 @@ function selectStop(index, autoPlay = false, options = {}) {
   const themeMeta = getThemeMeta(stop.theme);
 
   state.index = index;
-  state.autoPlayNext = autoPlay;
   if (!options.keepActiveTheme) {
     state.activeTheme = stop.theme;
   }
@@ -495,10 +663,10 @@ function selectStop(index, autoPlay = false, options = {}) {
   ui.meta.textContent = `${stop.theme} - ${stop.zoneLabel} - ${stop.timeOfDay}`;
   ui.miniMeta.textContent = `${stop.theme} - ${stop.timeOfDay}`;
   ui.desc.textContent = descriptionOverrides[stop.id] || stop.description;
-  ui.credit.textContent = stop.credit;
+  ui.credit.textContent = creditForStop(stop);
 
+  updateAtmosphere(stop);
   ui.audio.src = encodeURI(`../${stop.audioPath}`);
-  ui.audio.load();
   setPlayDisabled(false);
   resetProgress();
   buildWaveform(stop.id.length + index);
@@ -508,6 +676,11 @@ function selectStop(index, autoPlay = false, options = {}) {
   if (!autoPlay) {
     state.isPlaying = false;
     updatePlayIcon();
+  } else {
+    ui.audio.play().catch(() => {
+      updatePlayIcon();
+      showStatus("Playback could not start automatically.");
+    });
   }
 
   updateNav();
@@ -567,13 +740,6 @@ function onTimeUpdate() {
 function onLoadedMeta() {
   setPlayDisabled(false);
   ui.timeTotal.textContent = fmtTime(ui.audio.duration || 0);
-  if (state.autoPlayNext) {
-    state.autoPlayNext = false;
-    ui.audio.play().catch(() => {
-      updatePlayIcon();
-      showStatus("Playback could not start automatically.");
-    });
-  }
 }
 
 function onEnded() {
@@ -669,7 +835,6 @@ ui.audio.addEventListener("timeupdate", onTimeUpdate);
 ui.audio.addEventListener("loadedmetadata", onLoadedMeta);
 ui.audio.addEventListener("ended", onEnded);
 ui.audio.addEventListener("error", () => {
-  state.autoPlayNext = false;
   ui.audio.pause();
   setPlayDisabled(true);
   updatePlayIcon();
