@@ -9,10 +9,10 @@
   <meta name="color-scheme" content="light">
   <link rel="icon" href="data:,">
   <link rel="manifest" href="manifest.json">
-  <link rel="preload" href="css/main.css?v=15" as="style">
-  <link rel="modulepreload" href="js/app.js?v=14">
+  <link rel="preload" href="css/main.css?v=16" as="style">
+  <link rel="modulepreload" href="js/app.js?v=16">
   <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/main.css?v=15">
+  <link rel="stylesheet" href="css/main.css?v=16">
 </head>
 <body>
   <div class="item-backdrop" id="item-backdrop"></div>
@@ -179,6 +179,39 @@
 
   <nav class="specimen-strip" id="specimen-strip" aria-label="Theme specimen navigation">
     <div class="theme-tabs" id="theme-tabs" role="tablist" aria-label="Specimen themes"></div>
+    <details class="archive-slip" id="archive-slip">
+      <summary id="archive-slip-summary" aria-label="Open project archive slip">
+        <span class="archive-slip-mark" aria-hidden="true">i</span>
+        <span>Archive slip</span>
+      </summary>
+      <section class="archive-slip-card" aria-label="Project colophon">
+        <p class="archive-slip-kicker">COLOPHON</p>
+        <h2>Yellowstone Sound Atlas</h2>
+        <p>
+          A static listening route built from the public Yellowstone Sound Library,
+          arranged as specimen stamps and field notes.
+        </p>
+        <dl>
+          <div>
+            <dt>Repository</dt>
+            <dd><a href="https://github.com/rosuH/YSL" target="_blank" rel="noopener">GitHub</a></dd>
+          </div>
+          <div>
+            <dt>Full archive</dt>
+            <dd><a href="https://archive.org/details/YSL.7z" target="_blank" rel="noopener">Web Archive</a></dd>
+          </div>
+          <div>
+            <dt>Source</dt>
+            <dd><a href="https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm" target="_blank" rel="noopener">National Park Service</a></dd>
+          </div>
+        </dl>
+        <p class="archive-slip-fine">
+          Not an official National Park Service product. NPS labels these audio files as public domain,
+          but users should verify third-party rights for their own use. If a file should be removed,
+          <a href="https://github.com/rosuH/YSL/issues" target="_blank" rel="noopener">open an issue</a>.
+        </p>
+      </section>
+    </details>
     <div class="chip-carousel" id="chip-carousel" aria-label="Theme specimens"></div>
   </nav>
 
@@ -197,6 +230,6 @@
     </div>
   </noscript>
 
-  <script src="js/app.js?v=14" type="module"></script>
+  <script src="js/app.js?v=16" type="module"></script>
 </body>
 </html>

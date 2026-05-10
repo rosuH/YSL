@@ -1080,8 +1080,9 @@ figure {
   bottom: 0;
   z-index: 10;
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: 44px minmax(0, 1fr);
-  gap: 0;
+  gap: 0 10px;
   height: var(--strip-height);
   padding: 4px clamp(14px, 3vw, 32px);
   border-top: 1px solid var(--reverse-line);
@@ -1092,6 +1093,8 @@ figure {
 }
 
 .theme-tabs {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: stretch;
   gap: 14px;
@@ -1165,7 +1168,159 @@ figure {
   opacity: 0.72;
 }
 
+.archive-slip {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  position: relative;
+  z-index: 3;
+}
+
+.archive-slip summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 9px;
+  border: 1px solid oklch(94% 0.03 88 / 0.22);
+  background:
+    linear-gradient(180deg, oklch(94% 0.03 88 / 0.09), oklch(94% 0.03 88 / 0.03));
+  color: oklch(94% 0.03 88 / 0.62);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  list-style: none;
+  text-transform: uppercase;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.archive-slip summary::-webkit-details-marker {
+  display: none;
+}
+
+.archive-slip summary:hover,
+.archive-slip summary:focus-visible,
+.archive-slip[open] summary {
+  border-color: color-mix(in oklch, var(--theme-color) 54%, oklch(94% 0.03 88 / 0.24));
+  background: color-mix(in oklch, var(--theme-color) 12%, transparent);
+  color: var(--bone);
+}
+
+.archive-slip-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.48rem;
+  line-height: 1;
+  text-transform: none;
+}
+
+.archive-slip-card {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  width: min(340px, calc(100vw - 28px));
+  padding: 16px 18px 15px;
+  border: 1px solid oklch(36% 0.05 82 / 0.52);
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in oklch, var(--theme-color) 10%, transparent), transparent 5rem),
+    linear-gradient(180deg, var(--bone-high), var(--bone) 64%, var(--bone-deep));
+  box-shadow:
+    0 1px 0 oklch(100% 0 0 / 0.62) inset,
+    0 24px 64px oklch(4% 0.02 85 / 0.38);
+  color: var(--ink);
+  transform-origin: right bottom;
+  animation: archive-slip-in 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.archive-slip-kicker {
+  margin-bottom: 8px;
+  color: color-mix(in oklch, var(--theme-color) 62%, var(--ink));
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.archive-slip-card h2 {
+  margin: 0 0 9px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.archive-slip-card p,
+.archive-slip-card dd,
+.archive-slip-card dt {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.archive-slip-card > p {
+  color: var(--ink-soft);
+}
+
+.archive-slip-card dl {
+  display: grid;
+  gap: 7px;
+  margin: 13px 0;
+  padding-block: 11px;
+  border-block: 1px dashed color-mix(in oklch, var(--theme-color) 32%, var(--line-soft));
+}
+
+.archive-slip-card dl > div {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.archive-slip-card dt {
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.archive-slip-card dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.archive-slip-card a {
+  color: var(--ink);
+  text-decoration-color: color-mix(in oklch, var(--theme-color) 54%, var(--ink-faint));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.archive-slip-card a:hover,
+.archive-slip-card a:focus-visible {
+  color: color-mix(in oklch, var(--theme-color) 44%, var(--ink));
+}
+
+.archive-slip-fine {
+  font-size: 0.72rem;
+  line-height: 1.38;
+}
+
 .chip-carousel {
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
   align-items: start;
   gap: 8px;
@@ -1271,6 +1426,18 @@ figure {
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+@keyframes archive-slip-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0) rotate(-0.4deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
 }
 
 ::view-transition-group(player) {
@@ -1666,6 +1833,26 @@ body.player-is-minimized .keyboard-hints {
     grid-template-rows: 38px minmax(0, 1fr);
     gap: 0;
     padding: 2px 10px calc(4px + env(safe-area-inset-bottom));
+  }
+
+  .archive-slip summary {
+    justify-content: center;
+    width: 38px;
+    min-height: 32px;
+    padding: 0;
+  }
+
+  .archive-slip summary span:last-child {
+    display: none;
+  }
+
+  .archive-slip-card {
+    right: -2px;
+    bottom: calc(100% + 10px);
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - var(--strip-height) - 28px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .theme-tabs {

@@ -137,6 +137,8 @@ const ui = {
   themeTabs: getEl("#theme-tabs"),
   chipCarousel: getEl("#chip-carousel"),
   strip: getEl("#specimen-strip"),
+  archiveSlip: getEl("#archive-slip"),
+  archiveSlipSummary: getEl("#archive-slip-summary"),
 };
 
 if (!ui.playerCard) throw new Error("Missing element: .player-card");
@@ -720,6 +722,14 @@ function onThemeTabsKeydown(e) {
   focusActiveThemeTab();
 }
 
+function closeArchiveSlip() {
+  if (ui.archiveSlip.open) ui.archiveSlip.open = false;
+}
+
+function syncArchiveSlipState() {
+  ui.archiveSlipSummary.setAttribute("aria-expanded", String(ui.archiveSlip.open));
+}
+
 function setActiveTheme(theme, selectFirst = false) {
   if (!THEME_META[theme]) return;
 
@@ -1064,6 +1074,8 @@ ui.shareX.addEventListener("click", () => {
 ui.shareCopy.addEventListener("click", () => {
   copyShareLink();
 });
+ui.archiveSlip.addEventListener("toggle", syncArchiveSlipState);
+syncArchiveSlipState();
 ui.prev.addEventListener("click", () => selectAdjacentStop(-1, !ui.audio.paused));
 ui.next.addEventListener("click", () => selectAdjacentStop(1, !ui.audio.paused));
 ui.minimizeBtn.addEventListener("click", toggleMinimize);
@@ -1101,7 +1113,11 @@ document.addEventListener("keydown", (e) => {
   if (e.defaultPrevented) return;
   if (isTextEntryTarget(e.target)) return;
 
-  if (e.code === "Space") {
+  if (e.code === "Escape" && ui.archiveSlip.open) {
+    e.preventDefault();
+    closeArchiveSlip();
+    ui.archiveSlipSummary.focus();
+  } else if (e.code === "Space") {
     if (isSpaceShortcutTarget(e.target)) return;
     e.preventDefault();
     togglePlay();
@@ -1118,6 +1134,11 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault();
     toggleMinimize();
   }
+});
+
+document.addEventListener("click", (e) => {
+  if (!(e.target instanceof Node)) return;
+  if (ui.archiveSlip.open && !ui.archiveSlip.contains(e.target)) closeArchiveSlip();
 });
 
 function validateStops(stops) {

@@ -72,6 +72,8 @@ def test_index_preserves_player_runtime_ids():
         "share-instagram-btn",
         "share-x-link",
         "share-copy-btn",
+        "archive-slip",
+        "archive-slip-summary",
         "scene-photo-frame",
         "mini-photo-frame",
     ]
@@ -261,6 +263,38 @@ def test_minimized_player_exposes_lightweight_share_controls():
     assert "shareUrlForStop" in script
     assert "updateShareTargets(stop);" in script
     assert "platform.twitter.com/widgets.js" not in page.decode()
+
+
+def test_specimen_strip_exposes_colophon_archive_slip():
+    page = load_page()
+    css = CSS_PATH.read_text(encoding="utf-8")
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    archive = page.find(id="archive-slip")
+    summary = page.find(id="archive-slip-summary")
+    card = page.find(class_="archive-slip-card")
+
+    assert archive
+    assert archive.name == "details"
+    assert summary
+    assert summary.name == "summary"
+    assert "archive slip" in summary.get_text(" ", strip=True).lower()
+    assert card
+    assert "Yellowstone Sound Atlas" in card.get_text(" ", strip=True)
+    assert page.find("a", href="https://github.com/rosuH/YSL")
+    assert page.find("a", href="https://archive.org/details/YSL.7z")
+    assert page.find("a", href="https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm")
+    assert page.find("a", href="https://github.com/rosuH/YSL/issues")
+
+    assert ".archive-slip" in css
+    assert ".archive-slip-card" in css
+    assert "grid-template-columns: minmax(0, 1fr) auto" in css
+    assert "grid-column: 1 / -1" in css
+    assert "max-height: calc(100dvh - var(--strip-height) - 28px)" in css
+    assert "archiveSlip" in script
+    assert "syncArchiveSlipState" in script
+    assert "e.code === \"Escape\" && ui.archiveSlip.open" in script
+    assert "!ui.archiveSlip.contains(e.target)" in script
 
 
 def test_player_previous_next_and_autoplay_follow_active_theme_queue():
