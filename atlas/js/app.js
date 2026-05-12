@@ -49,7 +49,9 @@ const ui = {
   shareInstagram: getEl("#share-instagram-btn"),
   shareX: getEl("#share-x-link"),
   shareCopy: getEl("#share-copy-btn"),
+  shareDock: getEl("#share-dock"),
   stage: getEl("#stage"),
+  audioControls: getEl("#audio-controls"),
   expandedFace: document.querySelector(".stamp-expanded"),
   miniStamp: getEl("#mini-stamp"),
   miniExpand: getEl("#mini-expand-btn"),
@@ -182,6 +184,9 @@ function renderStaticCopy() {
 
   document.documentElement.lang = state.locale;
   document.title = text.documentTitle;
+  ui.stage.setAttribute("aria-label", text.siteLabel);
+  ui.shareDock.setAttribute("aria-label", text.shareDock);
+  ui.audioControls.setAttribute("aria-label", text.audioControls);
   ui.volumeMark.textContent = text.volume;
   ui.miniVolumeMark.textContent = text.volume;
   ui.backdropNote.querySelector(".backdrop-note-kicker").textContent = text.fieldNote;
@@ -423,10 +428,6 @@ function setBackdropImage(src, title) {
   } else {
     ui.itemBackdrop.style.removeProperty("background-image");
   }
-}
-
-function descriptionForStop(stop) {
-  return displayStop(stop).fieldNote || displayStop(stop).description;
 }
 
 function currentStop() {

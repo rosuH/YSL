@@ -113,6 +113,17 @@ def test_app_imports_i18n_module():
     assert 'from "./i18n.js"' in script
 
 
+def test_app_localizes_accessibility_landmarks():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert 'stage: getEl("#stage")' in script
+    assert 'shareDock: getEl("#share-dock")' in script
+    assert 'audioControls: getEl("#audio-controls")' in script
+    assert 'ui.stage.setAttribute("aria-label", text.siteLabel);' in script
+    assert 'ui.shareDock.setAttribute("aria-label", text.shareDock);' in script
+    assert 'ui.audioControls.setAttribute("aria-label", text.audioControls);' in script
+
+
 def test_language_switcher_has_accessible_interaction_styles():
     css = CSS_PATH.read_text(encoding="utf-8")
 
@@ -328,7 +339,7 @@ def test_minimized_player_shows_curated_field_note_next_to_print():
     assert "left: calc(" in css
     assert "max-width: min(28vw, 360px)" in css
     assert page.find(class_="backdrop-note-kicker").get_text(strip=True) == "FIELD NOTE"
-    assert "descriptionForStop" in script
+    assert "descriptionForStop" not in script
     assert "ui.backdropNoteBody.textContent = localized.fieldNote || localized.description;" in script
     assert "ui.desc.textContent = localized.fieldNote || localized.description;" in script
 
