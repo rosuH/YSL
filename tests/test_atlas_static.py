@@ -79,6 +79,60 @@ def test_index_references_split_css_and_javascript_assets():
     assert "js/app.js" in script_sources
 
 
+def test_index_contains_accessible_language_menu():
+    page = load_page()
+
+    switcher = page.find(id="language-switcher")
+    trigger = page.find(id="language-menu-button")
+    menu = page.find(id="language-menu")
+
+    assert switcher
+    assert switcher.get("aria-label") == "Language"
+    assert trigger
+    assert trigger.get("aria-haspopup") == "menu"
+    assert trigger.get("aria-expanded") == "false"
+    assert trigger.get("aria-controls") == "language-menu"
+    icon = trigger.find("svg", attrs={"data-icon": "languages"})
+    assert icon
+    assert "A/A" not in trigger.get_text("", strip=True)
+    assert menu
+    assert menu.get("role") == "menu"
+    assert menu.has_attr("hidden")
+    assert [button.get("data-locale") for button in menu.find_all("button")] == [
+        "en",
+        "zh",
+        "ja",
+        "ko",
+    ]
+    assert {button.get("role") for button in menu.find_all("button")} == {"menuitemradio"}
+
+
+def test_app_imports_i18n_module():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert 'from "./i18n.js"' in script
+
+
+def test_language_switcher_has_accessible_interaction_styles():
+    css = CSS_PATH.read_text(encoding="utf-8")
+
+    assert ".language-switcher" in css
+    assert ".language-menu-button" in css
+    assert ".language-menu" in css
+    assert ".language-menu[hidden]" in css
+    assert '.language-menu button[aria-checked="true"]' in css
+    assert ".language-menu-button:focus-visible" in css
+
+
+def test_mobile_language_switcher_moves_out_of_bottom_strip():
+    css = CSS_PATH.read_text(encoding="utf-8")
+
+    assert "top: max(14px, calc(env(safe-area-inset-top) + 14px))" in css
+    assert "right: max(14px, calc(env(safe-area-inset-right) + 14px))" in css
+    assert "top: calc(100% + 8px)" in css
+    assert "bottom: auto" in css
+
+
 def test_index_exposes_site_level_social_preview_metadata():
     page = load_page()
 
@@ -275,8 +329,8 @@ def test_minimized_player_shows_curated_field_note_next_to_print():
     assert "max-width: min(28vw, 360px)" in css
     assert page.find(class_="backdrop-note-kicker").get_text(strip=True) == "FIELD NOTE"
     assert "descriptionForStop" in script
-    assert "ui.backdropNoteBody.textContent = descriptionForStop(stop);" in script
-    assert "ui.desc.textContent = descriptionForStop(stop);" in script
+    assert "ui.backdropNoteBody.textContent = localized.fieldNote || localized.description;" in script
+    assert "ui.desc.textContent = localized.fieldNote || localized.description;" in script
 
 
 def test_field_note_uses_postal_card_style_and_selectable_text():
@@ -329,7 +383,7 @@ def test_minimized_player_exposes_lightweight_share_controls():
     assert "navigator.clipboard.writeText" in script
     assert "shareUrlForStop" in script
     assert "share/${encodeURIComponent(stop.id)}/" in script
-    assert "return new URL(`share/${encodeURIComponent(stop.id)}/`, atlasBaseUrl()).toString();" in script
+    assert 'url.searchParams.set("lang", state.locale);' in script
     assert "updateShareTargets(stop);" in script
     assert "platform.twitter.com/widgets.js" not in page.decode()
 
@@ -413,7 +467,7 @@ def test_mobile_minimized_deck_reserves_bottom_strip_safe_area():
     assert ".player-card.is-minimized .mini-rule" in css
     assert ".player-card.is-minimized .mini-copy" in css
     assert ".player-card.is-minimized .mini-play-btn" in css
-    assert "grid-template-rows: 38px minmax(0, 1fr)" in css
+    assert "grid-template-rows: 44px minmax(0, 1fr)" in css
 
 
 def test_mobile_theme_tabs_use_compact_full_labels_without_ellipsis():

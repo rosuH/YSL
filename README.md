@@ -20,6 +20,8 @@ YSL collects the public Yellowstone National Park sound library and turns it int
 
 The atlas is a static listening interface built from this repository's media files.
 
+It supports English, Simplified Chinese, Japanese, and Korean. Use the in-page language switcher to change player labels, specimen notes, theme navigation, and share copy without leaving the current sound.
+
 ```bash
 python -m http.server 8000
 ```
@@ -102,6 +104,8 @@ YSL 收集 Yellowstone National Park 的公开声音库，并把这些音频和�
 - `tests/`：爬虫、图谱数据、静态页面和预览服务测试。
 
 ### 本地预览
+
+图谱支持英文、简体中文、日文与韩文。可以使用页面内的语言切换器，在不中断当前声音的情况下切换播放器标签、标本札记、主题导航与分享文案。
 
 ```bash
 python -m http.server 8000
