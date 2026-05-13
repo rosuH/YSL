@@ -12,6 +12,8 @@ import {
 } from "./i18n.js";
 
 const ROUTE_URL = "./dawn-to-night.json";
+const OPTIMIZED_PHOTO_DIR = "media/photos";
+const THUMBNAIL_DIR = "media/thumbs";
 const THEME_ORDER = ["Thermal", "Birds", "Wildlife", "Human", "Weather", "Ambient", "Water"];
 
 const THEME_META = {
@@ -244,17 +246,58 @@ function clearNode(node) {
   }
 }
 
-function preloadImage(src) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(src);
-    img.onerror = () => resolve(null);
-    img.src = src;
-  });
-}
-
 let keyboardHintTimer;
 let progressFrame = 0;
+const imageLoadCache = new Map();
+
+function preloadImage(src, fallbackSrc = "") {
+  if (!src) return Promise.resolve(null);
+
+  const cacheKey = fallbackSrc ? `${src}::${fallbackSrc}` : src;
+  if (imageLoadCache.has(cacheKey)) return imageLoadCache.get(cacheKey);
+
+  const promise = new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(src);
+    img.onerror = () => {
+      if (fallbackSrc && fallbackSrc !== src) {
+        preloadImage(fallbackSrc).then(resolve);
+      } else {
+        resolve(null);
+      }
+    };
+    img.src = src;
+  });
+
+  imageLoadCache.set(cacheKey, promise);
+  return promise;
+}
+
+function originalImageSrc(imagePath) {
+  return imagePath ? encodeURI(`../${imagePath}`) : "";
+}
+
+function optimizedPhotoSrc(stop) {
+  return stop.imagePath ? `${OPTIMIZED_PHOTO_DIR}/${encodeURIComponent(stop.id)}.webp` : "";
+}
+
+function thumbnailPhotoSrc(stop) {
+  return stop.imagePath ? `${THUMBNAIL_DIR}/${encodeURIComponent(stop.id)}.webp` : "";
+}
+
+function imageSourcesForStop(stop) {
+  if (!stop || !stop.imagePath) return { primary: "", fallback: "" };
+
+  return {
+    primary: optimizedPhotoSrc(stop),
+    fallback: originalImageSrc(stop.imagePath),
+  };
+}
+
+function activeImageForStop(stop) {
+  const sources = imageSourcesForStop(stop);
+  return sources.primary || sources.fallback;
+}
 
 function showKeyboardHints() {
   ui.keyboardHints.classList.add("visible");
@@ -352,7 +395,7 @@ function hslPalette(hue, saturation, lightness) {
   };
 }
 
-function derivePaletteFromImage(src, fallbackPalette) {
+function derivePaletteFromImage(src, fallbackPalette, fallbackSrc = "") {
   return new Promise((resolve) => {
     if (!src) {
       resolve(fallbackPalette);
@@ -403,7 +446,13 @@ function derivePaletteFromImage(src, fallbackPalette) {
         resolve(fallbackPalette);
       }
     };
-    image.onerror = () => resolve(fallbackPalette);
+    image.onerror = () => {
+      if (fallbackSrc && fallbackSrc !== src) {
+        derivePaletteFromImage(fallbackSrc, fallbackPalette).then(resolve);
+      } else {
+        resolve(fallbackPalette);
+      }
+    };
     image.src = src;
   });
 }
@@ -441,7 +490,7 @@ function setBackdropNote(stop) {
   ui.backdropNoteBody.textContent = localized.fieldNote || localized.description;
 }
 
-function setBackdropPrint(stop, src) {
+function setBackdropPrint(stop, src, fallbackSrc = "") {
   const expectedId = stop.id;
   const localized = displayStop(stop);
   const caption = copy().printCaption(localized.title, localized.theme, localized.timeOfDay);
@@ -455,7 +504,7 @@ function setBackdropPrint(stop, src) {
     return;
   }
 
-  preloadImage(src).then((loaded) => {
+  preloadImage(src, fallbackSrc).then((loaded) => {
     const selected = state.stops[state.index];
     if (!selected || selected.id !== expectedId) return;
 
@@ -595,16 +644,22 @@ function initialStopIndex(stops) {
 
 function updateAtmosphere(stop) {
   const fallbackPalette = semanticPaletteForStop(stop);
-  const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
+  const { primary: imageSrc, fallback: fallbackSrc } = imageSourcesForStop(stop);
   const expectedId = stop.id;
   const localized = displayStop(stop);
 
   applyDerivedPalette(fallbackPalette);
-  setBackdropImage(imageSrc, localized.title);
+  setBackdropImage("", localized.title);
   setBackdropNote(stop);
-  setBackdropPrint(stop, imageSrc);
+  setBackdropPrint(stop, imageSrc, fallbackSrc);
 
-  derivePaletteFromImage(imageSrc, fallbackPalette).then((palette) => {
+  preloadImage(imageSrc, fallbackSrc).then((loaded) => {
+    const selected = state.stops[state.index];
+    if (!selected || selected.id !== expectedId) return;
+    setBackdropImage(loaded, localized.title);
+  });
+
+  derivePaletteFromImage(imageSrc, fallbackPalette, fallbackSrc).then((palette) => {
     const selected = state.stops[state.index];
     if (!selected || selected.id !== expectedId) return;
     applyDerivedPalette(palette);
@@ -729,7 +784,10 @@ function buildChipCarousel() {
       photo.alt = "";
       photo.loading = "lazy";
       photo.decoding = "async";
-      photo.src = encodeURI(`../${stop.imagePath}`);
+      photo.setAttribute("fetchpriority", "low");
+      photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);
+      photo.src = thumbnailPhotoSrc(stop);
+      photo.addEventListener("error", onChipPhotoError, { once: true });
       chip.appendChild(photo);
     }
 
@@ -785,7 +843,7 @@ function updateLocalizedSurface() {
   buildChipCarousel();
   const stop = currentStop();
   if (stop) {
-    const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
+    const { primary: imageSrc, fallback: fallbackSrc } = imageSourcesForStop(stop);
     const localized = displayStop(stop);
     const stopNumber = getStopNumber(state.index);
     ui.eyebrow.textContent = copy().eyebrow(stopNumber);
@@ -796,9 +854,9 @@ function updateLocalizedSurface() {
     ui.miniMeta.textContent = `${localized.theme} - ${localized.timeOfDay}`;
     ui.desc.textContent = localized.fieldNote || localized.description;
     ui.credit.textContent = creditForStop(stop);
-    setBackdropImage(imageSrc, localized.title);
+    setBackdropImage(activeImageForStop(stop), localized.title);
     setBackdropNote(stop);
-    setBackdropPrint(stop, imageSrc);
+    setBackdropPrint(stop, imageSrc, fallbackSrc);
     updateScenePhoto(stop);
     updateShareTargets(stop);
   }
@@ -928,18 +986,30 @@ function setActiveTheme(theme, selectFirst = false) {
   });
 }
 
-function setPhoto(img, frame, imagePath, sourceTitle, displayTitle = sourceTitle) {
-  const expectedPath = imagePath || "";
+function onChipPhotoError(e) {
+  const img = e.currentTarget;
+  const fallbackSrc = img.dataset.fallbackSrc;
+
+  if (fallbackSrc) {
+    img.removeAttribute("data-fallback-src");
+    img.src = fallbackSrc;
+  } else {
+    img.remove();
+  }
+}
+
+function setPhoto(img, frame, stop, displayTitle = stop.title) {
+  const expectedId = stop.id;
   const matchesSelectedStop = () => {
     const selected = state.stops[state.index];
-    return selected && selected.title === sourceTitle && (selected.imagePath || "") === expectedPath;
+    return selected && selected.id === expectedId;
   };
 
   img.alt = displayTitle || "";
   frame.dataset.fallbackLabel = displayTitle || copy().routeSpecimen;
   img.classList.remove("is-loaded");
 
-  if (!imagePath) {
+  if (!stop.imagePath) {
     if (matchesSelectedStop()) {
       img.removeAttribute("src");
       img.alt = "";
@@ -951,8 +1021,8 @@ function setPhoto(img, frame, imagePath, sourceTitle, displayTitle = sourceTitle
 
   img.classList.remove("is-fallback");
   frame.classList.remove("has-fallback");
-  const src = encodeURI(`../${imagePath}`);
-  preloadImage(src).then((loaded) => {
+  const { primary: src, fallback: fallbackSrc } = imageSourcesForStop(stop);
+  preloadImage(src, fallbackSrc).then((loaded) => {
     if (!matchesSelectedStop()) return;
 
     if (loaded) {
@@ -972,8 +1042,8 @@ function setPhoto(img, frame, imagePath, sourceTitle, displayTitle = sourceTitle
 
 function updateScenePhoto(stop) {
   const localized = displayStop(stop);
-  setPhoto(ui.scenePhoto, ui.sceneFrame, stop.imagePath, stop.title, localized.title);
-  setPhoto(ui.miniScenePhoto, ui.miniFrame, stop.imagePath, stop.title, localized.title);
+  setPhoto(ui.scenePhoto, ui.sceneFrame, stop, localized.title);
+  setPhoto(ui.miniScenePhoto, ui.miniFrame, stop, localized.title);
 }
 
 function creditForStop(stop) {
@@ -1117,9 +1187,8 @@ function updatePlayIcon() {
 
 function setProgressVisual(ratio) {
   const normalized = Math.max(0, Math.min(1, ratio || 0));
-  const trackWidth = ui.track.getBoundingClientRect().width || 0;
   ui.track.style.setProperty("--progress-ratio", normalized.toFixed(4));
-  ui.track.style.setProperty("--progress-x", `${normalized * trackWidth}px`);
+  ui.track.style.setProperty("--progress-position", `${(normalized * 100).toFixed(2)}%`);
 }
 
 function paintProgressFromAudio() {

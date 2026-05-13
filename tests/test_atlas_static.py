@@ -79,6 +79,20 @@ def test_index_references_split_css_and_javascript_assets():
     assert "js/app.js" in script_sources
 
 
+def test_index_preloads_default_lcp_photo_with_high_priority():
+    page = load_page()
+
+    photo_preload = page.find("link", rel="preload", attrs={"as": "image"})
+    scene_photo = page.find(id="scene-photo")
+
+    assert photo_preload
+    assert photo_preload.get("href") == "media/photos/american-coots.webp"
+    assert photo_preload.get("type") == "image/webp"
+    assert photo_preload.get("fetchpriority") == "high"
+    assert scene_photo
+    assert scene_photo.get("fetchpriority") == "high"
+
+
 def test_index_contains_accessible_language_menu():
     page = load_page()
 
@@ -276,7 +290,20 @@ def test_app_derives_item_palette_and_backdrop_from_selected_specimen():
     assert "semanticPaletteForStop" in script
     assert "applyDerivedPalette" in script
     assert "setBackdropImage" in script
+    assert "OPTIMIZED_PHOTO_DIR" in script
+    assert "THUMBNAIL_DIR" in script
+    assert "imageLoadCache" in script
     assert "ui.audio.load()" not in script
+
+
+def test_app_loads_chip_thumbnails_instead_of_full_size_strip_images():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "thumbnailPhotoSrc(stop)" in script
+    assert 'photo.setAttribute("fetchpriority", "low");' in script
+    assert "photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);" in script
+    assert "photo.src = thumbnailPhotoSrc(stop);" in script
+    assert "onChipPhotoError" in script
 
 
 def test_player_expand_and_minimize_use_bounded_crossfade_blur():
@@ -515,14 +542,16 @@ def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
     script = JS_PATH.read_text(encoding="utf-8")
 
     assert "--progress-ratio" in css
-    assert "--progress-x" in css
+    assert "--progress-position" in css
     assert "scaleX(var(--progress-ratio, 0))" in css
-    assert "translate(calc(var(--progress-x, 0px) - 50%), -50%) rotate(45deg)" in css
+    assert "left: var(--progress-position, 0%)" in css
+    assert "transform: translate(-50%, -50%) rotate(45deg)" in css
     assert "let progressFrame = 0;" in script
     assert "function startProgressAnimation()" in script
     assert "function stopProgressAnimation()" in script
     assert "requestAnimationFrame(tickProgress)" in script
     assert "cancelAnimationFrame(progressFrame)" in script
+    assert "getBoundingClientRect().width" not in script
     assert 'ui.audio.addEventListener("play", () => {' in script
     assert "startProgressAnimation();" in script
     assert 'ui.audio.addEventListener("pause", () => {' in script

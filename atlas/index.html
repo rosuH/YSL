@@ -23,10 +23,12 @@
   <meta name="twitter:image" content="https://ysl.rosuh.me/docs/assets/banner.png">
   <link rel="icon" href="data:,">
   <link rel="manifest" href="manifest.json">
-  <link rel="preload" href="css/main.css?v=16" as="style">
-  <link rel="modulepreload" href="js/app.js?v=16">
+  <link rel="preload" href="css/main.css?v=17" as="style">
+  <link rel="modulepreload" href="js/app.js?v=17">
+  <link rel="modulepreload" href="js/i18n.js">
   <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/main.css?v=16">
+  <link rel="preload" href="media/photos/american-coots.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="css/main.css?v=17">
 </head>
 <body>
   <div class="item-backdrop" id="item-backdrop"></div>
@@ -100,7 +102,7 @@
         </header>
 
         <figure class="stamp-photo-frame" id="scene-photo-frame">
-          <img id="scene-photo" class="scene-photo" alt="" decoding="async">
+          <img id="scene-photo" class="scene-photo" alt="" decoding="async" fetchpriority="high">
         </figure>
 
         <section class="stamp-copy">
@@ -285,6 +287,6 @@
     </div>
   </noscript>
 
-  <script src="js/app.js?v=16" type="module"></script>
+  <script src="js/app.js?v=17" type="module"></script>
 </body>
 </html>

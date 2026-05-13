@@ -77,3 +77,15 @@ def test_route_image_paths_resolve_to_existing_jpg_files_when_present():
         image_path = ROOT / image_path_value
         assert image_path.exists(), image_path_value
         assert image_path.suffix.lower() in {".jpg", ".jpeg"}
+
+
+def test_route_image_stops_have_optimized_atlas_media():
+    for stop in load_route():
+        if not stop.get("imagePath"):
+            continue
+
+        photo = ROOT / "atlas" / "media" / "photos" / f"{stop['id']}.webp"
+        thumb = ROOT / "atlas" / "media" / "thumbs" / f"{stop['id']}.webp"
+
+        assert photo.exists(), photo
+        assert thumb.exists(), thumb
