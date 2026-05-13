@@ -1,5 +1,17 @@
-const ROUTE_URL = "./dawn-to-night.json";
+import {
+  LOCALE_LABELS,
+  localeFromUrl,
+  localizeStop,
+  localizeThemeName,
+  localizedCredit,
+  normalizeLocale,
+  setStoredLocale,
+  shareHashtags,
+  shareText,
+  uiText,
+} from "./i18n.js";
 
+const ROUTE_URL = "./dawn-to-night.json";
 const THEME_ORDER = ["Thermal", "Birds", "Wildlife", "Human", "Weather", "Ambient", "Water"];
 
 const THEME_META = {
@@ -16,6 +28,7 @@ const state = {
   stops: [],
   index: 0,
   activeTheme: "Thermal",
+  locale: localeFromUrl(),
   isPlaying: false,
   isDragging: false,
   isMinimized: false,
@@ -36,11 +49,19 @@ const ui = {
   shareInstagram: getEl("#share-instagram-btn"),
   shareX: getEl("#share-x-link"),
   shareCopy: getEl("#share-copy-btn"),
+  shareDock: getEl("#share-dock"),
   stage: getEl("#stage"),
+  audioControls: getEl("#audio-controls"),
   expandedFace: document.querySelector(".stamp-expanded"),
   miniStamp: getEl("#mini-stamp"),
   miniExpand: getEl("#mini-expand-btn"),
+  languageSwitcher: getEl("#language-switcher"),
+  languageMenuButton: getEl("#language-menu-button"),
+  languageMenu: getEl("#language-menu"),
+  languageCurrentLabel: getEl("#language-current-label"),
   eyebrow: getEl("#eyebrow"),
+  volumeMark: getEl("#volume-mark"),
+  miniVolumeMark: getEl("#mini-volume-mark"),
   title: getEl("#track-title"),
   meta: getEl("#track-meta"),
   desc: getEl("#track-desc"),
@@ -75,6 +96,20 @@ const ui = {
   strip: getEl("#specimen-strip"),
   archiveSlip: getEl("#archive-slip"),
   archiveSlipSummary: getEl("#archive-slip-summary"),
+  archiveSlipSummaryText: getEl("#archive-slip-summary-text"),
+  archiveSlipKicker: getEl("#archive-slip-kicker"),
+  archiveSlipTitle: getEl("#archive-slip-title"),
+  archiveSlipBody: getEl("#archive-slip-body"),
+  archiveRepositoryLabel: getEl("#archive-repository-label"),
+  archiveFullLabel: getEl("#archive-full-label"),
+  archiveSourceLabel: getEl("#archive-source-label"),
+  archiveSlipFine: getEl("#archive-slip-fine"),
+  stampSourceLabel: getEl("#stamp-source-label"),
+  stampArchiveLabel: getEl("#stamp-archive-label"),
+  keyboardSpaceLabel: getEl("#keyboard-space-label"),
+  keyboardPrevLabel: getEl("#keyboard-prev-label"),
+  keyboardNextLabel: getEl("#keyboard-next-label"),
+  keyboardMinimizeLabel: getEl("#keyboard-minimize-label"),
 };
 
 if (!ui.playerCard) throw new Error("Missing element: .player-card");
@@ -84,6 +119,108 @@ function getEl(selector) {
   const el = document.querySelector(selector);
   if (!el) throw new Error(`Missing element: ${selector}`);
   return el;
+}
+
+function copy() {
+  return uiText(state.locale);
+}
+
+function displayStop(stop) {
+  return localizeStop(stop, state.locale);
+}
+
+function languageMenuItems() {
+  return Array.from(ui.languageMenu.querySelectorAll("[data-locale]"));
+}
+
+function activeLanguageItem() {
+  return ui.languageMenu.querySelector(`[data-locale="${state.locale}"]`) || languageMenuItems()[0];
+}
+
+function isLanguageMenuOpen() {
+  return !ui.languageMenu.hidden;
+}
+
+function setLanguageMenuOpen(open, options = {}) {
+  ui.languageMenu.hidden = !open;
+  ui.languageSwitcher.classList.toggle("is-open", open);
+  ui.languageMenuButton.setAttribute("aria-expanded", String(open));
+
+  if (open && options.focusActive) {
+    activeLanguageItem()?.focus();
+  } else if (!open && options.returnFocus) {
+    ui.languageMenuButton.focus();
+  }
+}
+
+function renderLanguageSwitcher() {
+  const text = copy();
+  const activeButton = activeLanguageItem();
+
+  ui.languageSwitcher.setAttribute("aria-label", text.language);
+  ui.languageMenuButton.setAttribute("aria-label", text.chooseLanguage);
+  ui.languageMenuButton.title = text.chooseLanguage;
+  ui.languageMenuButton.setAttribute("aria-expanded", String(isLanguageMenuOpen()));
+  ui.languageCurrentLabel.textContent =
+    activeButton?.querySelector(".language-menu-code")?.textContent?.trim() || state.locale.toUpperCase();
+  languageMenuItems().forEach((button) => {
+    const locale = normalizeLocale(button.dataset.locale);
+    const active = locale === state.locale;
+    button.setAttribute("aria-checked", String(active));
+    button.setAttribute("aria-label", text.languageOption(LOCALE_LABELS[locale]));
+  });
+}
+
+function syncLocaleUrl() {
+  if (!window.history || typeof window.history.replaceState !== "function") return;
+
+  const url = new URL(window.location.href);
+  url.searchParams.set("lang", state.locale);
+  window.history.replaceState(null, "", url);
+}
+
+function renderStaticCopy() {
+  const text = copy();
+
+  document.documentElement.lang = state.locale;
+  document.title = text.documentTitle;
+  ui.stage.setAttribute("aria-label", text.siteLabel);
+  ui.shareDock.setAttribute("aria-label", text.shareDock);
+  ui.audioControls.setAttribute("aria-label", text.audioControls);
+  ui.volumeMark.textContent = text.volume;
+  ui.miniVolumeMark.textContent = text.volume;
+  ui.backdropNote.querySelector(".backdrop-note-kicker").textContent = text.fieldNote;
+  ui.shareInstagram.setAttribute("aria-label", text.shareInstagram);
+  ui.shareInstagram.title = text.shareInstagramTitle;
+  ui.shareX.setAttribute("aria-label", text.postToX);
+  ui.shareX.title = text.postToXTitle;
+  ui.shareCopy.setAttribute("aria-label", text.copyLink);
+  ui.shareCopy.title = text.copyLinkTitle;
+  ui.prev.setAttribute("aria-label", text.previous);
+  ui.next.setAttribute("aria-label", text.next);
+  ui.track.setAttribute("aria-label", text.playbackPosition);
+  ui.strip.setAttribute("aria-label", text.stripLabel);
+  ui.themeTabs.setAttribute("aria-label", text.themeTabs);
+  ui.chipCarousel.setAttribute("aria-label", text.themeSpecimens);
+  ui.archiveSlipSummary.setAttribute("aria-label", text.archiveSlipSummary);
+  ui.archiveSlipSummaryText.textContent = text.archiveSlip;
+  ui.archiveSlip.querySelector(".archive-slip-card").setAttribute("aria-label", text.archiveCardLabel);
+  ui.archiveSlipKicker.textContent = text.colophon;
+  ui.archiveSlipTitle.textContent = text.archiveTitle;
+  ui.archiveSlipBody.textContent = text.archiveBody;
+  ui.archiveRepositoryLabel.textContent = text.repository;
+  ui.archiveFullLabel.textContent = text.fullArchive;
+  ui.archiveSourceLabel.textContent = text.sourceLabel;
+  ui.archiveSlipFine.textContent = text.archiveFine;
+  ui.stampSourceLabel.textContent = text.source;
+  ui.stampArchiveLabel.textContent = text.archive;
+  ui.keyboardSpaceLabel.textContent = text.keyboardSpace;
+  ui.keyboardPrevLabel.textContent = text.keyboardPrev;
+  ui.keyboardNextLabel.textContent = text.keyboardNext;
+  ui.keyboardMinimizeLabel.textContent = text.keyboardMinimize;
+  renderLanguageSwitcher();
+  updatePlayIcon();
+  applyMinimized(state.isMinimized);
 }
 
 function fmtTime(sec) {
@@ -293,23 +430,21 @@ function setBackdropImage(src, title) {
   }
 }
 
-function descriptionForStop(stop) {
-  return stop.fieldNote || stop.description;
-}
-
 function currentStop() {
   return state.stops[state.index] || null;
 }
 
 function setBackdropNote(stop) {
-  ui.backdropNoteTitle.textContent = stop.title;
-  ui.backdropNoteMeta.textContent = `${stop.theme} - ${stop.zoneLabel} - ${stop.timeOfDay}`;
-  ui.backdropNoteBody.textContent = descriptionForStop(stop);
+  const localized = displayStop(stop);
+  ui.backdropNoteTitle.textContent = localized.title;
+  ui.backdropNoteMeta.textContent = copy().noteMeta(localized.theme, localized.zoneLabel, localized.timeOfDay);
+  ui.backdropNoteBody.textContent = localized.fieldNote || localized.description;
 }
 
 function setBackdropPrint(stop, src) {
   const expectedId = stop.id;
-  const caption = `${stop.title} - ${stop.theme} - ${stop.timeOfDay}`;
+  const localized = displayStop(stop);
+  const caption = copy().printCaption(localized.title, localized.theme, localized.timeOfDay);
 
   ui.backdropPrintCaption.textContent = caption;
   ui.backdropPrintPhoto.alt = "";
@@ -347,16 +482,19 @@ function atlasBaseUrl() {
 }
 
 function shareUrlForStop(stop) {
-  return new URL(`share/${encodeURIComponent(stop.id)}/`, atlasBaseUrl()).toString();
+  const url = new URL(`share/${encodeURIComponent(stop.id)}/`, atlasBaseUrl());
+  url.searchParams.set("lang", state.locale);
+  return url.toString();
 }
 
 function shareTextForStop(stop) {
-  return `Yellowstone Sound Atlas: ${stop.title} - ${stop.theme}, ${stop.timeOfDay}.`;
+  return shareText(stop, state.locale);
 }
 
 function sharePayloadForStop(stop) {
+  const localized = displayStop(stop);
   return {
-    title: `${stop.title} - Yellowstone Sound Atlas`,
+    title: copy().shareTitle(localized.title),
     text: shareTextForStop(stop),
     url: shareUrlForStop(stop),
   };
@@ -366,7 +504,7 @@ function xIntentForStop(stop) {
   const intent = new URL("https://twitter.com/intent/tweet");
   intent.searchParams.set("text", shareTextForStop(stop));
   intent.searchParams.set("url", shareUrlForStop(stop));
-  intent.searchParams.set("hashtags", "Yellowstone,Soundscape");
+  intent.searchParams.set("hashtags", shareHashtags(state.locale));
   return intent.toString();
 }
 
@@ -404,7 +542,7 @@ async function copyText(text) {
   if (!copied) throw new Error("Copy command failed.");
 }
 
-async function copyShareLink(message = "Specimen link copied.") {
+async function copyShareLink(message = copy().copied) {
   const stop = currentStop();
   if (!stop) return;
 
@@ -413,7 +551,7 @@ async function copyShareLink(message = "Specimen link copied.") {
     confirmShareButton(ui.shareCopy);
     showStatus(message);
   } catch {
-    showStatus("Copy unavailable in this browser.", true);
+    showStatus(copy().copyUnavailable, true);
   }
 }
 
@@ -423,7 +561,7 @@ async function shareToInstalledApps() {
 
   const payload = sharePayloadForStop(stop);
   if (!navigator.share) {
-    await copyShareLink("Link copied for Instagram.");
+    await copyShareLink(copy().instagramCopied);
     return;
   }
 
@@ -432,7 +570,7 @@ async function shareToInstalledApps() {
     confirmShareButton(ui.shareInstagram);
   } catch (err) {
     if (!err || err.name !== "AbortError") {
-      await copyShareLink("Share unavailable. Link copied.");
+      await copyShareLink(copy().shareUnavailableCopied);
     }
   }
 }
@@ -459,9 +597,10 @@ function updateAtmosphere(stop) {
   const fallbackPalette = semanticPaletteForStop(stop);
   const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
   const expectedId = stop.id;
+  const localized = displayStop(stop);
 
   applyDerivedPalette(fallbackPalette);
-  setBackdropImage(imageSrc, stop.title);
+  setBackdropImage(imageSrc, localized.title);
   setBackdropNote(stop);
   setBackdropPrint(stop, imageSrc);
 
@@ -537,6 +676,7 @@ function buildThemeTabs() {
 
   THEME_ORDER.forEach((theme) => {
     const meta = getThemeMeta(theme);
+    const themeLabel = localizeThemeName(theme, state.locale);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "theme-tab";
@@ -547,7 +687,7 @@ function buildThemeTabs() {
     button.setAttribute("role", "tab");
     button.setAttribute("aria-controls", "chip-carousel");
     button.setAttribute("aria-selected", String(theme === state.activeTheme));
-    button.setAttribute("aria-label", `${theme}, ${themeCount(theme)} specimens`);
+    button.setAttribute("aria-label", copy().selectTheme(themeLabel, themeCount(theme)));
     button.addEventListener("click", () => setActiveTheme(theme, true));
 
     const swatch = document.createElement("span");
@@ -556,7 +696,7 @@ function buildThemeTabs() {
 
     const name = document.createElement("span");
     name.className = "theme-name";
-    name.textContent = theme;
+    name.textContent = themeLabel;
 
     const count = document.createElement("span");
     count.className = "theme-count";
@@ -572,12 +712,13 @@ function buildChipCarousel() {
 
   themeStops(state.activeTheme).forEach((stop) => {
     const meta = getThemeMeta(stop.theme);
+    const localized = displayStop(stop);
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "specimen-chip stamp-chip";
     chip.dataset.index = String(stop.index);
     chip.style.setProperty("--theme-color", meta.color);
-    chip.setAttribute("aria-label", `Select ${stop.title}`);
+    chip.setAttribute("aria-label", copy().selectStop(localized.title));
     chip.addEventListener("click", () => {
       selectStop(stop.index, !ui.audio.paused, { keepActiveTheme: true });
     });
@@ -593,13 +734,13 @@ function buildChipCarousel() {
     }
 
     const label = document.createElement("small");
-    label.textContent = `${getStopNumber(stop.index)} - ${stop.timeOfDay}`;
+    label.textContent = `${getStopNumber(stop.index)} - ${localized.timeOfDay}`;
 
     const title = document.createElement("strong");
-    title.textContent = stop.title;
+    title.textContent = localized.title;
 
     const theme = document.createElement("span");
-    theme.textContent = stop.theme;
+    theme.textContent = localized.theme;
 
     chip.append(label, title, theme);
     ui.chipCarousel.appendChild(chip);
@@ -633,6 +774,95 @@ function updateThemeNav() {
       inline: "center",
       block: "nearest",
     });
+  }
+}
+
+function updateLocalizedSurface() {
+  renderStaticCopy();
+  if (!state.stops.length) return;
+
+  buildThemeTabs();
+  buildChipCarousel();
+  const stop = currentStop();
+  if (stop) {
+    const imageSrc = stop.imagePath ? encodeURI(`../${stop.imagePath}`) : "";
+    const localized = displayStop(stop);
+    const stopNumber = getStopNumber(state.index);
+    ui.eyebrow.textContent = copy().eyebrow(stopNumber);
+    ui.miniEyebrow.textContent = copy().eyebrow(stopNumber);
+    ui.title.textContent = localized.title;
+    ui.miniTitle.textContent = localized.title;
+    ui.meta.textContent = copy().noteMeta(localized.theme, localized.zoneLabel, localized.timeOfDay);
+    ui.miniMeta.textContent = `${localized.theme} - ${localized.timeOfDay}`;
+    ui.desc.textContent = localized.fieldNote || localized.description;
+    ui.credit.textContent = creditForStop(stop);
+    setBackdropImage(imageSrc, localized.title);
+    setBackdropNote(stop);
+    setBackdropPrint(stop, imageSrc);
+    updateScenePhoto(stop);
+    updateShareTargets(stop);
+  }
+  updateThemeNav();
+}
+
+function setLocale(locale) {
+  const nextLocale = normalizeLocale(locale);
+  if (nextLocale === state.locale) return;
+
+  state.locale = nextLocale;
+  setStoredLocale(nextLocale);
+  syncLocaleUrl();
+  updateLocalizedSurface();
+}
+
+function selectLanguage(locale) {
+  setLocale(locale);
+  setLanguageMenuOpen(false, { returnFocus: true });
+}
+
+function moveLanguageFocus(direction) {
+  const items = languageMenuItems();
+  if (!items.length) return;
+
+  const currentIndex = items.indexOf(document.activeElement);
+  if (currentIndex === -1) {
+    activeLanguageItem()?.focus();
+    return;
+  }
+
+  const nextIndex = (currentIndex + direction + items.length) % items.length;
+  items[nextIndex].focus();
+}
+
+function onLanguageMenuKeydown(e) {
+  const target = e.target instanceof Element ? e.target.closest("[data-locale]") : null;
+
+  if (e.key === "Escape") {
+    e.preventDefault();
+    setLanguageMenuOpen(false, { returnFocus: true });
+  } else if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (!isLanguageMenuOpen()) {
+      setLanguageMenuOpen(true, { focusActive: true });
+    } else {
+      moveLanguageFocus(1);
+    }
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (!isLanguageMenuOpen()) {
+      setLanguageMenuOpen(true, { focusActive: true });
+    } else {
+      moveLanguageFocus(-1);
+    }
+  } else if (e.key === "Home" && isLanguageMenuOpen()) {
+    e.preventDefault();
+    languageMenuItems()[0]?.focus();
+  } else if (e.key === "End" && isLanguageMenuOpen()) {
+    e.preventDefault();
+    languageMenuItems().at(-1)?.focus();
+  } else if ((e.key === "Enter" || e.key === " ") && target) {
+    e.preventDefault();
+    selectLanguage(target.dataset.locale);
   }
 }
 
@@ -698,15 +928,15 @@ function setActiveTheme(theme, selectFirst = false) {
   });
 }
 
-function setPhoto(img, frame, imagePath, title) {
+function setPhoto(img, frame, imagePath, sourceTitle, displayTitle = sourceTitle) {
   const expectedPath = imagePath || "";
   const matchesSelectedStop = () => {
     const selected = state.stops[state.index];
-    return selected && selected.title === title && (selected.imagePath || "") === expectedPath;
+    return selected && selected.title === sourceTitle && (selected.imagePath || "") === expectedPath;
   };
 
-  img.alt = title || "";
-  frame.dataset.fallbackLabel = title || "Sound specimen";
+  img.alt = displayTitle || "";
+  frame.dataset.fallbackLabel = displayTitle || copy().routeSpecimen;
   img.classList.remove("is-loaded");
 
   if (!imagePath) {
@@ -741,13 +971,13 @@ function setPhoto(img, frame, imagePath, title) {
 }
 
 function updateScenePhoto(stop) {
-  setPhoto(ui.scenePhoto, ui.sceneFrame, stop.imagePath, stop.title);
-  setPhoto(ui.miniScenePhoto, ui.miniFrame, stop.imagePath, stop.title);
+  const localized = displayStop(stop);
+  setPhoto(ui.scenePhoto, ui.sceneFrame, stop.imagePath, stop.title, localized.title);
+  setPhoto(ui.miniScenePhoto, ui.miniFrame, stop.imagePath, stop.title, localized.title);
 }
 
 function creditForStop(stop) {
-  if (stop.imagePath) return stop.credit;
-  return stop.credit.replace("Audio and image", "Audio");
+  return localizedCredit(stop, state.locale);
 }
 
 function applyMinimized(nextValue) {
@@ -760,7 +990,7 @@ function applyMinimized(nextValue) {
   ui.shareCopy.tabIndex = state.isMinimized ? 0 : -1;
   ui.minimizeBtn.setAttribute(
     "aria-label",
-    state.isMinimized ? "Expand player" : "Minimize player",
+    state.isMinimized ? copy().expand : copy().minimize,
   );
   ui.miniExpand.disabled = !state.isMinimized;
 }
@@ -801,6 +1031,7 @@ function selectStop(index, autoPlay = false, options = {}) {
   if (!state.stops[index]) return;
 
   const stop = state.stops[index];
+  const localized = displayStop(stop);
   const previousTheme = state.activeTheme;
   const themeMeta = getThemeMeta(stop.theme);
 
@@ -814,13 +1045,13 @@ function selectStop(index, autoPlay = false, options = {}) {
   ui.body.classList.add("is-switching");
 
   const stopNumber = getStopNumber(index);
-  ui.eyebrow.textContent = `YELLOWSTONE - ${stopNumber}`;
-  ui.miniEyebrow.textContent = `YELLOWSTONE - ${stopNumber}`;
-  ui.title.textContent = stop.title;
-  ui.miniTitle.textContent = stop.title;
-  ui.meta.textContent = `${stop.theme} - ${stop.zoneLabel} - ${stop.timeOfDay}`;
-  ui.miniMeta.textContent = `${stop.theme} - ${stop.timeOfDay}`;
-  ui.desc.textContent = descriptionForStop(stop);
+  ui.eyebrow.textContent = copy().eyebrow(stopNumber);
+  ui.miniEyebrow.textContent = copy().eyebrow(stopNumber);
+  ui.title.textContent = localized.title;
+  ui.miniTitle.textContent = localized.title;
+  ui.meta.textContent = copy().noteMeta(localized.theme, localized.zoneLabel, localized.timeOfDay);
+  ui.miniMeta.textContent = `${localized.theme} - ${localized.timeOfDay}`;
+  ui.desc.textContent = localized.fieldNote || localized.description;
   ui.credit.textContent = creditForStop(stop);
   updateShareTargets(stop);
   syncLocationHash(stop);
@@ -839,7 +1070,7 @@ function selectStop(index, autoPlay = false, options = {}) {
   } else {
     ui.audio.play().catch(() => {
       updatePlayIcon();
-      showStatus("Playback could not start automatically.");
+      showStatus(copy().autoPlayFailed);
     });
   }
 
@@ -879,8 +1110,8 @@ function updatePlayIcon() {
   ui.iconPause.style.display = playing ? "block" : "none";
   ui.miniIconPlay.style.display = playing ? "none" : "block";
   ui.miniIconPause.style.display = playing ? "block" : "none";
-  ui.play.setAttribute("aria-label", playing ? "Pause" : "Play");
-  ui.miniPlay.setAttribute("aria-label", playing ? "Pause" : "Play");
+  ui.play.setAttribute("aria-label", playing ? copy().pause : copy().play);
+  ui.miniPlay.setAttribute("aria-label", playing ? copy().pause : copy().play);
   ui.waveform.classList.toggle("playing", playing);
 }
 
@@ -1002,6 +1233,16 @@ ui.track.addEventListener("keydown", (e) => {
 });
 
 ui.themeTabs.addEventListener("keydown", onThemeTabsKeydown);
+ui.languageMenuButton.addEventListener("click", (e) => {
+  e.stopPropagation();
+  setLanguageMenuOpen(!isLanguageMenuOpen(), { focusActive: !isLanguageMenuOpen() });
+});
+ui.languageMenu.addEventListener("click", (e) => {
+  const button = e.target instanceof Element ? e.target.closest("[data-locale]") : null;
+  if (!button) return;
+  selectLanguage(button.dataset.locale);
+});
+ui.languageSwitcher.addEventListener("keydown", onLanguageMenuKeydown);
 ui.play.addEventListener("click", togglePlay);
 ui.miniPlay.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -1042,7 +1283,7 @@ ui.audio.addEventListener("error", () => {
   stopProgressAnimation();
   setPlayDisabled(true);
   updatePlayIcon();
-  showStatus("Audio unavailable for this specimen.", true);
+  showStatus(copy().audioUnavailable, true);
 });
 
 function isTextEntryTarget(target) {
@@ -1059,7 +1300,10 @@ document.addEventListener("keydown", (e) => {
   if (e.defaultPrevented) return;
   if (isTextEntryTarget(e.target)) return;
 
-  if (e.code === "Escape" && ui.archiveSlip.open) {
+  if (e.code === "Escape" && isLanguageMenuOpen()) {
+    e.preventDefault();
+    setLanguageMenuOpen(false, { returnFocus: true });
+  } else if (e.code === "Escape" && ui.archiveSlip.open) {
     e.preventDefault();
     closeArchiveSlip();
     ui.archiveSlipSummary.focus();
@@ -1084,6 +1328,7 @@ document.addEventListener("keydown", (e) => {
 
 document.addEventListener("click", (e) => {
   if (!(e.target instanceof Node)) return;
+  if (isLanguageMenuOpen() && !ui.languageSwitcher.contains(e.target)) setLanguageMenuOpen(false);
   if (ui.archiveSlip.open && !ui.archiveSlip.contains(e.target)) closeArchiveSlip();
 });
 
@@ -1128,14 +1373,16 @@ async function loadRoute() {
     buildChipCarousel();
     setMinimized(false);
     selectStop(startingIndex);
-    showStatus(`${stops.length} sound specimens loaded`);
+    showStatus(copy().statusLoaded(stops.length));
   } catch (err) {
     showStatus(err.message, true);
-    ui.title.textContent = "Unable to load route";
+    ui.title.textContent = copy().routeLoadFailed;
     ui.desc.textContent = err.message;
   }
 }
 
+syncLocaleUrl();
+renderStaticCopy();
 applyMinimized(false);
 updatePlayIcon();
 
