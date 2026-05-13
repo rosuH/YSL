@@ -281,6 +281,9 @@ function preloadImage(src, fallbackSrc = "") {
       }
     };
     img.src = src;
+  }).then((loaded) => {
+    if (!loaded) imageLoadCache.delete(cacheKey);
+    return loaded;
   });
 
   imageLoadCache.set(cacheKey, promise);

@@ -315,6 +315,16 @@ def test_app_derives_item_palette_and_backdrop_from_selected_specimen():
     assert "ui.audio.load()" not in script
 
 
+def test_image_preload_cache_retries_after_total_load_failure():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    preload_image = script[script.index("function preloadImage") : script.index("function originalImageSrc")]
+
+    assert "imageLoadCache.set(cacheKey, promise);" in preload_image
+    assert "if (!loaded) imageLoadCache.delete(cacheKey);" in preload_image
+    assert "return loaded;" in preload_image
+
+
 def test_locale_refresh_keeps_fallback_aware_backdrop_loading():
     script = JS_PATH.read_text(encoding="utf-8")
 
