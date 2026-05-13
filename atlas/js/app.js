@@ -824,7 +824,12 @@ function moveLanguageFocus(direction) {
   const items = languageMenuItems();
   if (!items.length) return;
 
-  const currentIndex = Math.max(0, items.indexOf(document.activeElement));
+  const currentIndex = items.indexOf(document.activeElement);
+  if (currentIndex === -1) {
+    activeLanguageItem()?.focus();
+    return;
+  }
+
   const nextIndex = (currentIndex + direction + items.length) % items.length;
   items[nextIndex].focus();
 }

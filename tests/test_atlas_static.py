@@ -124,6 +124,14 @@ def test_app_localizes_accessibility_landmarks():
     assert 'ui.audioControls.setAttribute("aria-label", text.audioControls);' in script
 
 
+def test_language_menu_focus_recovers_from_trigger_reentry():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "const currentIndex = items.indexOf(document.activeElement);" in script
+    assert "if (currentIndex === -1)" in script
+    assert "activeLanguageItem()?.focus();" in script
+
+
 def test_language_switcher_has_accessible_interaction_styles():
     css = CSS_PATH.read_text(encoding="utf-8")
 
