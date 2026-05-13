@@ -89,6 +89,15 @@ def test_i18n_module_preload_matches_cache_busted_import():
     assert 'from "./i18n.js?v=18"' in script
 
 
+def test_module_entry_opts_out_of_cloudflare_rocket_loader():
+    page = load_page()
+    module_script = page.find("script", src="js/app.js?v=18")
+
+    assert module_script
+    assert module_script.get("type") == "module"
+    assert module_script.get("data-cfasync") == "false"
+
+
 def test_index_preloads_default_lcp_photo_with_high_priority():
     page = load_page()
 
