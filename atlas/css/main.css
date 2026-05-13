@@ -1050,7 +1050,7 @@ figure {
 
 .progress-track {
   --progress-ratio: 0;
-  --progress-position: 0%;
+  --progress-x: 0px;
   position: relative;
   min-height: 36px;
   height: 36px;
@@ -1082,12 +1082,12 @@ figure {
 
 .progress-thumb {
   position: absolute;
-  left: var(--progress-position, 0%);
+  left: 0;
   top: 50%;
   width: 10px;
   height: 10px;
   background: var(--ink);
-  transform: translate(-50%, -50%) rotate(45deg);
+  transform: translate(calc(var(--progress-x, 0px) - 50%), -50%) rotate(45deg);
   will-change: transform;
 }
 

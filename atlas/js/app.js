@@ -9,7 +9,7 @@ import {
   shareHashtags,
   shareText,
   uiText,
-} from "./i18n.js";
+} from "./i18n.js?v=18";
 
 const ROUTE_URL = "./dawn-to-night.json";
 const OPTIMIZED_PHOTO_DIR = "media/photos";
@@ -248,7 +248,21 @@ function clearNode(node) {
 
 let keyboardHintTimer;
 let progressFrame = 0;
+let progressTrackWidth = 0;
 const imageLoadCache = new Map();
+
+function syncProgressTrackWidth() {
+  progressTrackWidth = ui.track.clientWidth || progressTrackWidth;
+}
+
+if ("ResizeObserver" in window) {
+  const progressTrackResizeObserver = new ResizeObserver(syncProgressTrackWidth);
+  progressTrackResizeObserver.observe(ui.track);
+} else {
+  window.addEventListener("resize", syncProgressTrackWidth, { passive: true });
+}
+
+requestAnimationFrame(syncProgressTrackWidth);
 
 function preloadImage(src, fallbackSrc = "") {
   if (!src) return Promise.resolve(null);
@@ -292,11 +306,6 @@ function imageSourcesForStop(stop) {
     primary: optimizedPhotoSrc(stop),
     fallback: originalImageSrc(stop.imagePath),
   };
-}
-
-function activeImageForStop(stop) {
-  const sources = imageSourcesForStop(stop);
-  return sources.primary || sources.fallback;
 }
 
 function showKeyboardHints() {
@@ -843,7 +852,6 @@ function updateLocalizedSurface() {
   buildChipCarousel();
   const stop = currentStop();
   if (stop) {
-    const { primary: imageSrc, fallback: fallbackSrc } = imageSourcesForStop(stop);
     const localized = displayStop(stop);
     const stopNumber = getStopNumber(state.index);
     ui.eyebrow.textContent = copy().eyebrow(stopNumber);
@@ -854,9 +862,7 @@ function updateLocalizedSurface() {
     ui.miniMeta.textContent = `${localized.theme} - ${localized.timeOfDay}`;
     ui.desc.textContent = localized.fieldNote || localized.description;
     ui.credit.textContent = creditForStop(stop);
-    setBackdropImage(activeImageForStop(stop), localized.title);
-    setBackdropNote(stop);
-    setBackdropPrint(stop, imageSrc, fallbackSrc);
+    updateAtmosphere(stop);
     updateScenePhoto(stop);
     updateShareTargets(stop);
   }
@@ -1188,7 +1194,7 @@ function updatePlayIcon() {
 function setProgressVisual(ratio) {
   const normalized = Math.max(0, Math.min(1, ratio || 0));
   ui.track.style.setProperty("--progress-ratio", normalized.toFixed(4));
-  ui.track.style.setProperty("--progress-position", `${(normalized * 100).toFixed(2)}%`);
+  ui.track.style.setProperty("--progress-x", `${(normalized * progressTrackWidth).toFixed(2)}px`);
 }
 
 function paintProgressFromAudio() {
