@@ -344,6 +344,17 @@ def test_app_loads_chip_thumbnails_instead_of_full_size_strip_images():
     assert "onChipPhotoError" in script
 
 
+def test_chip_thumbnail_error_handler_stays_active_for_fallback_failure():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    build_chip_carousel = script[script.index("function buildChipCarousel") : script.index("function updateThemeNav")]
+
+    assert 'photo.addEventListener("error", onChipPhotoError);' in build_chip_carousel
+    assert 'photo.addEventListener("error", onChipPhotoError, { once: true });' not in build_chip_carousel
+    assert 'img.removeAttribute("data-fallback-src");' in script
+    assert "img.remove();" in script
+
+
 def test_player_expand_and_minimize_use_bounded_crossfade_blur():
     css = CSS_PATH.read_text(encoding="utf-8")
     script = JS_PATH.read_text(encoding="utf-8")

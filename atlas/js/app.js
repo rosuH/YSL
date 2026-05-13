@@ -799,7 +799,7 @@ function buildChipCarousel() {
       photo.setAttribute("fetchpriority", "low");
       photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);
       photo.src = thumbnailPhotoSrc(stop);
-      photo.addEventListener("error", onChipPhotoError, { once: true });
+      photo.addEventListener("error", onChipPhotoError);
       chip.appendChild(photo);
     }
 
