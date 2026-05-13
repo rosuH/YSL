@@ -79,6 +79,39 @@ def test_index_references_split_css_and_javascript_assets():
     assert "js/app.js" in script_sources
 
 
+def test_i18n_module_preload_matches_cache_busted_import():
+    page = load_page()
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    modulepreload_hrefs = [link["href"] for link in page.find_all("link", rel="modulepreload")]
+
+    assert "js/i18n.js?v=18" in modulepreload_hrefs
+    assert 'from "./i18n.js?v=18"' in script
+
+
+def test_module_entry_opts_out_of_cloudflare_rocket_loader():
+    page = load_page()
+    module_script = page.find("script", src="js/app.js?v=18")
+
+    assert module_script
+    assert module_script.get("type") == "module"
+    assert module_script.get("data-cfasync") == "false"
+
+
+def test_index_preloads_default_lcp_photo_with_high_priority():
+    page = load_page()
+
+    photo_preload = page.find("link", rel="preload", attrs={"as": "image"})
+    scene_photo = page.find(id="scene-photo")
+
+    assert photo_preload
+    assert photo_preload.get("href") == "media/photos/american-coots.webp"
+    assert photo_preload.get("type") == "image/webp"
+    assert photo_preload.get("fetchpriority") == "high"
+    assert scene_photo
+    assert scene_photo.get("fetchpriority") == "high"
+
+
 def test_index_contains_accessible_language_menu():
     page = load_page()
 
@@ -110,7 +143,7 @@ def test_index_contains_accessible_language_menu():
 def test_app_imports_i18n_module():
     script = JS_PATH.read_text(encoding="utf-8")
 
-    assert 'from "./i18n.js"' in script
+    assert 'from "./i18n.js?v=18"' in script
 
 
 def test_app_localizes_accessibility_landmarks():
@@ -276,7 +309,50 @@ def test_app_derives_item_palette_and_backdrop_from_selected_specimen():
     assert "semanticPaletteForStop" in script
     assert "applyDerivedPalette" in script
     assert "setBackdropImage" in script
+    assert "OPTIMIZED_PHOTO_DIR" in script
+    assert "THUMBNAIL_DIR" in script
+    assert "imageLoadCache" in script
     assert "ui.audio.load()" not in script
+
+
+def test_image_preload_cache_retries_after_total_load_failure():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    preload_image = script[script.index("function preloadImage") : script.index("function originalImageSrc")]
+
+    assert "imageLoadCache.set(cacheKey, promise);" in preload_image
+    assert "if (!loaded) imageLoadCache.delete(cacheKey);" in preload_image
+    assert "return loaded;" in preload_image
+
+
+def test_locale_refresh_keeps_fallback_aware_backdrop_loading():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    update_localized_surface = script[script.index("function updateLocalizedSurface()") : script.index("function setLocale")]
+
+    assert "updateAtmosphere(stop);" in update_localized_surface
+    assert "setBackdropImage(activeImageForStop(stop)" not in script
+
+
+def test_app_loads_chip_thumbnails_instead_of_full_size_strip_images():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "thumbnailPhotoSrc(stop)" in script
+    assert 'photo.setAttribute("fetchpriority", "low");' in script
+    assert "photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);" in script
+    assert "photo.src = thumbnailPhotoSrc(stop);" in script
+    assert "onChipPhotoError" in script
+
+
+def test_chip_thumbnail_error_handler_stays_active_for_fallback_failure():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    build_chip_carousel = script[script.index("function buildChipCarousel") : script.index("function updateThemeNav")]
+
+    assert 'photo.addEventListener("error", onChipPhotoError);' in build_chip_carousel
+    assert 'photo.addEventListener("error", onChipPhotoError, { once: true });' not in build_chip_carousel
+    assert 'img.removeAttribute("data-fallback-src");' in script
+    assert "img.remove();" in script
 
 
 def test_player_expand_and_minimize_use_bounded_crossfade_blur():
@@ -517,12 +593,17 @@ def test_progress_bar_uses_animation_frame_for_smooth_playback_motion():
     assert "--progress-ratio" in css
     assert "--progress-x" in css
     assert "scaleX(var(--progress-ratio, 0))" in css
+    assert "left: 0" in css
     assert "translate(calc(var(--progress-x, 0px) - 50%), -50%) rotate(45deg)" in css
+    assert "let progressTrackWidth = 0;" in script
+    assert "ResizeObserver" in script
     assert "let progressFrame = 0;" in script
     assert "function startProgressAnimation()" in script
     assert "function stopProgressAnimation()" in script
     assert "requestAnimationFrame(tickProgress)" in script
     assert "cancelAnimationFrame(progressFrame)" in script
+    assert "getBoundingClientRect().width" not in script
+    assert "clientWidth" in script
     assert 'ui.audio.addEventListener("play", () => {' in script
     assert "startProgressAnimation();" in script
     assert 'ui.audio.addEventListener("pause", () => {' in script
