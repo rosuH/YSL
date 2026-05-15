@@ -1,0 +1,25 @@
+{
+  "name": "Yellowstone Sound Atlas",
+  "url": "https://ysl.rosuh.me/",
+  "description": "A public static Yellowstone sound archive with a playable atlas, route JSON, Markdown documentation, and direct links to source materials.",
+  "primaryDocumentation": "https://ysl.rosuh.me/llms-full.txt",
+  "machineReadableResources": [
+    "https://ysl.rosuh.me/llms.txt",
+    "https://ysl.rosuh.me/llms-full.txt",
+    "https://ysl.rosuh.me/index.md",
+    "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+    "https://ysl.rosuh.me/openapi.json",
+    "https://ysl.rosuh.me/.well-known/agent.json"
+  ],
+  "readOnly": true,
+  "authenticationRequired": false,
+  "unsupportedCapabilities": [
+    "OAuth",
+    "MCP server",
+    "A2A endpoint",
+    "webhooks",
+    "payments",
+    "write API",
+    "private user data"
+  ]
+}

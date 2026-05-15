@@ -1,0 +1,53 @@
+{
+  "@context": "https://schema.org",
+  "@type": "DataCatalog",
+  "@id": "https://ysl.rosuh.me/data/catalog.jsonld#catalog",
+  "name": "Yellowstone Sound Atlas Agent Resource Catalog",
+  "url": "https://ysl.rosuh.me/data/catalog.jsonld",
+  "description": "Machine-readable catalog for public Yellowstone Sound Atlas resources.",
+  "dataset": [
+    {
+      "@type": "Dataset",
+      "@id": "https://ysl.rosuh.me/#dataset",
+      "name": "Yellowstone Sound Atlas Route Data",
+      "url": "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+      "description": "A curated static JSON route containing 61 Yellowstone sound specimens with titles, themes, descriptions, credits, audio paths, and source image paths.",
+      "isAccessibleForFree": true,
+      "license": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm",
+      "keywords": [
+        "Yellowstone",
+        "field recordings",
+        "sound archive",
+        "bioacoustics",
+        "soundscape",
+        "National Park Service"
+      ],
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "name": "Route manifest JSON",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://ysl.rosuh.me/atlas/dawn-to-night.json"
+        },
+        {
+          "@type": "DataDownload",
+          "name": "LLMs summary",
+          "encodingFormat": "text/plain",
+          "contentUrl": "https://ysl.rosuh.me/llms.txt"
+        },
+        {
+          "@type": "DataDownload",
+          "name": "Full agent documentation",
+          "encodingFormat": "text/plain",
+          "contentUrl": "https://ysl.rosuh.me/llms-full.txt"
+        },
+        {
+          "@type": "DataDownload",
+          "name": "OpenAPI static resource description",
+          "encodingFormat": "application/vnd.oai.openapi+json;version=3.1",
+          "contentUrl": "https://ysl.rosuh.me/openapi.json"
+        }
+      ]
+    }
+  ]
+}

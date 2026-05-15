@@ -1,3 +1,31 @@
 User-agent: *
 Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ByteSpider
+Disallow: /
+
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+LLMs: https://ysl.rosuh.me/llms.txt
+Schemamap: https://ysl.rosuh.me/schema-map.xml
 Sitemap: https://ysl.rosuh.me/sitemap.xml

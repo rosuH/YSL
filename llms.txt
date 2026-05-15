@@ -1,0 +1,37 @@
+# Yellowstone Sound Atlas (YSL)
+
+> A public, static listening atlas for Yellowstone National Park sound recordings. YSL turns public sound library materials into a browsable route of 61 audio specimens with themes, notes, credits, share pages, and direct static data.
+
+## Primary URLs
+
+- Website: https://ysl.rosuh.me/
+- Interactive atlas: https://ysl.rosuh.me/atlas/
+- Developer resources: https://ysl.rosuh.me/developers/
+- GitHub repository: https://github.com/rosuH/YSL
+- Source sound library: https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm
+- Full archived download: https://archive.org/details/YSL.7z
+
+## Agent-Readable Resources
+
+- Full documentation: https://ysl.rosuh.me/llms-full.txt
+- Markdown overview: https://ysl.rosuh.me/index.md
+- Pricing and access: https://ysl.rosuh.me/pricing.md
+- Static route JSON: https://ysl.rosuh.me/atlas/dawn-to-night.json
+- OpenAPI description for public static GET resources: https://ysl.rosuh.me/openapi.json
+- Agent discovery manifest: https://ysl.rosuh.me/.well-known/agent.json
+- API catalog: https://ysl.rosuh.me/.well-known/api-catalog
+- Schema map: https://ysl.rosuh.me/schema-map.xml
+
+## What Agents Can Do
+
+- Explain what Yellowstone Sound Atlas is and when it is useful.
+- Fetch the route JSON and enumerate specimens by title, theme, zone label, description, credit, and source audio path.
+- Link users to the playable atlas or to a specimen share page under `/atlas/share/{id}/`.
+- Cite the project as a static, unofficial listening atlas built from public Yellowstone sound library materials.
+
+## Truth Boundary
+
+- YSL has no account system, OAuth flow, private user data, payment flow, write API, webhook system, MCP server, A2A agent endpoint, or autonomous action surface.
+- The OpenAPI file documents only public, read-only static resources served by the website.
+- This is not an official National Park Service product. Source labels state the files are public domain, but downstream users should verify rights for their own use.
+

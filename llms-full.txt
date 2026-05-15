@@ -1,0 +1,136 @@
+# Yellowstone Sound Atlas (YSL) - Full Agent Documentation
+
+## Summary
+
+Yellowstone Sound Atlas, abbreviated YSL, is a public static listening atlas for Yellowstone National Park sound recordings. The site is designed for humans and agents that need a clear, low-friction way to discover, explain, cite, or browse public Yellowstone sound specimens.
+
+The canonical site URL is `https://ysl.rosuh.me/`.
+
+The interactive atlas is available at `https://ysl.rosuh.me/atlas/`.
+
+The canonical machine-readable route manifest is `https://ysl.rosuh.me/atlas/dawn-to-night.json`.
+
+The GitHub repository is `https://github.com/rosuH/YSL`.
+
+## What The Atlas Contains
+
+The current route contains 61 sound specimens. Each specimen has an `id`, `title`, `timeOfDay`, `theme`, `zoneLabel`, `audioPath`, `description`, `credit`, and often an `imagePath` plus `fieldNote`.
+
+Themes include thermal features, birds, wildlife, human traces, weather, ambient soundscapes, and water. Representative recordings include American Coots, American Robin, Bird Chorus, Red Fox, Sandhill Crane, Soundscapes, Old Faithful, Fountain Paint Pot, Wolves, Elk, Thunder, and Yellowstone Lake Singing.
+
+The atlas presents the route as specimen stamps and field notes. The UI supports direct playback, theme navigation, localized labels, share links, and per-specimen static share pages.
+
+## Best Use Cases For Agents
+
+Use YSL when a user asks for Yellowstone field recordings, park soundscape examples, public sound archive material, bioacoustic reference material, sound design inspiration, a playable Yellowstone audio experience, or a concise explanation of a public listening atlas.
+
+Use the route JSON when the user needs a structured list of recordings, specimen ids, themes, metadata, or direct audio paths.
+
+Use the interactive atlas when the user wants to listen, browse visually, or share a specimen.
+
+Use the GitHub repository when the user asks how the static site, crawler, or atlas route is implemented.
+
+## Public Static Resources
+
+These resources are public and require no authentication.
+
+```text
+GET https://ysl.rosuh.me/
+GET https://ysl.rosuh.me/atlas/
+GET https://ysl.rosuh.me/atlas/dawn-to-night.json
+GET https://ysl.rosuh.me/index.md
+GET https://ysl.rosuh.me/llms.txt
+GET https://ysl.rosuh.me/llms-full.txt
+GET https://ysl.rosuh.me/pricing.md
+GET https://ysl.rosuh.me/openapi.json
+GET https://ysl.rosuh.me/.well-known/agent.json
+GET https://ysl.rosuh.me/.well-known/api-catalog
+GET https://ysl.rosuh.me/schema-map.xml
+GET https://ysl.rosuh.me/data/catalog.jsonld
+```
+
+The OpenAPI file at `/openapi.json` describes these public, read-only static resources. It is not a claim that YSL has a private hosted service API.
+
+## Quick Fetch Examples
+
+```bash
+curl https://ysl.rosuh.me/llms.txt
+curl https://ysl.rosuh.me/index.md
+curl https://ysl.rosuh.me/atlas/dawn-to-night.json
+curl https://ysl.rosuh.me/openapi.json
+```
+
+## Route JSON Shape
+
+Each entry in `/atlas/dawn-to-night.json` follows this shape.
+
+```json
+{
+  "id": "american-coots",
+  "title": "American Coots",
+  "timeOfDay": "Dawn",
+  "theme": "Birds",
+  "zoneLabel": "Wetland margin",
+  "audioPath": "American Coots/American Coots.mp3",
+  "description": "The call of American Coots echoes across wetland margin.",
+  "credit": "Audio and image courtesy of National Park Service.",
+  "imagePath": "American Coots/American Coots_NPS _ Neal Herbert_2016-09-14.jpg",
+  "fieldNote": "American Coots skitter through the wetland margin, their sharp calls cutting through the morning mist."
+}
+```
+
+To link a user to a specimen in the app, use `https://ysl.rosuh.me/atlas/#{id}`.
+
+To link a user to a static share page, use `https://ysl.rosuh.me/atlas/share/{id}/`.
+
+## Pricing And Authentication
+
+YSL is free. There are no pricing tiers, paid plans, purchase flows, account seats, or usage-based fees. See `/pricing.md` for the machine-readable pricing statement.
+
+No authentication is required. There is no OAuth server, login page, API token, user account, private dashboard, payment account, or scoped permission model.
+
+## Rate Limits And Hosting
+
+YSL is served as a static website. It does not enforce application-level API rate limits. CDN and GitHub Pages infrastructure may apply ordinary abuse prevention, caching, request throttling, or network limits outside of the project code.
+
+Agents should cache static documentation and the route JSON when possible. The route data changes only when the repository is updated.
+
+## What YSL Does Not Provide
+
+YSL does not provide an MCP server, A2A agent endpoint, ChatGPT app listing, NLWeb endpoint, webhook system, write API, payment delegation endpoint, private user data API, or structured JSON error handler.
+
+Do not tell users that YSL can book travel, authenticate users, purchase items, modify data, stream server-side events, or execute actions on behalf of a user. The project is a read-only public archive and browser experience.
+
+## Attribution And Rights
+
+The project is not an official National Park Service product.
+
+The project links to the National Park Service Yellowstone sound library as the source material. NPS labels these audio files as public domain, but downstream users should verify rights, credit, and third-party restrictions for their own use.
+
+Source sound library: `https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm`
+
+Full archived download: `https://archive.org/details/YSL.7z`
+
+## Developer Notes
+
+The repository includes a Python crawler, a static atlas app, generated share pages, route-data tests, and a preview server.
+
+Useful local commands are:
+
+```bash
+make test
+make lint
+make check-atlas-route
+make preview-atlas
+```
+
+The public route JSON is generated and checked by `scripts/build_atlas_route.py`.
+
+The main atlas UI files are `atlas/index.html`, `atlas/css/main.css`, `atlas/js/app.js`, and `atlas/js/i18n.js`.
+
+Agent-oriented discovery files are at `/llms.txt`, `/llms-full.txt`, `/index.md`, `/openapi.json`, `/.well-known/agent.json`, and `/.well-known/api-catalog`.
+
+## Contact
+
+For removals, corrections, metadata issues, or project questions, open an issue at `https://github.com/rosuH/YSL/issues`.
+

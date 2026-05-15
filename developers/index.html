@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YSL Developer Resources - Yellowstone Sound Atlas</title>
+  <meta name="description" content="Developer and agent resources for Yellowstone Sound Atlas, including read-only static data, OpenAPI, llms.txt, route JSON, and implementation notes.">
+  <link rel="canonical" href="https://ysl.rosuh.me/developers/">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms-full.txt" title="Full agent-readable documentation">
+  <link rel="service-desc" type="application/vnd.oai.openapi+json;version=3.1" href="https://ysl.rosuh.me/openapi.json" title="Static resource OpenAPI description">
+  <style>
+    body { max-width: 860px; margin: 0 auto; padding: 32px 18px 56px; background: #f4eedf; color: #221d15; font-family: Charter, Georgia, serif; line-height: 1.58; }
+    header, section { border-bottom: 1px solid #c9b68d; padding: 18px 0; }
+    h1 { font-size: clamp(2.4rem, 8vw, 4.8rem); line-height: 1; margin: 0 0 14px; font-style: italic; font-weight: 400; }
+    h2 { margin: 0 0 10px; }
+    code { font-family: ui-monospace, Menlo, monospace; }
+    a { color: inherit; text-underline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <p><a href="/">Yellowstone Sound Atlas</a></p>
+    <h1>YSL developer resources</h1>
+    <p>
+      This page documents the public, read-only resources exposed by Yellowstone Sound Atlas. YSL is a static site, so these resources are ordinary GET requests for HTML, Markdown, text, JSON, JSON-LD, and static media.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Canonical resources</h2>
+      <ul>
+        <li><a href="/atlas/dawn-to-night.json"><code>/atlas/dawn-to-night.json</code></a> - canonical route manifest with 61 specimens.</li>
+        <li><a href="/openapi.json"><code>/openapi.json</code></a> - OpenAPI 3.1 description of public static GET resources.</li>
+        <li><a href="/.well-known/api-catalog"><code>/.well-known/api-catalog</code></a> - RFC 9727-style linkset for static resource discovery.</li>
+        <li><a href="/.well-known/agent.json"><code>/.well-known/agent.json</code></a> - agent discovery manifest.</li>
+        <li><a href="/llms.txt"><code>/llms.txt</code></a> and <a href="/llms-full.txt"><code>/llms-full.txt</code></a> - short and full agent documentation.</li>
+        <li><a href="/index.md"><code>/index.md</code></a> - Markdown project overview.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Route data shape</h2>
+      <p>
+        Route entries include stable ids, titles, time-of-day labels, themes, zone labels, audio paths, descriptions, source credits, optional image paths, and optional field notes. Use ids for hash links such as <code>/atlas/#american-coots</code> and share pages such as <code>/atlas/share/american-coots/</code>.
+      </p>
+      <pre><code>curl https://ysl.rosuh.me/atlas/dawn-to-night.json
+curl https://ysl.rosuh.me/openapi.json
+curl https://ysl.rosuh.me/llms-full.txt</code></pre>
+    </section>
+
+    <section>
+      <h2>Access model</h2>
+      <p>
+        No authentication is required. There is no signup, OAuth flow, API key, user account, write API, payment flow, webhook system, MCP server, A2A endpoint, or private data surface. CDN and GitHub Pages infrastructure may apply ordinary caching or abuse-prevention limits outside this project.
+      </p>
+    </section>
+
+    <section>
+      <h2>Repository</h2>
+      <p>
+        Source code and issue tracking are available at <a href="https://github.com/rosuH/YSL">github.com/rosuH/YSL</a>. The repo contains the crawler, atlas UI, route builder, tests, and agent instructions in <code>AGENTS.md</code>.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

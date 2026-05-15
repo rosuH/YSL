@@ -7,6 +7,48 @@
     <loc>https://ysl.rosuh.me/atlas/</loc>
   </url>
   <url>
+    <loc>https://ysl.rosuh.me/about/</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/contact/</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/privacy/</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/docs/</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/developers/</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/index.md</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/llms.txt</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/llms-full.txt</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/pricing.md</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/openapi.json</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/.well-known/agent.json</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/.well-known/api-catalog</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/schema-map.xml</loc>
+  </url>
+  <url>
+    <loc>https://ysl.rosuh.me/data/catalog.jsonld</loc>
+  </url>
+  <url>
     <loc>https://ysl.rosuh.me/atlas/share/american-coots/</loc>
   </url>
   <url>

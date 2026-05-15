@@ -3,106 +3,447 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yellowstone Sound Atlas</title>
-  <meta name="description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <title>Yellowstone Sound Atlas (YSL) - Public Sound Archive and Agent Resources</title>
+  <meta name="description" content="Yellowstone Sound Atlas (YSL) is a public, static listening atlas of Yellowstone National Park sound recordings with machine-readable route data, documentation, and agent discovery files.">
+  <meta name="theme-color" content="#eee6cf">
+  <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://ysl.rosuh.me/">
-  <meta property="og:title" content="Yellowstone Sound Atlas">
-  <meta property="og:description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <link rel="alternate" type="text/markdown" href="https://ysl.rosuh.me/index.md" title="Markdown overview">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms.txt" title="LLMs summary">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms-full.txt" title="Full agent-readable documentation">
+  <link rel="service-desc" type="application/vnd.oai.openapi+json;version=3.1" href="https://ysl.rosuh.me/openapi.json" title="Static resource OpenAPI description">
+  <link rel="api-catalog" type="application/linkset+json" href="https://ysl.rosuh.me/.well-known/api-catalog" title="API catalog">
+  <link rel="manifest" href="https://ysl.rosuh.me/atlas/manifest.json">
+  <meta property="og:site_name" content="Yellowstone Sound Atlas">
+  <meta property="og:title" content="Yellowstone Sound Atlas (YSL)">
+  <meta property="og:description" content="A public listening atlas for 61 Yellowstone sound specimens across thermal features, birds, wildlife, weather, water, human traces, and ambient soundscapes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ysl.rosuh.me/">
   <meta property="og:image" content="https://ysl.rosuh.me/docs/assets/banner.png">
+  <meta property="og:image:width" content="3148">
+  <meta property="og:image:height" content="1673">
+  <meta property="og:image:alt" content="Yellowstone Sound Atlas specimen player preview.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Yellowstone Sound Atlas">
-  <meta name="twitter:description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
+  <meta name="twitter:title" content="Yellowstone Sound Atlas (YSL)">
+  <meta name="twitter:description" content="A public static listening atlas and machine-readable index for Yellowstone National Park sound recordings.">
   <meta name="twitter:image" content="https://ysl.rosuh.me/docs/assets/banner.png">
-  <meta http-equiv="refresh" content="0; url=/atlas/">
   <style>
     :root {
       color-scheme: light;
-      --ink: oklch(15% 0.034 92);
-      --ink-soft: oklch(31% 0.046 82);
-      --bone: oklch(94% 0.03 88);
-      --bone-high: oklch(98% 0.02 88);
-      --field: oklch(13% 0.026 88);
-      --line: oklch(28% 0.05 80 / 0.46);
-      --thermal: oklch(58% 0.12 48);
+      --ink: #221d15;
+      --muted: #665d50;
+      --paper: #f4eedf;
+      --field: #efe3bf;
+      --accent: #8c4f22;
+      --line: #c9b68d;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
-      min-height: 100dvh;
       margin: 0;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background:
-        radial-gradient(circle at 24% 18%, color-mix(in oklch, var(--thermal) 22%, transparent), transparent 24rem),
-        linear-gradient(145deg, oklch(20% 0.035 90), var(--field));
-      color: var(--bone);
+      background: var(--paper);
+      color: var(--ink);
       font-family: Charter, Georgia, serif;
+      line-height: 1.55;
     }
 
-    main {
-      width: min(420px, 100%);
-      padding: 22px 24px 24px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 92% 10%, color-mix(in oklch, var(--thermal) 10%, transparent), transparent 5rem),
-        linear-gradient(180deg, var(--bone-high), var(--bone));
-      box-shadow: 0 28px 72px oklch(4% 0.02 85 / 0.34);
-      color: var(--ink);
+    a { color: var(--ink); text-underline-offset: 4px; }
+
+    .shell {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
     }
 
-    p:first-child {
-      margin: 0 0 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid color-mix(in oklch, var(--thermal) 42%, var(--line));
-      color: color-mix(in oklch, var(--thermal) 58%, var(--ink));
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
       font-family: ui-monospace, Menlo, monospace;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+      font-size: 0.78rem;
       text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    h1 {
+    .site-nav div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
+      gap: clamp(28px, 7vw, 72px);
+      align-items: end;
+      padding: clamp(54px, 10vw, 112px) 0 42px;
+    }
+
+    .eyebrow {
       margin: 0 0 12px;
-      font-size: clamp(2rem, 9vw, 3.35rem);
-      font-style: italic;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: 0.95;
-    }
-
-    p {
-      margin: 0 0 16px;
-      color: var(--ink-soft);
-      line-height: 1.45;
-    }
-
-    a {
-      color: var(--ink);
+      color: var(--accent);
       font-family: ui-monospace, Menlo, monospace;
       font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
-      text-underline-offset: 4px;
+    }
+
+    h1, h2 {
+      margin: 0;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(3.2rem, 11vw, 7.6rem);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 500;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--field);
+      padding: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+    }
+
+    .stats div {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+
+    .stats dt {
+      color: var(--muted);
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stats dd {
+      margin: 2px 0 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .actions a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--paper);
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .actions a.secondary {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      padding-bottom: 44px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .section {
+      min-height: 280px;
+      padding: 22px;
+      background: var(--paper);
+    }
+
+    .section ul {
+      padding-left: 18px;
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 0 36px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    @media (max-width: 780px) {
+      .site-nav { align-items: flex-start; flex-direction: column; }
+      .site-nav div { justify-content: flex-start; }
+      .hero { grid-template-columns: 1fr; padding-top: 40px; }
+      .sections { grid-template-columns: 1fr; }
+      .section { min-height: auto; }
     }
   </style>
-  <script>
-    window.location.replace("/atlas/");
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://ysl.rosuh.me/#publisher",
+      "name": "rosuH",
+      "url": "https://github.com/rosuH",
+      "sameAs": [
+        "https://github.com/rosuH"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://ysl.rosuh.me/#website",
+      "name": "Yellowstone Sound Atlas",
+      "alternateName": "YSL",
+      "url": "https://ysl.rosuh.me/",
+      "description": "A public, static listening atlas of Yellowstone National Park sound recordings.",
+      "publisher": {
+        "@id": "https://ysl.rosuh.me/#publisher"
+      },
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "ReadAction",
+        "target": [
+          "https://ysl.rosuh.me/atlas/",
+          "https://ysl.rosuh.me/index.md",
+          "https://ysl.rosuh.me/llms.txt"
+        ]
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://ysl.rosuh.me/#app",
+      "name": "Yellowstone Sound Atlas",
+      "url": "https://ysl.rosuh.me/atlas/",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web browser",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "url": "https://ysl.rosuh.me/pricing.md"
+      },
+      "description": "A browser-based specimen player for public Yellowstone sound recordings, arranged by theme and time of day."
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://ysl.rosuh.me/#dataset",
+      "name": "Yellowstone Sound Atlas Route Data",
+      "alternateName": "YSL Dawn to Night Route",
+      "url": "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+      "description": "A curated static JSON route containing 61 Yellowstone sound specimens with titles, themes, descriptions, credits, audio paths, and source image paths.",
+      "keywords": [
+        "Yellowstone",
+        "field recordings",
+        "sound archive",
+        "National Park Service",
+        "bioacoustics",
+        "soundscape"
+      ],
+      "license": "https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm",
+      "isAccessibleForFree": true,
+      "creator": {
+        "@id": "https://ysl.rosuh.me/#publisher"
+      },
+      "includedInDataCatalog": {
+        "@type": "DataCatalog",
+        "name": "Yellowstone Sound Atlas Agent Resources",
+        "url": "https://ysl.rosuh.me/developers/"
+      },
+      "distribution": [
+        {
+          "@type": "DataDownload",
+          "name": "Route manifest JSON",
+          "encodingFormat": "application/json",
+          "contentUrl": "https://ysl.rosuh.me/atlas/dawn-to-night.json"
+        },
+        {
+          "@type": "DataDownload",
+          "name": "Full agent-readable documentation",
+          "encodingFormat": "text/plain",
+          "contentUrl": "https://ysl.rosuh.me/llms-full.txt"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://ysl.rosuh.me/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Yellowstone Sound Atlas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yellowstone Sound Atlas is a public static web atlas that organizes Yellowstone National Park sound recordings into a playable route with specimen notes, themes, source credits, and share pages."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there an API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no account-based service API. Agents can read the static OpenAPI description for public GET resources, the route JSON at /atlas/dawn-to-night.json, and the documentation files at /llms.txt, /llms-full.txt, and /index.md."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does YSL require authentication or payment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The atlas is free to browse and fetch. It has no signup, OAuth flow, payment plan, private user data, or write endpoints."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "SpeakableSpecification",
+      "@id": "https://ysl.rosuh.me/#speakable",
+      "cssSelector": [
+        "h1",
+        ".lead",
+        "#agent-summary"
+      ]
+    }
+  ]
+}
   </script>
 </head>
 <body>
-  <main>
-    <p>Archive entry</p>
-    <h1>Yellowstone Sound Atlas</h1>
-    <p>A quiet route of public Yellowstone sound specimens, arranged as stamps and field notes.</p>
-    <a href="/atlas/">Open the atlas</a>
+  <header class="shell site-nav" aria-label="Primary">
+    <a href="/">Yellowstone Sound Atlas</a>
+    <div>
+      <a href="/atlas/">Atlas</a>
+      <a href="/developers/">Developers</a>
+      <a href="/docs/">Docs</a>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="site-title">
+      <div>
+        <p class="eyebrow">Yellowstone Sound Atlas (YSL)</p>
+        <h1 id="site-title">A public listening atlas for Yellowstone sound specimens.</h1>
+        <p class="lead" id="agent-summary">
+          Yellowstone Sound Atlas is a static, open web archive that turns public Yellowstone National Park sound recordings into a playable route. It currently indexes 61 audio stops across thermal features, birds, wildlife, water, weather, human traces, and ambient park soundscapes. Each specimen includes a title, theme, source credit, description, share URL, and direct audio path.
+        </p>
+        <div class="actions" aria-label="Primary actions">
+          <a href="/atlas/">Open the atlas</a>
+          <a class="secondary" href="/developers/">Developer resources</a>
+          <a class="secondary" href="/llms.txt">Read llms.txt</a>
+        </div>
+      </div>
+      <aside class="panel" aria-label="Archive facts">
+        <dl class="stats">
+          <div>
+            <dt>Stops</dt>
+            <dd>61</dd>
+          </div>
+          <div>
+            <dt>Themes</dt>
+            <dd>7</dd>
+          </div>
+          <div>
+            <dt>Access</dt>
+            <dd>Free</dd>
+          </div>
+          <div>
+            <dt>Mode</dt>
+            <dd>Static</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="sections" aria-label="Agent-readable summary">
+      <article class="section">
+        <h2>What It Covers</h2>
+        <p>
+          YSL focuses on Yellowstone sound specimens rather than generic travel content. The atlas is strongest for listening, citation, lightweight research, sound design reference, and browsing public park soundscapes by theme or mood.
+        </p>
+        <ul>
+          <li>Thermal recordings such as geysers, fumaroles, vents, mud pots, and springs.</li>
+          <li>Bird and wildlife recordings including cranes, ravens, robins, bison, elk, wolves, and foxes.</li>
+          <li>Weather, water, human, and ambient recordings that help agents describe the park soundscape.</li>
+        </ul>
+      </article>
+      <article class="section">
+        <h2>How Agents Use It</h2>
+        <p>
+          Agents should start with <a href="/llms.txt">/llms.txt</a>, then fetch <a href="/llms-full.txt">/llms-full.txt</a> or <a href="/index.md">/index.md</a> for complete context. The route manifest at <a href="/atlas/dawn-to-night.json">/atlas/dawn-to-night.json</a> is the canonical machine-readable list of specimens.
+        </p>
+        <p>
+          The <a href="/openapi.json">OpenAPI file</a> documents only public, read-only static resources. It does not claim private account operations, write actions, OAuth, MCP, payments, or webhooks.
+        </p>
+      </article>
+      <article class="section">
+        <h2>Truth Boundary</h2>
+        <p>
+          This is not an official National Park Service product. It does not run a hosted backend, does not collect accounts, and does not provide an authenticated API. Source audio and image credits point to National Park Service public materials; downstream users should verify rights for their own use.
+        </p>
+        <p>
+          For project intent, implementation notes, and crawler guidance, use <a href="/developers/">developer resources</a>, <a href="/about/">about</a>, <a href="/pricing.md">pricing</a>, and <a href="/privacy/">privacy</a>.
+        </p>
+      </article>
+    </section>
   </main>
+
+  <footer class="shell">
+    <span>Yellowstone Sound Atlas is a static public archive built from Yellowstone sound library materials.</span>
+    <nav aria-label="Footer">
+      <a href="https://github.com/rosuH/YSL">GitHub</a>
+      <a href="https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm">NPS source</a>
+      <a href="https://archive.org/details/YSL.7z">Full archive</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+  </footer>
 </body>
 </html>

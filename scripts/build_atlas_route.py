@@ -17,6 +17,22 @@ IMAGE_SUFFIXES = {".jpg", ".jpeg"}
 DEFAULT_SITE_URL = "https://ysl.rosuh.me"
 FALLBACK_SOCIAL_IMAGE = "docs/assets/banner.png"
 SITE_DESCRIPTION = "A quiet specimen archive of Yellowstone National Park sound recordings."
+DISCOVERY_URL_PATHS = (
+    "/about/",
+    "/contact/",
+    "/privacy/",
+    "/docs/",
+    "/developers/",
+    "/index.md",
+    "/llms.txt",
+    "/llms-full.txt",
+    "/pricing.md",
+    "/openapi.json",
+    "/.well-known/agent.json",
+    "/.well-known/api-catalog",
+    "/schema-map.xml",
+    "/data/catalog.jsonld",
+)
 EXCLUDED_DIRS = {
     "__pycache__",
     "atlas",
@@ -369,6 +385,7 @@ def write_discovery_files(root: Path, route: list[dict[str, Any]], site_url: str
     urls = [
         f"{normalized_site}/",
         f"{normalized_site}/atlas/",
+        *[f"{normalized_site}{path}" for path in DISCOVERY_URL_PATHS],
         *[_share_page_url(normalized_site, _share_page_id(stop)) for stop in route],
     ]
     sitemap = "\n".join(
@@ -384,6 +401,34 @@ def write_discovery_files(root: Path, route: list[dict[str, Any]], site_url: str
         [
             "User-agent: *",
             "Allow: /",
+            "",
+            "User-agent: ChatGPT-User",
+            "Allow: /",
+            "",
+            "User-agent: ClaudeBot",
+            "Allow: /",
+            "",
+            "User-agent: Google-Extended",
+            "Allow: /",
+            "",
+            "User-agent: PerplexityBot",
+            "Allow: /",
+            "",
+            "User-agent: DeepSeekBot",
+            "Allow: /",
+            "",
+            "User-agent: GPTBot",
+            "Allow: /",
+            "",
+            "User-agent: CCBot",
+            "Disallow: /",
+            "",
+            "User-agent: ByteSpider",
+            "Disallow: /",
+            "",
+            "Content-Signal: search=yes, ai-input=yes, ai-train=no",
+            f"LLMs: {normalized_site}/llms.txt",
+            f"Schemamap: {normalized_site}/schema-map.xml",
             f"Sitemap: {normalized_site}/sitemap.xml",
             "",
         ]

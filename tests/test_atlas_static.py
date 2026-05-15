@@ -1,5 +1,6 @@
 """Static checks for the Dawn to Night atlas page."""
 
+import json
 import re
 from pathlib import Path
 
@@ -13,6 +14,12 @@ JS_PATH = ROOT / "atlas" / "js" / "app.js"
 MANIFEST_PATH = ROOT / "atlas" / "manifest.json"
 ROBOTS_PATH = ROOT / "robots.txt"
 SITEMAP_PATH = ROOT / "sitemap.xml"
+LLMS_PATH = ROOT / "llms.txt"
+LLMS_FULL_PATH = ROOT / "llms-full.txt"
+MARKDOWN_INDEX_PATH = ROOT / "index.md"
+PRICING_PATH = ROOT / "pricing.md"
+OPENAPI_PATH = ROOT / "openapi.json"
+AGENT_DISCOVERY_PATH = ROOT / ".well-known" / "agent.json"
 
 
 def load_page():
@@ -40,11 +47,17 @@ def test_root_index_exists_as_quiet_archive_entry_to_atlas():
     assert ROOT_INDEX_PATH.exists()
     page = BeautifulSoup(ROOT_INDEX_PATH.read_text(encoding="utf-8"), "html.parser")
 
-    assert page.title.string == "Yellowstone Sound Atlas"
+    assert page.title.string == "Yellowstone Sound Atlas (YSL) - Public Sound Archive and Agent Resources"
     assert page.find("link", rel="canonical").get("href") == "https://ysl.rosuh.me/"
-    assert page.find("meta", attrs={"http-equiv": "refresh"}).get("content") == "0; url=/atlas/"
+    assert page.find("meta", attrs={"http-equiv": "refresh"}) is None
     assert page.find("a", href="/atlas/")
-    assert "archive entry" in page.get_text(" ", strip=True).lower()
+    assert page.find("a", href="/developers/")
+    assert page.find("link", rel="alternate", attrs={"href": "https://ysl.rosuh.me/llms.txt"})
+    assert page.find("script", attrs={"type": "application/ld+json"})
+    text = page.get_text(" ", strip=True)
+    assert "61 audio stops" in text
+    assert "OpenAPI file documents only public, read-only static resources" in text
+    assert len(text) > 900
 
 
 def test_root_discovery_files_reference_public_atlas_routes():
@@ -55,9 +68,46 @@ def test_root_discovery_files_reference_public_atlas_routes():
     sitemap = SITEMAP_PATH.read_text(encoding="utf-8")
 
     assert "User-agent: *" in robots
+    assert "User-agent: ChatGPT-User" in robots
+    assert "User-agent: CCBot\nDisallow: /" in robots
+    assert "Content-Signal: search=yes, ai-input=yes, ai-train=no" in robots
+    assert "LLMs: https://ysl.rosuh.me/llms.txt" in robots
+    assert "Schemamap: https://ysl.rosuh.me/schema-map.xml" in robots
     assert "Sitemap: https://ysl.rosuh.me/sitemap.xml" in robots
     assert "<loc>https://ysl.rosuh.me/atlas/</loc>" in sitemap
+    assert "<loc>https://ysl.rosuh.me/developers/</loc>" in sitemap
+    assert "<loc>https://ysl.rosuh.me/llms.txt</loc>" in sitemap
+    assert "<loc>https://ysl.rosuh.me/openapi.json</loc>" in sitemap
+    assert "<loc>https://ysl.rosuh.me/.well-known/agent.json</loc>" in sitemap
     assert "<loc>https://ysl.rosuh.me/atlas/share/american-coots/</loc>" in sitemap
+
+
+def test_agent_discovery_resources_describe_real_static_capabilities():
+    for path in [
+        LLMS_PATH,
+        LLMS_FULL_PATH,
+        MARKDOWN_INDEX_PATH,
+        PRICING_PATH,
+        OPENAPI_PATH,
+        AGENT_DISCOVERY_PATH,
+    ]:
+        assert path.exists(), path
+
+    llms = LLMS_PATH.read_text(encoding="utf-8")
+    assert "YSL has no account system" in llms
+    assert "OpenAPI file documents only public, read-only static resources" in llms
+
+    openapi = json.loads(OPENAPI_PATH.read_text(encoding="utf-8"))
+    assert openapi["openapi"] == "3.1.0"
+    assert "/atlas/dawn-to-night.json" in openapi["paths"]
+    assert "/.well-known/agent.json" in openapi["paths"]
+    assert "write operations" in openapi["info"]["description"]
+
+    agent = json.loads(AGENT_DISCOVERY_PATH.read_text(encoding="utf-8"))
+    assert agent["type"] == "static-archive"
+    assert agent["authentication"]["required"] is False
+    assert agent["limitations"]["mcpServer"] is False
+    assert agent["limitations"]["a2aEndpoint"] is False
 
 
 def test_manifest_declares_installable_atlas_icon():

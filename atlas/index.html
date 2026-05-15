@@ -8,6 +8,10 @@
   <meta name="theme-color" content="#eee6cf">
   <meta name="color-scheme" content="light">
   <link rel="canonical" href="https://ysl.rosuh.me/atlas/">
+  <link rel="alternate" type="text/markdown" href="https://ysl.rosuh.me/index.md" title="Markdown overview">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms.txt" title="LLMs summary">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms-full.txt" title="Full agent-readable documentation">
+  <link rel="service-desc" type="application/vnd.oai.openapi+json;version=3.1" href="https://ysl.rosuh.me/openapi.json" title="Static resource OpenAPI description">
   <meta property="og:site_name" content="YSL">
   <meta property="og:title" content="Yellowstone Sound Atlas">
   <meta property="og:description" content="A quiet specimen archive of Yellowstone National Park sound recordings.">
@@ -29,6 +33,35 @@
   <link rel="preload" href="dawn-to-night.json" as="fetch" crossorigin="anonymous">
   <link rel="preload" href="media/photos/american-coots.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/main.css?v=18">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://ysl.rosuh.me/atlas/#collection",
+  "name": "Yellowstone Sound Atlas - Specimen Stamps",
+  "url": "https://ysl.rosuh.me/atlas/",
+  "description": "A browser-based collection page for 61 public Yellowstone sound specimens arranged as stamps, field notes, and a playable route.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://ysl.rosuh.me/#website",
+    "name": "Yellowstone Sound Atlas",
+    "url": "https://ysl.rosuh.me/"
+  },
+  "about": {
+    "@type": "Dataset",
+    "@id": "https://ysl.rosuh.me/#dataset",
+    "name": "Yellowstone Sound Atlas Route Data",
+    "url": "https://ysl.rosuh.me/atlas/dawn-to-night.json"
+  },
+  "mainEntity": {
+    "@type": "CreativeWork",
+    "name": "Dawn to Night listening route",
+    "url": "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+    "encodingFormat": "application/json",
+    "isAccessibleForFree": true
+  }
+}
+  </script>
 </head>
 <body>
   <div class="item-backdrop" id="item-backdrop"></div>

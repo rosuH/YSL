@@ -1,0 +1,353 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Yellowstone Sound Atlas Static Resources",
+    "summary": "Read-only description of public static resources served by Yellowstone Sound Atlas.",
+    "description": "This OpenAPI document describes public GET resources exposed by the static Yellowstone Sound Atlas website. It does not describe private accounts, write operations, OAuth, MCP, A2A, payments, webhooks, or server-side actions because those services do not exist for this project.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "YSL issues",
+      "url": "https://github.com/rosuH/YSL/issues"
+    },
+    "license": {
+      "name": "Project license",
+      "url": "https://github.com/rosuH/YSL/blob/master/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ysl.rosuh.me",
+      "description": "Production static site"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Atlas",
+      "description": "Interactive and machine-readable atlas resources."
+    },
+    {
+      "name": "Agent discovery",
+      "description": "Documentation files intended for AI agents and search crawlers."
+    },
+    {
+      "name": "Trust and policy",
+      "description": "Free access, attribution, privacy, and contact resources."
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getHomepage",
+        "tags": ["Atlas"],
+        "summary": "Get the crawler-readable homepage",
+        "description": "Returns the static homepage describing the public listening atlas, route scope, links, JSON-LD structured data, and agent discovery resources.",
+        "responses": {
+          "200": {
+            "description": "HTML homepage",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/atlas/": {
+      "get": {
+        "operationId": "getInteractiveAtlas",
+        "tags": ["Atlas"],
+        "summary": "Get the interactive atlas",
+        "description": "Returns the browser-based specimen player for listening to the route.",
+        "responses": {
+          "200": {
+            "description": "HTML atlas app",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/atlas/dawn-to-night.json": {
+      "get": {
+        "operationId": "getAtlasRoute",
+        "tags": ["Atlas"],
+        "summary": "Get the route manifest",
+        "description": "Returns the canonical list of 61 Yellowstone sound specimens with metadata and relative asset paths.",
+        "responses": {
+          "200": {
+            "description": "Route manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RouteStop"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/index.md": {
+      "get": {
+        "operationId": "getMarkdownOverview",
+        "tags": ["Agent discovery"],
+        "summary": "Get the Markdown overview",
+        "description": "Returns a compact Markdown overview of the project and its truth boundary.",
+        "responses": {
+          "200": {
+            "description": "Markdown overview",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsTxt",
+        "tags": ["Agent discovery"],
+        "summary": "Get the short LLM summary",
+        "description": "Returns a short agent-readable summary with primary URLs, capabilities, and limitations.",
+        "responses": {
+          "200": {
+            "description": "LLMs summary",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "operationId": "getLlmsFullTxt",
+        "tags": ["Agent discovery"],
+        "summary": "Get full agent documentation",
+        "description": "Returns detailed agent-readable documentation including examples, route JSON shape, access model, and limitations.",
+        "responses": {
+          "200": {
+            "description": "Full LLM documentation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pricing.md": {
+      "get": {
+        "operationId": "getPricingMarkdown",
+        "tags": ["Trust and policy"],
+        "summary": "Get machine-readable pricing",
+        "description": "Returns the free access statement for the public static archive.",
+        "responses": {
+          "200": {
+            "description": "Pricing markdown",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/agent.json": {
+      "get": {
+        "operationId": "getAgentDiscovery",
+        "tags": ["Agent discovery"],
+        "summary": "Get the agent discovery manifest",
+        "description": "Returns a JSON manifest describing the static archive resources and explicitly stating unsupported service capabilities.",
+        "responses": {
+          "200": {
+            "description": "Agent discovery manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentDiscovery"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/api-catalog": {
+      "get": {
+        "operationId": "getApiCatalog",
+        "tags": ["Agent discovery"],
+        "summary": "Get the API catalog linkset",
+        "description": "Returns an RFC 9727-style JSON linkset for public static resource discovery.",
+        "responses": {
+          "200": {
+            "description": "API catalog linkset",
+            "content": {
+              "application/linkset+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data/catalog.jsonld": {
+      "get": {
+        "operationId": "getJsonLdCatalog",
+        "tags": ["Agent discovery"],
+        "summary": "Get the JSON-LD data catalog",
+        "description": "Returns a JSON-LD description of the dataset and public distributions.",
+        "responses": {
+          "200": {
+            "description": "JSON-LD catalog",
+            "content": {
+              "application/ld+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RouteStop": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "timeOfDay",
+          "theme",
+          "zoneLabel",
+          "audioPath",
+          "description",
+          "credit"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Stable URL-safe specimen id used in hash links and share pages.",
+            "examples": ["american-coots"]
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable specimen title.",
+            "examples": ["American Coots"]
+          },
+          "timeOfDay": {
+            "type": "string",
+            "description": "Listening route time-of-day grouping.",
+            "examples": ["Dawn"]
+          },
+          "theme": {
+            "type": "string",
+            "description": "Theme grouping used by the atlas UI.",
+            "examples": ["Birds"]
+          },
+          "zoneLabel": {
+            "type": "string",
+            "description": "Short habitat, place, or scene label.",
+            "examples": ["Wetland margin"]
+          },
+          "audioPath": {
+            "type": "string",
+            "description": "Relative path to the public MP3 file.",
+            "examples": ["American Coots/American Coots.mp3"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Short public description of the specimen."
+          },
+          "credit": {
+            "type": "string",
+            "description": "Source credit text."
+          },
+          "imagePath": {
+            "type": "string",
+            "description": "Optional relative path to source image material."
+          },
+          "fieldNote": {
+            "type": "string",
+            "description": "Optional longer field-note copy shown in the atlas UI."
+          }
+        },
+        "additionalProperties": true
+      },
+      "AgentDiscovery": {
+        "type": "object",
+        "required": ["name", "url", "description", "capabilities", "limitations"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "limitations": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

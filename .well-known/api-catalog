@@ -1,0 +1,48 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://ysl.rosuh.me/",
+      "profile": [
+        {
+          "href": "https://www.rfc-editor.org/info/rfc9727"
+        }
+      ],
+      "service-desc": [
+        {
+          "href": "https://ysl.rosuh.me/openapi.json",
+          "type": "application/vnd.oai.openapi+json;version=3.1",
+          "title": "Yellowstone Sound Atlas static resource OpenAPI description"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://ysl.rosuh.me/developers/",
+          "type": "text/html",
+          "title": "YSL developer resources"
+        },
+        {
+          "href": "https://ysl.rosuh.me/llms-full.txt",
+          "type": "text/plain",
+          "title": "Full agent-readable documentation"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+          "type": "application/json",
+          "title": "Canonical route manifest"
+        },
+        {
+          "href": "https://ysl.rosuh.me/index.md",
+          "type": "text/markdown",
+          "title": "Markdown project overview"
+        },
+        {
+          "href": "https://ysl.rosuh.me/.well-known/agent.json",
+          "type": "application/json",
+          "title": "Agent discovery manifest"
+        }
+      ]
+    }
+  ]
+}

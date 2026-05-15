@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yellowstone Sound Atlas Documentation</title>
+  <meta name="description" content="Documentation for Yellowstone Sound Atlas: atlas usage, route data, source credits, agent-readable files, and project limitations.">
+  <link rel="canonical" href="https://ysl.rosuh.me/docs/">
+  <link rel="alternate" type="text/plain" href="https://ysl.rosuh.me/llms-full.txt" title="Full agent-readable documentation">
+  <style>
+    body { max-width: 860px; margin: 0 auto; padding: 32px 18px 56px; background: #f4eedf; color: #221d15; font-family: Charter, Georgia, serif; line-height: 1.58; }
+    header, section { border-bottom: 1px solid #c9b68d; padding: 18px 0; }
+    h1 { font-size: clamp(2.4rem, 8vw, 4.8rem); line-height: 1; margin: 0 0 14px; font-style: italic; font-weight: 400; }
+    a { color: inherit; text-underline-offset: 4px; }
+    code { font-family: ui-monospace, Menlo, monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <p><a href="/">Yellowstone Sound Atlas</a></p>
+    <h1>Documentation</h1>
+    <p>
+      Yellowstone Sound Atlas is an unofficial, public static atlas for Yellowstone National Park sound recordings. It is built as a browsable listening route, not as a hosted account service.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Use the atlas</h2>
+      <p>
+        Open <a href="/atlas/">/atlas/</a> to browse the stamp player, switch specimen themes, play recordings, and share individual specimens. Static share pages live under <code>/atlas/share/{id}/</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Use the data</h2>
+      <p>
+        Fetch <a href="/atlas/dawn-to-night.json">/atlas/dawn-to-night.json</a> for structured metadata. Fetch <a href="/llms-full.txt">/llms-full.txt</a> for agent context and <a href="/openapi.json">/openapi.json</a> for a typed description of the public static GET resources.
+      </p>
+    </section>
+
+    <section>
+      <h2>Source and rights</h2>
+      <p>
+        Source materials come from the <a href="https://www.nps.gov/yell/learn/photosmultimedia/soundlibrary.htm">National Park Service Yellowstone sound library</a>. NPS labels these audio files as public domain, but downstream users should verify rights and third-party restrictions for their own use.
+      </p>
+    </section>
+
+    <section>
+      <h2>Limitations</h2>
+      <p>
+        YSL has no OAuth, MCP server, A2A endpoint, account dashboard, write API, payment flow, webhooks, or private data access. Agents should treat the project as a read-only public archive.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

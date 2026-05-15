@@ -1,0 +1,71 @@
+{
+  "name": "Yellowstone Sound Atlas",
+  "shortName": "YSL",
+  "url": "https://ysl.rosuh.me/",
+  "description": "A public, static listening atlas for Yellowstone National Park sound recordings, with 61 route specimens, direct static data, and agent-readable documentation.",
+  "type": "static-archive",
+  "version": "1.0.0",
+  "publisher": {
+    "name": "rosuH",
+    "url": "https://github.com/rosuH"
+  },
+  "capabilities": [
+    {
+      "id": "browse-atlas",
+      "name": "Browse the interactive atlas",
+      "kind": "web",
+      "url": "https://ysl.rosuh.me/atlas/",
+      "readOnly": true
+    },
+    {
+      "id": "read-route-manifest",
+      "name": "Read the route manifest",
+      "kind": "static-json",
+      "url": "https://ysl.rosuh.me/atlas/dawn-to-night.json",
+      "readOnly": true
+    },
+    {
+      "id": "read-agent-docs",
+      "name": "Read full agent documentation",
+      "kind": "documentation",
+      "url": "https://ysl.rosuh.me/llms-full.txt",
+      "readOnly": true
+    },
+    {
+      "id": "read-static-openapi",
+      "name": "Read the static resource OpenAPI description",
+      "kind": "openapi",
+      "url": "https://ysl.rosuh.me/openapi.json",
+      "readOnly": true
+    }
+  ],
+  "authentication": {
+    "required": false,
+    "notes": "No signup, OAuth flow, API token, or account is required for public resources."
+  },
+  "pricing": {
+    "type": "free",
+    "url": "https://ysl.rosuh.me/pricing.md"
+  },
+  "documentation": {
+    "summary": "https://ysl.rosuh.me/llms.txt",
+    "full": "https://ysl.rosuh.me/llms-full.txt",
+    "markdown": "https://ysl.rosuh.me/index.md",
+    "developers": "https://ysl.rosuh.me/developers/"
+  },
+  "limitations": {
+    "publicWriteApi": false,
+    "privateApi": false,
+    "oauth": false,
+    "mcpServer": false,
+    "a2aEndpoint": false,
+    "webhooks": false,
+    "payments": false,
+    "userAccounts": false,
+    "notes": "YSL is a read-only static archive and browser experience. Do not claim that it can authenticate users, modify data, process payments, or execute actions."
+  },
+  "contact": {
+    "issues": "https://github.com/rosuH/YSL/issues",
+    "contactPage": "https://ysl.rosuh.me/contact/"
+  }
+}

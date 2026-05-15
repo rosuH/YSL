@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "version": "0.2.0",
+  "publisher": {
+    "name": "Yellowstone Sound Atlas",
+    "url": "https://ysl.rosuh.me/"
+  },
+  "skills": [
+    {
+      "id": "yellowstone-sound-atlas",
+      "name": "Yellowstone Sound Atlas",
+      "description": "Use when a user asks for Yellowstone National Park sound recordings, YSL route data, public field-recording examples, or a playable Yellowstone sound archive.",
+      "type": "skill-md",
+      "url": "https://ysl.rosuh.me/skills/yellowstone-sound-atlas/SKILL.md",
+      "digest": "sha256:c241e8929f1537654ce14009addd8493a6325a307402efd02aafa2c11dadf7f3"
+    }
+  ]
+}

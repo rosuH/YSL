@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemamap xmlns="https://schema.org/">
+  <dataset>
+    <loc>https://ysl.rosuh.me/data/catalog.jsonld</loc>
+    <type>DataCatalog</type>
+    <encodingFormat>application/ld+json</encodingFormat>
+  </dataset>
+  <dataset>
+    <loc>https://ysl.rosuh.me/atlas/dawn-to-night.json</loc>
+    <type>Dataset</type>
+    <encodingFormat>application/json</encodingFormat>
+  </dataset>
+  <documentation>
+    <loc>https://ysl.rosuh.me/llms-full.txt</loc>
+    <type>CreativeWork</type>
+    <encodingFormat>text/plain</encodingFormat>
+  </documentation>
+</schemamap>
