@@ -28,6 +28,7 @@ const THEME_META = {
 
 const state = {
   stops: [],
+  stopsByTheme: new Map(),
   index: 0,
   activeTheme: "Thermal",
   locale: localeFromUrl(),
@@ -251,6 +252,14 @@ let progressFrame = 0;
 let progressTrackWidth = 0;
 const imageLoadCache = new Map();
 
+function scheduleIdleTask(callback, timeout = 1000) {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(callback, { timeout });
+  } else {
+    window.setTimeout(callback, 0);
+  }
+}
+
 function syncProgressTrackWidth() {
   progressTrackWidth = ui.track.clientWidth || progressTrackWidth;
 }
@@ -322,6 +331,7 @@ function showKeyboardHints() {
 function buildWaveform(seed) {
   clearNode(ui.waveform);
   const count = 48;
+  const fragment = document.createDocumentFragment();
 
   for (let i = 0; i < count; i++) {
     const bar = document.createElement("span");
@@ -330,8 +340,10 @@ function buildWaveform(seed) {
     bar.style.setProperty("--h", `${height}%`);
     bar.style.setProperty("--d", `${i * 35}ms`);
     bar.dataset.index = i;
-    ui.waveform.appendChild(bar);
+    fragment.appendChild(bar);
   }
+
+  ui.waveform.appendChild(fragment);
 }
 
 function updateWaveform(percent) {
@@ -467,6 +479,16 @@ function derivePaletteFromImage(src, fallbackPalette, fallbackSrc = "") {
     };
     image.src = src;
   });
+}
+
+function scheduleImagePalette(imageSrc, fallbackPalette, fallbackSrc, expectedId) {
+  scheduleIdleTask(() => {
+    derivePaletteFromImage(imageSrc, fallbackPalette, fallbackSrc).then((palette) => {
+      const selected = state.stops[state.index];
+      if (!selected || selected.id !== expectedId) return;
+      applyDerivedPalette(palette);
+    });
+  }, 1200);
 }
 
 function applyDerivedPalette(palette) {
@@ -671,11 +693,7 @@ function updateAtmosphere(stop) {
     setBackdropImage(loaded, localized.title);
   });
 
-  derivePaletteFromImage(imageSrc, fallbackPalette, fallbackSrc).then((palette) => {
-    const selected = state.stops[state.index];
-    if (!selected || selected.id !== expectedId) return;
-    applyDerivedPalette(palette);
-  });
+  scheduleImagePalette(imageSrc, fallbackPalette, fallbackSrc, expectedId);
 }
 
 function getStopNumber(index) {
@@ -697,9 +715,7 @@ function applyTheme(theme) {
 }
 
 function themeStops(theme) {
-  return state.stops
-    .map((stop, index) => ({ ...stop, index }))
-    .filter((stop) => stop.theme === theme);
+  return state.stopsByTheme.get(theme) || [];
 }
 
 function activePlaybackTheme() {
@@ -740,9 +756,12 @@ function themeCount(theme) {
 
 function buildThemeTabs() {
   clearNode(ui.themeTabs);
+  const fragment = document.createDocumentFragment();
+  const text = copy();
 
   THEME_ORDER.forEach((theme) => {
     const meta = getThemeMeta(theme);
+    const countValue = themeCount(theme);
     const themeLabel = localizeThemeName(theme, state.locale);
     const button = document.createElement("button");
     button.type = "button";
@@ -754,7 +773,7 @@ function buildThemeTabs() {
     button.setAttribute("role", "tab");
     button.setAttribute("aria-controls", "chip-carousel");
     button.setAttribute("aria-selected", String(theme === state.activeTheme));
-    button.setAttribute("aria-label", copy().selectTheme(themeLabel, themeCount(theme)));
+    button.setAttribute("aria-label", text.selectTheme(themeLabel, countValue));
     button.addEventListener("click", () => setActiveTheme(theme, true));
 
     const swatch = document.createElement("span");
@@ -767,15 +786,19 @@ function buildThemeTabs() {
 
     const count = document.createElement("span");
     count.className = "theme-count";
-    count.textContent = themeCount(theme);
+    count.textContent = countValue;
 
     button.append(swatch, name, count);
-    ui.themeTabs.appendChild(button);
+    fragment.appendChild(button);
   });
+
+  ui.themeTabs.appendChild(fragment);
 }
 
-function buildChipCarousel() {
+function buildChipCarousel({ deferImages = false } = {}) {
   clearNode(ui.chipCarousel);
+  const fragment = document.createDocumentFragment();
+  const text = copy();
 
   themeStops(state.activeTheme).forEach((stop) => {
     const meta = getThemeMeta(stop.theme);
@@ -785,7 +808,7 @@ function buildChipCarousel() {
     chip.className = "specimen-chip stamp-chip";
     chip.dataset.index = String(stop.index);
     chip.style.setProperty("--theme-color", meta.color);
-    chip.setAttribute("aria-label", copy().selectStop(localized.title));
+    chip.setAttribute("aria-label", text.selectStop(localized.title));
     chip.addEventListener("click", () => {
       selectStop(stop.index, !ui.audio.paused, { keepActiveTheme: true });
     });
@@ -798,7 +821,11 @@ function buildChipCarousel() {
       photo.decoding = "async";
       photo.setAttribute("fetchpriority", "low");
       photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);
-      photo.src = thumbnailPhotoSrc(stop);
+      if (deferImages) {
+        photo.dataset.src = thumbnailPhotoSrc(stop);
+      } else {
+        photo.src = thumbnailPhotoSrc(stop);
+      }
       photo.addEventListener("error", onChipPhotoError);
       chip.appendChild(photo);
     }
@@ -813,7 +840,16 @@ function buildChipCarousel() {
     theme.textContent = localized.theme;
 
     chip.append(label, title, theme);
-    ui.chipCarousel.appendChild(chip);
+    fragment.appendChild(chip);
+  });
+
+  ui.chipCarousel.appendChild(fragment);
+}
+
+function hydrateDeferredChipImages() {
+  ui.chipCarousel.querySelectorAll(".chip-photo[data-src]").forEach((photo) => {
+    photo.src = photo.dataset.src;
+    photo.removeAttribute("data-src");
   });
 }
 
@@ -1001,6 +1037,7 @@ function onChipPhotoError(e) {
 
   if (fallbackSrc) {
     img.removeAttribute("data-fallback-src");
+    img.removeAttribute("data-src");
     img.src = fallbackSrc;
   } else {
     img.remove();
@@ -1435,6 +1472,18 @@ function validateStops(stops) {
   });
 }
 
+function indexStops(stops) {
+  return stops.map((stop, index) => ({ ...stop, index }));
+}
+
+function groupStopsByTheme(stops) {
+  const buckets = new Map(THEME_ORDER.map((theme) => [theme, []]));
+  stops.forEach((stop) => {
+    buckets.get(stop.theme)?.push(stop);
+  });
+  return buckets;
+}
+
 async function loadRoute() {
   try {
     const res = await fetch(ROUTE_URL);
@@ -1443,14 +1492,21 @@ async function loadRoute() {
     const stops = await res.json();
     validateStops(stops);
 
-    state.stops = stops;
-    const startingIndex = initialStopIndex(stops);
-    state.activeTheme = stops[startingIndex].theme;
+    state.stops = indexStops(stops);
+    state.stopsByTheme = groupStopsByTheme(state.stops);
+    const startingIndex = initialStopIndex(state.stops);
+    state.activeTheme = state.stops[startingIndex].theme;
     applyTheme(state.activeTheme);
     buildThemeTabs();
-    buildChipCarousel();
     setMinimized(false);
     selectStop(startingIndex);
+    scheduleIdleTask(() => {
+      if (!ui.chipCarousel.children.length) {
+        buildChipCarousel({ deferImages: true });
+        updateThemeNav();
+      }
+      hydrateDeferredChipImages();
+    }, 900);
     showStatus(copy().statusLoaded(stops.length));
   } catch (err) {
     showStatus(err.message, true);

@@ -355,6 +355,8 @@ def test_stamp_layout_contract_avoids_expanded_view_scrolling():
 def test_app_derives_item_palette_and_backdrop_from_selected_specimen():
     script = JS_PATH.read_text(encoding="utf-8")
 
+    assert "requestIdleCallback" in script
+    assert "function scheduleImagePalette" in script
     assert "derivePaletteFromImage" in script
     assert "semanticPaletteForStop" in script
     assert "applyDerivedPalette" in script
@@ -390,7 +392,10 @@ def test_app_loads_chip_thumbnails_instead_of_full_size_strip_images():
     assert "thumbnailPhotoSrc(stop)" in script
     assert 'photo.setAttribute("fetchpriority", "low");' in script
     assert "photo.dataset.fallbackSrc = originalImageSrc(stop.imagePath);" in script
+    assert "photo.dataset.src = thumbnailPhotoSrc(stop);" in script
     assert "photo.src = thumbnailPhotoSrc(stop);" in script
+    assert "function hydrateDeferredChipImages()" in script
+    assert "buildChipCarousel({ deferImages: true });" in script
     assert "onChipPhotoError" in script
 
 
@@ -402,7 +407,19 @@ def test_chip_thumbnail_error_handler_stays_active_for_fallback_failure():
     assert 'photo.addEventListener("error", onChipPhotoError);' in build_chip_carousel
     assert 'photo.addEventListener("error", onChipPhotoError, { once: true });' not in build_chip_carousel
     assert 'img.removeAttribute("data-fallback-src");' in script
+    assert 'img.removeAttribute("data-src");' in script
     assert "img.remove();" in script
+
+
+def test_app_indexes_theme_stops_once_before_navigation_renders():
+    script = JS_PATH.read_text(encoding="utf-8")
+
+    assert "stopsByTheme: new Map()" in script
+    assert "function indexStops(stops)" in script
+    assert "function groupStopsByTheme(stops)" in script
+    assert "state.stops = indexStops(stops);" in script
+    assert "state.stopsByTheme = groupStopsByTheme(state.stops);" in script
+    assert "return state.stopsByTheme.get(theme) || [];" in script
 
 
 def test_player_expand_and_minimize_use_bounded_crossfade_blur():
